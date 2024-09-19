@@ -1,10 +1,9 @@
-
-import javax.swing.JFrame;
-
+import javax.swing.*;
 import core.GamePanel;
 
-public class Main {
-    public static void main(String[] args) {
+public class Game {
+
+    public Game(){
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
@@ -19,5 +18,9 @@ public class Main {
         window.setVisible(true);
 
         gamePanel.startGameThread();
+        
+    }
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(()-> new Game());;
     }
 }
