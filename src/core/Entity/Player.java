@@ -194,6 +194,7 @@ public class Player extends Entity {
 
 
         g2.drawImage(image, x, y, gp.titleSize, gp.titleSize, null);
+        System.out.println(getEntityCoords());
 
     }
 
