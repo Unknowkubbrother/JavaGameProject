@@ -1,6 +1,8 @@
 package core;
 import javax.swing.JPanel;
 
+import core.Entity.Player;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -10,24 +12,20 @@ public class GamePanel extends JPanel implements Runnable {
 
     // SCREEN SETTINGS
     final int originalTitleSize = 16; // 16 x 16 pixels
-    final int scale = 3; // 3x scale
+    final int scale = 4; // 3x scale
 
-    final int titleSize = originalTitleSize * scale; // 48 x 48 pixels
+    public final int titleSize = originalTitleSize * scale * 2 ; // 64 x 64 pixels
     final int maxScreenCol = 16;
     final int maxScreenRow = 12;
-    final int screenWidth = titleSize * maxScreenCol; // 768 pixels
-    final int screenHeight = titleSize * maxScreenRow; // 576 pixels
+    final int screenWidth = titleSize * maxScreenCol / 2; // 1024 pixels
+    final int screenHeight = titleSize * maxScreenRow /2; // 768 pixels
 
     //FPS
     int FPS = 60;
 
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
-
-    // Set Player's initial position
-    int playerX = 100;
-    int playerY = 100;
-    int playerSpeed = 4;
+    Player player = new Player(this, keyH);
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -43,37 +41,6 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     @Override
-    // public void run(){
-
-    //     double drawInterval = 1000000000 / FPS; // 0.0166666666666667 seconds
-    //     double nextDrawTime = System.nanoTime() + drawInterval;
-
-    //     while (gameThread != null) {
-
-
-    //         // UPDATE
-    //         update();
-
-    //         // DRAW
-    //         repaint();
-            
-
-    //         try{
-    //             double remainingTime = nextDrawTime - System.nanoTime();
-    //             remainingTime = remainingTime / 1000000;
-
-    //             if (remainingTime < 0) {
-    //                 remainingTime = 0;
-    //             }
-
-    //             Thread.sleep((long)remainingTime);
-
-    //             nextDrawTime += drawInterval;
-    //         }catch(Exception e){
-    //             e.printStackTrace();
-    //         }
-    //     }
-    // }
 
     public void run(){
 
@@ -114,18 +81,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
 
-        if (keyH.up) {
-            playerY -= playerSpeed;
-        }
-        else if (keyH.down) {
-            playerY += playerSpeed;
-        }
-        else if (keyH.left) {
-            playerX -= playerSpeed;
-        }
-        else if (keyH.right) {
-            playerX += playerSpeed;
-        }
+        player.update();
         
     }
 
@@ -134,9 +90,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics g2 = (Graphics2D) g;
 
-        g2.setColor(Color.white);
-
-        g2.fillRect(playerX, playerY, titleSize, titleSize);
+        player.draw(g2);
 
         g2.dispose();
     }
