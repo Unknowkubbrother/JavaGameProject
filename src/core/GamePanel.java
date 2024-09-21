@@ -1,4 +1,5 @@
 package core;
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import core.Entity.Player;
@@ -8,6 +9,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+// import java.nio.Buffer;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -30,7 +35,7 @@ public class GamePanel extends JPanel implements Runnable {
     public CollisionChecker cChecker = new CollisionChecker(this);
     public Player player = new Player(this, keyH);
     MAP map = new MAP(this);
-
+    BufferedImage bgGame;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -38,11 +43,20 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+        this.setBackgroundGame();
     }
 
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
+    }
+
+    public void setBackgroundGame(){
+        try {
+            bgGame = ImageIO.read(getClass().getResourceAsStream("/resources/bg.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -90,12 +104,19 @@ public class GamePanel extends JPanel implements Runnable {
         
     }
 
+
     public void paintComponent(Graphics g){
         super.paintComponent(g);
 
         Graphics g2 = (Graphics2D) g;
 
+        // backgroundGame
+        g2.drawImage(bgGame, 0, 0, screenWidth, screenHeight, null);
+
+        // Draw map
         map.draw(g2);
+
+        // Draw player
         player.draw(g2);
 
         g2.dispose();
