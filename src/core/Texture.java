@@ -26,12 +26,12 @@ public enum Texture {
         long startTime = System.currentTimeMillis();
         System.err.println("Loading textures...");
         try{
-            dict.put(0, new TextureLoader("/resources/texture/map/floor.png"));
-            dict.put(1, new TextureLoader("/resources/texture/map/wall_left.png"));
-            dict.put(2, new TextureLoader("/resources/texture/map/wall_top.png"));
-            dict.put(3, new TextureLoader("/resources/texture/map/wall_bottom.png"));
-            dict.put(4, new TextureLoader("/resources/texture/map/wall_right.png"));
-            dict.put(5, new TextureLoader("/resources/texture/map/floor1.png"));
+            dict.put(0, new TextureLoader("/resources/texture/map/floor.png", false));
+            dict.put(1, new TextureLoader("/resources/texture/map/wall_left.png", true));
+            dict.put(2, new TextureLoader("/resources/texture/map/wall_top.png", true));
+            dict.put(3, new TextureLoader("/resources/texture/map/wall_bottom.png" , true));
+            dict.put(4, new TextureLoader("/resources/texture/map/wall_right.png" , true));
+            dict.put(5, new TextureLoader("/resources/texture/map/floor1.png", false));
 
         }catch(IOException e){
             System.out.println("[Texture]: Failed to load textures!");
@@ -72,11 +72,11 @@ class TextureLoader {
     private int imageHeight;
     private boolean collision;
 
-    public TextureLoader(String path) throws IOException {
-        image = ImageIO.read(getClass().getResourceAsStream(path));
-        imageWidth = image.getWidth();
-        imageHeight = image.getHeight();
-        collision = false;
+    public TextureLoader(String path,boolean collision) throws IOException {
+        this.image = ImageIO.read(getClass().getResourceAsStream(path));
+        this.imageWidth = image.getWidth();
+        this.imageHeight = image.getHeight();
+        this.collision = collision;
     }
 
     public int getTextureWidth() {

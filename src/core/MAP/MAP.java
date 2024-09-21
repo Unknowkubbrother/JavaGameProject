@@ -10,21 +10,21 @@ import java.awt.Graphics;
 public class MAP{
 
     private GamePanel gp;
-    // private Texture mapContent[][];
-    private int preMapContenet[][] = {
+    public int MapContenet[][] = {
         {1,2,2,2,2,2,2,2,2,2,2,2,1,0,0,0,0,0,0,0,1,2,2,2,2,2,2,2,2,2,5,2,1,0,0,0,0,0,0,2},
         {1,0,0,0,0,0,0,0,0,0,0,0,1,0,5,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,5,0,0,0,0,0},
         {1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},
         {1,0,0,0,0,0,0,0,0,0,0,0,1,3,3,3,3,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,3,3,3,3,0,0,0},
-        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
         {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
         {1,0,0,0,0,0,0,0,0,0,0,0,1,2,2,2,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,2,2,2,0,0,0,0},
         {1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},
         {1,0,0,0,0,0,0,0,0,0,0,0,1,0,5,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,5,0,0,0,0,0},
         {1,3,3,3,3,3,3,3,3,3,3,3,1,0,0,0,0,0,0,0,1,3,3,3,3,3,3,3,3,3,3,3,1,0,0,0,0,0,5,2},
-        {1,2,0}
+        {1,2,0,2,1},
+        {1}
     };
 
     public MAP (GamePanel gp) { 
@@ -32,8 +32,8 @@ public class MAP{
     }
     
     public void draw(Graphics g2) {
-       for(int i = 0; i < preMapContenet.length;i++){
-              for(int j = 0; j < preMapContenet[i].length;j++){
+       for(int i = 0; i < MapContenet.length;i++){
+              for(int j = 0; j < MapContenet[i].length;j++){
                 int worldX = j * gp.titleSize;
                 int worldY = i * gp.titleSize;
                 int screenX = worldX - gp.player.worldX + gp.player.screenX;
@@ -44,7 +44,7 @@ public class MAP{
                     worldY + gp.titleSize > gp.player.worldY - gp.player.screenY &&
                     worldY - gp.titleSize < gp.player.worldY + gp.player.screenY)
                 {
-                    Texture texture = Texture.values()[preMapContenet[i][j]];
+                    Texture texture = Texture.values()[MapContenet[i][j]];
                     g2.drawImage(texture.getTexture(), screenX, screenY, gp.titleSize, gp.titleSize, null);
                 }
               }

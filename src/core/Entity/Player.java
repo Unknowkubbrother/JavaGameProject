@@ -3,6 +3,8 @@ package core.Entity;
 import core.GamePanel;
 import core.KeyHandler;
 import java.awt.Graphics;
+import java.awt.Rectangle;
+
 import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.awt.image.BufferedImage;
@@ -29,6 +31,12 @@ public class Player extends Entity {
 
         screenX = gp.screenWidth / 2 - (gp.titleSize / 2);
         screenY = gp.screenHeight / 2 - (gp.titleSize / 2);
+
+        solidArea = new Rectangle();
+        solidArea.x = 32;
+        solidArea.y = 64;
+        solidArea.width = 64;
+        solidArea.height = 64;
 
         setDefaultValues();
         // getPlayerImage();
@@ -75,25 +83,36 @@ public class Player extends Entity {
     }
 
     public void update() {
+        collisionOn = false;
+        gp.cChecker.checkMap(this);
         if (keyH.up) {
             direction = "up";
-            worldY -= speed;
-            isMoving = true;
+            if (!collisionOn) {
+                worldY -= speed;
+                isMoving = true;
+            }
         }
         if (keyH.down) {
             direction = "down";
-            worldY += speed;
-            isMoving = true;
+            if (!collisionOn) {
+                worldY += speed;
+                isMoving = true;
+            }
         }
         if (keyH.left) {
             direction = "left";
-            worldX -= speed;
-            isMoving = true;
+            if (!collisionOn) {
+                worldX -= speed;
+                isMoving = true;
+            }
         }
         if (keyH.right) {
             direction = "right";
-            worldX += speed;
-            isMoving = true;
+            if (!collisionOn) {
+                worldX += speed;
+                isMoving = true;
+            }
+            
         }
         if (!keyH.up && !keyH.down && !keyH.left && !keyH.right) {
             isMoving = false;
