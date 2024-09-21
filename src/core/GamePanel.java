@@ -2,7 +2,7 @@ package core;
 import javax.swing.JPanel;
 
 import core.Entity.Player;
-import core.MAP.LOBBY;
+import core.MAP.Stage_1;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -27,7 +27,7 @@ public class GamePanel extends JPanel implements Runnable {
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
     Player player = new Player(this, keyH);
-    LOBBY lobby = new LOBBY(this);
+    Stage_1 stage_1 = new Stage_1(this);
 
 
     public GamePanel() {
@@ -93,7 +93,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics g2 = (Graphics2D) g;
 
-        lobby.draw(g2);
+        stage_1.draw(g2);
         player.draw(g2);
 
         g2.dispose();

@@ -7,7 +7,7 @@ import core.Texture;
 // import java.util.ArrayList;
 import java.awt.Graphics;
 
-public class LOBBY{
+public class Stage_1{
 
     private GamePanel gp;
     private Texture mapContent[][];
@@ -26,7 +26,7 @@ public class LOBBY{
         {1,3,3,3,3,3,3,3,3,3,3,3,1,0,0,0},
     };
 
-    public LOBBY (GamePanel gp) {
+    public Stage_1 (GamePanel gp) {
         this.gp = gp;
         loadMap();
     }
