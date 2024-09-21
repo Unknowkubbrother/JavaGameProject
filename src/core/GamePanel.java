@@ -12,14 +12,14 @@ import java.awt.Graphics2D;
 public class GamePanel extends JPanel implements Runnable {
 
     // SCREEN SETTINGS
-    final int originalTitleSize = 16; // 16 x 16 pixels
-    final int scale = 4; // 3x scale
+    public final int originalTitleSize = 16; // 16 x 16 pixels
+    public final int scale = 4; // 3x scale
 
     public final int titleSize = originalTitleSize * scale ; // 64 x 64 pixels
-    final int maxScreenCol = 16;
-    final int maxScreenRow = 12;
-    final int screenWidth = titleSize * maxScreenCol; // 1024 pixels
-    final int screenHeight = titleSize * maxScreenRow; // 768 pixels
+    public final int maxScreenCol = 16;
+    public final int maxScreenRow = 12;
+    public final int screenWidth = titleSize * maxScreenCol; // 1024 pixels
+    public final int screenHeight = titleSize * maxScreenRow; // 768 pixels
 
     //FPS
     int FPS = 60;

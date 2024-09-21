@@ -1,5 +1,6 @@
 import javax.swing.*;
 import core.GamePanel;
+import core.Texture;
 
 public class Game {
 
@@ -10,6 +11,7 @@ public class Game {
         window.setTitle("Dark Knight");
 
         GamePanel gamePanel = new GamePanel();
+        Texture.loadTexture();
         window.add(gamePanel);
 
         window.pack();
