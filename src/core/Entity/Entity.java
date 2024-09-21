@@ -2,9 +2,9 @@ package core.Entity;
 import java.util.HashMap;
 
 public class Entity {
-    protected int worldX, worldY;
-    protected int speed;
-    protected String direction;
+    public int worldX, worldY;
+    public int speed;
+    public String direction;
 
 
     // public HashMap<String , Integer> getEntityCoords(){

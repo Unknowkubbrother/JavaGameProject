@@ -2,7 +2,7 @@ package core;
 import javax.swing.JPanel;
 
 import core.Entity.Player;
-import core.MAP.Stage_1;
+import core.MAP.MAP;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -21,19 +21,14 @@ public class GamePanel extends JPanel implements Runnable {
     public final int screenWidth = titleSize * maxScreenCol; // 1024 pixels
     public final int screenHeight = titleSize * maxScreenRow; // 768 pixels
 
-    //WORLD SETTINGS
-    public final int worldCols = 50;
-    public final int worldRows = 50;
-    public final int worldWidth = titleSize * worldCols;
-    public final int worldHeight = titleSize * worldRows;
 
     //FPS
     int FPS = 60;
 
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
-    Player player = new Player(this, keyH);
-    Stage_1 stage_1 = new Stage_1(this);
+    public Player player = new Player(this, keyH);
+    MAP map = new MAP(this);
 
 
     public GamePanel() {
@@ -99,7 +94,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics g2 = (Graphics2D) g;
 
-        stage_1.draw(g2);
+        map.draw(g2);
         player.draw(g2);
 
         g2.dispose();
