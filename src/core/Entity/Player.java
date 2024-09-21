@@ -13,6 +13,8 @@ public class Player extends Entity {
     GamePanel gp;
     KeyHandler keyH;
 
+    public final int screenX;
+    public final int screenY;
     //movement
     private ArrayList<BufferedImage> up = new ArrayList<>();
     private ArrayList<BufferedImage> down = new ArrayList<>();
@@ -24,14 +26,18 @@ public class Player extends Entity {
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
+
+        screenX = gp.screenWidth / 2 - (gp.titleSize / 2);
+        screenY = gp.screenHeight / 2 - (gp.titleSize / 2);
+
         setDefaultValues();
         // getPlayerImage();
         loadAnimation();
     }
 
     private void setDefaultValues() {
-        x = 100;
-        y = 100;
+        worldX = gp.titleSize * 8;
+        worldY = gp.titleSize * 6;
         speed = 4;
         direction = "up";
     }
@@ -71,22 +77,22 @@ public class Player extends Entity {
     public void update() {
         if (keyH.up) {
             direction = "up";
-            y -= speed;
+            worldY -= speed;
             isMoving = true;
         }
         if (keyH.down) {
             direction = "down";
-            y += speed;
+            worldY += speed;
             isMoving = true;
         }
         if (keyH.left) {
             direction = "left";
-            x -= speed;
+            worldX -= speed;
             isMoving = true;
         }
         if (keyH.right) {
             direction = "right";
-            x += speed;
+            worldX += speed;
             isMoving = true;
         }
         if (!keyH.up && !keyH.down && !keyH.left && !keyH.right) {
@@ -192,7 +198,7 @@ public class Player extends Entity {
         }
 
 
-        g2.drawImage(image, x, y, gp.titleSize * 2, gp.titleSize * 2, null);
+        g2.drawImage(image, screenX, screenY, gp.titleSize * 2, gp.titleSize * 2, null);
         // System.out.println(getEntityCoords());
 
     }
