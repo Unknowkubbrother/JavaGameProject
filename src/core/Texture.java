@@ -31,7 +31,7 @@ public enum Texture {
             dict.put(2, new TextureLoader("/resources/texture/map/wall_top.png", true));
             dict.put(3, new TextureLoader("/resources/texture/map/wall_bottom.png" , true));
             dict.put(4, new TextureLoader("/resources/texture/map/wall_right.png" , true));
-            dict.put(5, new TextureLoader("/resources/texture/map/floor1.png", false));
+            dict.put(5, new TextureLoader("/resources/texture/map/floor1.png", true));
 
         }catch(IOException e){
             System.out.println("[Texture]: Failed to load textures!");
