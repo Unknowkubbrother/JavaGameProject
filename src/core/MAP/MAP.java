@@ -37,13 +37,13 @@ public class MAP{
                 int worldY = i * gp.titleSize;
                 int screenX = worldX - gp.player.worldX + gp.player.screenX;
                 int screenY = worldY - gp.player.worldY + gp.player.screenY;
-                
-                Texture texture = Texture.values()[preMapContenet[i][j]];
+
                 if (worldX + gp.titleSize > gp.player.worldX - gp.player.screenX &&
                     worldX - gp.titleSize < gp.player.worldX + gp.player.screenX &&
                     worldY + gp.titleSize > gp.player.worldY - gp.player.screenY &&
                     worldY - gp.titleSize < gp.player.worldY + gp.player.screenY)
                 {
+                    Texture texture = Texture.values()[preMapContenet[i][j]];
                     g2.drawImage(texture.getTexture(), screenX, screenY, gp.titleSize, gp.titleSize, null);
                 }
               }
