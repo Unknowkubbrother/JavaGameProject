@@ -2,6 +2,7 @@ package core;
 import javax.swing.JPanel;
 
 import core.Entity.Player;
+import core.MAP.LOBBY;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -14,11 +15,11 @@ public class GamePanel extends JPanel implements Runnable {
     final int originalTitleSize = 16; // 16 x 16 pixels
     final int scale = 4; // 3x scale
 
-    public final int titleSize = originalTitleSize * scale * 2 ; // 64 x 64 pixels
+    public final int titleSize = originalTitleSize * scale ; // 64 x 64 pixels
     final int maxScreenCol = 16;
     final int maxScreenRow = 12;
-    final int screenWidth = titleSize * maxScreenCol / 2; // 1024 pixels
-    final int screenHeight = titleSize * maxScreenRow /2; // 768 pixels
+    final int screenWidth = titleSize * maxScreenCol; // 1024 pixels
+    final int screenHeight = titleSize * maxScreenRow; // 768 pixels
 
     //FPS
     int FPS = 60;
@@ -26,6 +27,8 @@ public class GamePanel extends JPanel implements Runnable {
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
     Player player = new Player(this, keyH);
+    LOBBY lobby = new LOBBY(this);
+
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -90,6 +93,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics g2 = (Graphics2D) g;
 
+        lobby.draw(g2);
         player.draw(g2);
 
         g2.dispose();

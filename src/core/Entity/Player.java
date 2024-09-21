@@ -14,10 +14,10 @@ public class Player extends Entity {
     KeyHandler keyH;
 
     //movement
-    private ArrayList<BufferedImage> up = new ArrayList<BufferedImage>();
-    private ArrayList<BufferedImage> down = new ArrayList<BufferedImage>();
-    private ArrayList<BufferedImage> left = new ArrayList<BufferedImage>();
-    private ArrayList<BufferedImage> right = new ArrayList<BufferedImage>();
+    private ArrayList<BufferedImage> up = new ArrayList<>();
+    private ArrayList<BufferedImage> down = new ArrayList<>();
+    private ArrayList<BufferedImage> left = new ArrayList<>();
+    private ArrayList<BufferedImage> right = new ArrayList<>();
     private boolean isMoving = false;
     //
 
@@ -29,7 +29,7 @@ public class Player extends Entity {
         loadAnimation();
     }
 
-    public void setDefaultValues() {
+    private void setDefaultValues() {
         x = 100;
         y = 100;
         speed = 4;
@@ -58,12 +58,12 @@ public class Player extends Entity {
         }
 
         // Right
-        for (int i = 1; i <= 3; i++) {
+        for (int i = 1; i <= 4; i++) {
             right.add(loadSprite(String.format("/right/right_%d.png", i)));
         }
 
         // Left
-        for (int i = 1; i <= 3; i++) {
+        for (int i = 1; i <= 4; i++) {
             left.add(loadSprite(String.format("/left/left_%d.png", i)));
         }
     }
@@ -96,7 +96,7 @@ public class Player extends Entity {
 
     private int aniTickRight_Left = 0;
     private int aniSpeedRight_Left = 10;
-    private int aniIdxRight_Left = 0;
+    private int aniIdxRight_Left = 1;
 
     private void updateAnimationRight_Left() {
         aniTickRight_Left++;
@@ -106,12 +106,12 @@ public class Player extends Entity {
             switch (direction) {
                 case "left":
                     if (aniIdxRight_Left >= left.size()) {
-                        aniIdxRight_Left = 0;
+                        aniIdxRight_Left = 1;
                     }
                     break;
                 case "right":
                     if (aniIdxRight_Left >= right.size()) {
-                        aniIdxRight_Left = 0;
+                        aniIdxRight_Left = 1;
                     }
                     break;
                 default:
@@ -152,23 +152,22 @@ public class Player extends Entity {
         BufferedImage image = null;
 
         if (!isMoving) {
-            // switch (direction) {
-            //     case "up":
-            //         image = up.get(0);
-            //         break;
-            //     case "down":
-            //         image = down.get(0);
-            //         break;
-            //     case "left":
-            //         image = left.get(0);
-            //         break;
-            //     case "right":
-            //         image = right.get(0);
-            //         break;
-            //     default:
-            //         break;
-            // }
-            image = up.get(0);
+            switch (direction) {
+                case "up":
+                    image = up.get(0);
+                    break;
+                case "down":
+                    image = down.get(0);
+                    break;
+                case "left":
+                    image = left.get(0);
+                    break;
+                case "right":
+                    image = right.get(0);
+                    break;
+                default:
+                    break;
+            }
         }else{
             switch (direction) {
                 case "up":
@@ -193,7 +192,7 @@ public class Player extends Entity {
         }
 
 
-        g2.drawImage(image, x, y, gp.titleSize, gp.titleSize, null);
+        g2.drawImage(image, x, y, gp.titleSize * 2, gp.titleSize * 2, null);
         System.out.println(getEntityCoords());
 
     }
