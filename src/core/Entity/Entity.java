@@ -7,12 +7,12 @@ public class Entity {
     public String direction;
 
 
-    // public HashMap<String , Integer> getEntityCoords(){
-    //     HashMap<String, Integer> position = new HashMap<>();
-    //     position.put("x", x);
-    //     position.put("y", y);
-    //     return position;
-    // }
+    public HashMap<String , Integer> getEntityCoords(){
+        HashMap<String, Integer> position = new HashMap<>();
+        position.put("x", worldX);
+        position.put("y", worldY);
+        return position;
+    }
 
    
 
