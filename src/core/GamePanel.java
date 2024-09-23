@@ -29,6 +29,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     //FPS
     int FPS = 60;
+    int FrameRate = 0;
 
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
@@ -92,7 +93,8 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
             if (timer >= 1000000000) {
-                System.out.println("FPS: " + drawCount);
+                // System.out.println("FPS: " + drawCount);
+                FrameRate = drawCount;
                 drawCount = 0;
                 timer = 0;
             }
@@ -107,6 +109,11 @@ public class GamePanel extends JPanel implements Runnable {
     public void update() {
         player.update();
         player.checkPlayerState();
+    }
+
+    public void DrawFPS(Graphics g2){
+        g2.setColor(Color.WHITE);
+        g2.drawString("FPS: " + FrameRate, 20, 20);
     }
 
     public void paintComponent(Graphics g){
@@ -133,6 +140,9 @@ public class GamePanel extends JPanel implements Runnable {
 
         // Draw player
         player.draw(g2);
+
+        // Draw FPS
+        DrawFPS(g2);
 
         g2.dispose();
     }

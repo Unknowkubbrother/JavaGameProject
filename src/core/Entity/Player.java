@@ -64,7 +64,7 @@ public class Player extends Entity {
     }
 
     public void checkPlayerState(){
-        System.out.println(getEntityCoords());
+        // System.out.println(getEntityCoords());
         if (getEntityCoords().get("x") >= gp.titleSize * 14 
             && getEntityCoords().get("x") <= gp.titleSize * 15
             && getEntityCoords().get("y") >= gp.titleSize * 5
@@ -74,7 +74,6 @@ public class Player extends Entity {
             worldX = gp.titleSize * 1;
             worldY = gp.titleSize * 5;
         }
-        System.out.println(getEntityCoords());
         if (getEntityCoords().get("x") >= gp.titleSize * 14 
             && getEntityCoords().get("x") <= gp.titleSize * 15
             && getEntityCoords().get("y") >= gp.titleSize * 5

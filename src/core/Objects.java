@@ -119,11 +119,6 @@ public enum Objects {
         return dict.get(objectId).getSolidAreaDefaultY();
     }
 
-    public void Command(){
-        System.out.println("Command");
-    }
-    
-
 }
 
 class ObjectLoader {
