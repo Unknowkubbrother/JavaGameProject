@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Player extends Entity {
     //Default Player
@@ -23,7 +24,9 @@ public class Player extends Entity {
     private ArrayList<BufferedImage> left = new ArrayList<>();
     private ArrayList<BufferedImage> right = new ArrayList<>();
     private boolean isMoving = false;
-    public int player_state = 0;
+    public HashMap<String, Integer> player_state = new HashMap<String, Integer>() {{
+        put("map", 0);
+    }};
     //
 
     public Player(GamePanel gp, KeyHandler keyH) {
@@ -53,8 +56,8 @@ public class Player extends Entity {
             && getEntityCoords().get("x") <= gp.titleSize * 15
             && getEntityCoords().get("y") >= gp.titleSize * 5
             && getEntityCoords().get("y") <= gp.titleSize * 6
-            && player_state == 0){
-            player_state = 1;
+            && player_state.get("map") == 0){
+            player_state.put("map", 1);
             worldX = gp.titleSize * 1;
             worldY = gp.titleSize * 5;
         }

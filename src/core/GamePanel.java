@@ -113,7 +113,7 @@ public class GamePanel extends JPanel implements Runnable {
         g2.drawImage(bgGame, 0, 0, screenWidth, screenHeight, null);
 
         // Draw map
-        if(player.player_state == 1) {
+        if(player.player_state.get("map") == 1) {
             map = new STAGE_1(this);
         }
         
