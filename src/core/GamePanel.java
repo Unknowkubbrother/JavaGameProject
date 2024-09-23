@@ -3,13 +3,12 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import core.Entity.Player;
-import core.MAP.MAP;
+import core.MAP.*;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-// import java.nio.Buffer;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -34,7 +33,7 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread;
     public CollisionChecker cChecker = new CollisionChecker(this);
     public Player player = new Player(this, keyH);
-    MAP map = new MAP(this);
+    Supermap map = new LOBBY(this);
     BufferedImage bgGame;
 
     public GamePanel() {
@@ -114,6 +113,10 @@ public class GamePanel extends JPanel implements Runnable {
         g2.drawImage(bgGame, 0, 0, screenWidth, screenHeight, null);
 
         // Draw map
+        if(player.player_state == 1) {
+            map = new STAGE_1(this);
+        }
+        
         map.draw(g2);
 
         // Draw player

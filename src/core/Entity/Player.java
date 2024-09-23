@@ -23,6 +23,7 @@ public class Player extends Entity {
     private ArrayList<BufferedImage> left = new ArrayList<>();
     private ArrayList<BufferedImage> right = new ArrayList<>();
     private boolean isMoving = false;
+    public int player_state = 0;
     //
 
     public Player(GamePanel gp, KeyHandler keyH) {
@@ -43,8 +44,20 @@ public class Player extends Entity {
         solidArea.height = 51;
 
         setDefaultValues();
-        // getPlayerImage();
         loadAnimation();
+    }
+
+    void checkPlayerState(){
+        System.out.println(getEntityCoords());
+        if (getEntityCoords().get("x") >= gp.titleSize * 14 
+            && getEntityCoords().get("x") <= gp.titleSize * 15
+            && getEntityCoords().get("y") >= gp.titleSize * 5
+            && getEntityCoords().get("y") <= gp.titleSize * 6
+            && player_state == 0){
+            player_state = 1;
+            worldX = gp.titleSize * 1;
+            worldY = gp.titleSize * 5;
+        }
     }
 
     private void setDefaultValues() {
@@ -121,6 +134,7 @@ public class Player extends Entity {
         if (!keyH.up && !keyH.down && !keyH.left && !keyH.right) {
             isMoving = false;
         }
+        checkPlayerState();
     }
 
     private int aniTickRight_Left = 0;
@@ -222,7 +236,6 @@ public class Player extends Entity {
 
 
         g2.drawImage(image, screenX, screenY, gp.titleSize * 2, gp.titleSize * 2, null);
-        System.out.println(getEntityCoords());
 
     }
 
