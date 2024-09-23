@@ -118,7 +118,11 @@ class ObjectLoader {
     }
 
     public boolean isCollision() {
-        return collision;
+        if (show){
+            return collision;
+        }else{
+            return false;
+        }
     }
 
     public void setCollision(boolean collision) {
