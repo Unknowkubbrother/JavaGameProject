@@ -9,9 +9,21 @@ import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.HashMap;
+
+class playerState{
+    private int map = 0;
+
+    public int getMap(){
+        return map;
+    }
+
+    public void setMap(int map){
+        this.map = map;
+    }
+}
 
 public class Player extends Entity {
+
     //Default Player
     GamePanel gp;
     KeyHandler keyH;
@@ -24,9 +36,7 @@ public class Player extends Entity {
     private ArrayList<BufferedImage> left = new ArrayList<>();
     private ArrayList<BufferedImage> right = new ArrayList<>();
     private boolean isMoving = false;
-    public HashMap<String, Integer> player_state = new HashMap<String, Integer>() {{
-        put("map", 0);
-    }};
+    public playerState player_state = new playerState();
     //
 
     public Player(GamePanel gp, KeyHandler keyH) {
@@ -46,6 +56,7 @@ public class Player extends Entity {
         solidArea.width = 51;
         solidArea.height = 51;
 
+
         setDefaultValues();
         loadAnimation();
     }
@@ -56,11 +67,15 @@ public class Player extends Entity {
             && getEntityCoords().get("x") <= gp.titleSize * 15
             && getEntityCoords().get("y") >= gp.titleSize * 5
             && getEntityCoords().get("y") <= gp.titleSize * 6
-            && player_state.get("map") == 0){
-            player_state.put("map", 1);
+            && player_state.getMap() == 0){
+            player_state.setMap(1);
             worldX = gp.titleSize * 1;
             worldY = gp.titleSize * 5;
         }
+    }
+
+    public int getStateMap(){
+        return player_state.getMap();
     }
 
     private void setDefaultValues() {
@@ -238,6 +253,7 @@ public class Player extends Entity {
 
 
         g2.drawImage(image, screenX, screenY, gp.titleSize * 2, gp.titleSize * 2, null);
+        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
 
     }
 
