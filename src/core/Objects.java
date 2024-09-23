@@ -7,18 +7,18 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.awt.Rectangle;
 
-public enum Objects {
+enum ObjectsEnum {
     SPAWN(0),
     GODDESS(1),
-    CHEST(2);
-
+    POLE(2),
+    chest(3);
 
 
     public final int objectId;
-    private static Map<Integer, ObjectLoader> dict = new HashMap<>();
+    private static Map<Integer, Objects> dict = new HashMap<>();
 
 
-    private Objects(int objectId) {
+    private ObjectsEnum(int objectId) {
         this.objectId = objectId;
     }
 
@@ -26,9 +26,10 @@ public enum Objects {
         long startTime = System.currentTimeMillis();
         System.err.println("Loading objects...");
         try{
-            dict.put(0, new ObjectLoader("/resources/texture/objects/spawn.png", false));
-            dict.put(1, new ObjectLoader("/resources/texture/objects/goddess.png", true));
-            dict.put(2, new ObjectLoader("/resources/texture/objects/chest.png", true));
+            dict.put(0, new Objects("/resources/texture/objects/spawn.png", false, 0));
+            dict.put(1, new Objects("/resources/texture/objects/goddess.png", true,1));
+            dict.put(2, new Objects("/resources/texture/objects/pole.png", true,2));
+            dict.put(3, new Objects("/resources/texture/objects/chest.png", true,3));
 
         }catch(IOException e){
             System.out.println("[Object]: Failed to load Object!");
@@ -41,101 +42,14 @@ public enum Objects {
         return objectId;
     }
 
-    public BufferedImage getObject() {
-        return dict.get(objectId).getImage();
-    }
-
-    public int getObjectWidth() {
-        return dict.get(objectId).getObjectWidth();
-    }
-
-    public int getObjectHeight() {
-        return dict.get(objectId).getObjectHeight();
-    }
-
-    public boolean isCollision() {
-        return dict.get(objectId).isCollision();
-    }
-
-    public void setCollision(boolean collision) {
-        dict.get(objectId).setCollision(collision);
-    }
-
-    public int getWorldX() {
-        return dict.get(objectId).getWorldX();
-    }
-
-    public int getWorldY() {
-        return dict.get(objectId).getWorldY();
-    }
-
-    public void setWorldX(int worldX) {
-        dict.get(objectId).setWorldX(worldX);
-    }
-
-    public void setWorldY(int worldY) {
-        dict.get(objectId).setWorldY(worldY);
-    }
-
-    public int getMapId() {
-        return dict.get(objectId).getMapId();
-    }
-
-    public void setMapId(int mapId) {
-        dict.get(objectId).setMapId(mapId);
-    }
-
-    public boolean isShow() {
-        return dict.get(objectId).isShow();
-    }
-
-    public void setShow(boolean show) {
-        dict.get(objectId).setShow(show);
-    }
-
-    public void setSolidAreaX(int x) {
-        dict.get(objectId).setSolidAreaX(x);
-    }
-
-    public void setSolidAreaY(int y) {
-        dict.get(objectId).setSolidAreaY(y);
-    }
-
-    public void setSolidAreaWidth(int width) {
-        dict.get(objectId).setSolidAreaWidth(width);
-    }
-
-    public void setSolidAreaHeight(int height) {
-        dict.get(objectId).setSolidAreaHeight(height);
-    }
-
-    public void setSolidArea(int x, int y, int width, int height) {
-        dict.get(objectId).setSolidArea(x, y, width, height);
-    }
-
-    public Rectangle getSolidArea() {
-        return dict.get(objectId).getSolidArea();
-    }
-
-    public int getSolidAreaDefaultX() {
-        return dict.get(objectId).getSolidAreaDefaultX();
-    }
-
-    public int getSolidAreaDefaultY() {
-        return dict.get(objectId).getSolidAreaDefaultY();
-    }
-
-    public void setObjectHeight(int imageHeight) {
-        dict.get(objectId).setObjectHeight(imageHeight);
-    }
-
-    public void setObjectWidth(int imageWidth) {
-        dict.get(objectId).setObjectWidth(imageWidth);
+    public Objects copy() {
+        return dict.get(objectId).copy();
     }
 
 }
 
-class ObjectLoader {
+public class Objects {
+    private int objectId;
     private BufferedImage image;
     private int imageWidth;
     private int imageHeight;
@@ -148,7 +62,7 @@ class ObjectLoader {
     private int solidAreaDefaultX = 0;
     private int solidAreaDefaultY = 0;
 
-    public ObjectLoader(String path,boolean collision) throws IOException {
+    public Objects(String path,boolean collision,int objectId) throws IOException {
         this.image = ImageIO.read(getClass().getResourceAsStream(path));
         this.imageWidth = image.getWidth();
         this.imageHeight = image.getHeight();
@@ -158,6 +72,29 @@ class ObjectLoader {
         this.mapId = 0;
         this.show = true;
         this.solidArea = new Rectangle(0,0,image.getWidth(),image.getHeight());
+        this.objectId = objectId;
+    }
+
+    public Objects(BufferedImage img,boolean collision, int objectId) throws IOException {
+        this.image = img;
+        this.imageWidth = image.getWidth();
+        this.imageHeight = image.getHeight();
+        this.collision = collision;
+        this.worldX = 0;
+        this.worldY = 0;
+        this.mapId = 0;
+        this.show = true;
+        this.solidArea = new Rectangle(0,0,image.getWidth(),image.getHeight());
+        this.objectId = objectId;
+    }
+
+    public static void loadObjects() {
+        ObjectsEnum.loadObjects();
+    }
+
+
+    public int getObjectId() {
+        return objectId;
     }
 
     public int getObjectWidth() {
@@ -258,8 +195,24 @@ class ObjectLoader {
         return solidAreaDefaultY;
     }
 
-    public BufferedImage getImage() {
+    public BufferedImage getObject() {
         return image;
+    }
+
+    public Objects copy() {
+        Objects copy = null;
+        try {
+            copy = new Objects(image, collision, objectId);
+            copy.setWorldX(worldX);
+            copy.setWorldY(worldY);
+            copy.setMapId(mapId);
+            copy.setShow(show);
+            copy.setObjectWidth(imageWidth);
+            copy.setObjectHeight(imageHeight);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return copy;
     }
 
 }

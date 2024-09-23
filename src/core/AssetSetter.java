@@ -10,7 +10,7 @@ public class AssetSetter {
     }
 
     public void setObjects() {
-        Objects spawn = Objects.values()[0];
+        Objects spawn = ObjectsEnum.values()[0].copy();
         spawn.setWorldX(gp.titleSize * 1);
         spawn.setWorldY(gp.titleSize * 5);
         spawn.setMapId(0);
@@ -18,7 +18,8 @@ public class AssetSetter {
         spawn.setObjectWidth(192);
         spawn.setObjectHeight(192);
         gp.objects.add(spawn);
-        Objects goddess = Objects.values()[1];
+        
+        Objects goddess = ObjectsEnum.values()[1].copy();
         goddess.setWorldX(gp.titleSize * 5);
         goddess.setWorldY(gp.titleSize * 2);
         goddess.setMapId(0);
@@ -26,14 +27,42 @@ public class AssetSetter {
         goddess.setObjectWidth(90);
         goddess.setObjectHeight(192);
         gp.objects.add(goddess);
-        Objects chest_1 = Objects.values()[2];
-        chest_1.setWorldX(gp.titleSize * 3);
-        chest_1.setWorldY(gp.titleSize * 3);
-        chest_1.setMapId(1);
+
+        Objects pole1 = ObjectsEnum.values()[2].copy();
+        pole1.setWorldX(gp.titleSize * 12);
+        pole1.setWorldY(gp.titleSize * 8);
+        pole1.setMapId(0);
+        pole1.setShow(true);
+        pole1.setObjectWidth(90);
+        pole1.setObjectHeight(192);
+        gp.objects.add(pole1);
+
+        Objects pole2 = ObjectsEnum.values()[2].copy();
+        pole2.setWorldX(gp.titleSize * 12);
+        pole2.setWorldY(gp.titleSize * 2);
+        pole2.setMapId(0);
+        pole2.setShow(true);
+        pole2.setObjectWidth(90);
+        pole2.setObjectHeight(192);
+        gp.objects.add(pole2);
+
+        Objects chest_1 = ObjectsEnum.values()[3].copy();
+        chest_1.setWorldX(gp.titleSize * 2);
+        chest_1.setWorldY(gp.titleSize * 2);
+        chest_1.setMapId(0);
         chest_1.setShow(true);
         chest_1.setObjectWidth(64);
         chest_1.setObjectHeight(64);
         gp.objects.add(chest_1);
+
+        Objects chest_2 = ObjectsEnum.values()[3].copy();
+        chest_2.setWorldX(gp.titleSize * 2);
+        chest_2.setWorldY(gp.titleSize * 2);
+        chest_2.setMapId(1);
+        chest_2.setShow(true);
+        chest_2.setObjectWidth(64);
+        chest_2.setObjectHeight(64);
+        gp.objects.add(chest_2);
     }
 
     public void draw(Graphics g2) {

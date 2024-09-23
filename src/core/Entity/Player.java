@@ -127,9 +127,9 @@ public class Player extends Entity {
     public void pickUpObject(int index){
 
         if (index != -1){
-            if (gp.objects.get(index).getObjectId() == 2 && gp.objects.get(index).isShow()){
-                System.out.println("You picked up a chest!");
+            if (gp.objects.get(index).getObjectId() == 3 && gp.objects.get(index).getMapId() == player_state.getMap() && gp.objects.get(index).isShow()){
                 gp.objects.get(index).setShow(false);
+                System.out.println("You picked up a chest! on map: " + player_state.getMap());
             }
         }
         

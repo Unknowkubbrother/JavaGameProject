@@ -1,7 +1,7 @@
 import javax.swing.*;
 import core.GamePanel;
-import core.Texture;
 import core.Objects;
+import core.Texture;
 
 public class Game {
 
