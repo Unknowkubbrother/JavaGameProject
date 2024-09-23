@@ -61,19 +61,19 @@ public class Player extends Entity {
 
     public void checkPlayerState(){
         // System.out.println(getEntityCoords());
-        if (getEntityCoords().get("x") >= gp.titleSize * 14 
-            && getEntityCoords().get("x") <= gp.titleSize * 15
+        if (getEntityCoords().get("x") >= gp.titleSize * 15
+            && getEntityCoords().get("x") <= gp.titleSize * 18
             && getEntityCoords().get("y") >= gp.titleSize * 5
-            && getEntityCoords().get("y") <= gp.titleSize * 6
+            && getEntityCoords().get("y") <= gp.titleSize * 7
             && player_state.getMap() == 0){
             player_state.setMap(1);
-            worldX = gp.titleSize * 1;
+            worldX = gp.titleSize * 3;
             worldY = gp.titleSize * 5;
         }
         if (getEntityCoords().get("x") >= gp.titleSize * 14 
             && getEntityCoords().get("x") <= gp.titleSize * 15
-            && getEntityCoords().get("y") >= gp.titleSize * 5
-            && getEntityCoords().get("y") <= gp.titleSize * 6
+            && getEntityCoords().get("y") >= gp.titleSize * 3
+            && getEntityCoords().get("y") <= gp.titleSize * 8
             && player_state.getMap() == 1){
             player_state.setMap(0);
             worldX = gp.titleSize * 1;
@@ -86,8 +86,8 @@ public class Player extends Entity {
     }
 
     private void setDefaultValues() {
-        worldX = gp.titleSize * 1;
-        worldY = gp.titleSize * 5;
+        worldX = gp.titleSize * 2;
+        worldY = gp.titleSize * 6;
         speed = 4;
         direction = "up";
     }
