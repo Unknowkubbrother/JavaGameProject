@@ -16,6 +16,7 @@ public class AssetSetter {
         chest_1.setWorldX(gp.titleSize * 2);
         chest_1.setWorldY(gp.titleSize * 2);
         chest_1.setMapId(0);
+        chest_1.setShow(true);
         objects.add(chest_1);
     }
 
@@ -28,7 +29,9 @@ public class AssetSetter {
                     objects.get(i).getWorldX() - gp.titleSize < gp.player.worldX + gp.player.screenX &&
                     objects.get(i).getWorldY() + gp.titleSize > gp.player.worldY - gp.player.screenY &&
                     objects.get(i).getWorldY() - gp.titleSize < gp.player.worldY + gp.player.screenY &&
-                    gp.player.getStateMap() == objects.get(i).getMapId()) {
+                    gp.player.getStateMap() == objects.get(i).getMapId() &&
+                    objects.get(i).isShow()
+                    ) {
                 g2.drawImage(objects.get(i).getObject(), screenX, screenY, gp.titleSize, gp.titleSize, null);
             }
         }

@@ -78,6 +78,14 @@ public enum Objects {
         dict.get(objectId).setMapId(mapId);
     }
 
+    public boolean isShow() {
+        return dict.get(objectId).isShow();
+    }
+
+    public void setShow(boolean show) {
+        dict.get(objectId).setShow(show);
+    }
+
 }
 
 class ObjectLoader {
@@ -88,6 +96,7 @@ class ObjectLoader {
     private int worldX;
     private int worldY;
     private int mapId;
+    private boolean show;
 
     public ObjectLoader(String path,boolean collision) throws IOException {
         this.image = ImageIO.read(getClass().getResourceAsStream(path));
@@ -97,6 +106,7 @@ class ObjectLoader {
         this.worldX = 0;
         this.worldY = 0;
         this.mapId = 0;
+        this.show = true;
     }
 
     public int getObjectWidth() {
@@ -137,6 +147,14 @@ class ObjectLoader {
 
     public void setMapId(int mapId) {
         this.mapId = mapId;
+    }
+
+    public boolean isShow() {
+        return show;
+    }
+
+    public void setShow(boolean show) {
+        this.show = show;
     }
 
     public BufferedImage getImage() {
