@@ -8,7 +8,9 @@ import javax.imageio.ImageIO;
 import java.awt.Rectangle;
 
 public enum Objects {
-    CHEST(0);
+    SPAWN(0),
+    CHEST(1);
+
 
     public final int objectId;
     private static Map<Integer, ObjectLoader> dict = new HashMap<>();
@@ -22,7 +24,8 @@ public enum Objects {
         long startTime = System.currentTimeMillis();
         System.err.println("Loading objects...");
         try{
-            dict.put(0, new ObjectLoader("/resources/texture/objects/chest.png", true));
+            dict.put(0, new ObjectLoader("/resources/texture/objects/spawn.png", false));
+            dict.put(1, new ObjectLoader("/resources/texture/objects/chest.png", true));
 
         }catch(IOException e){
             System.out.println("[Object]: Failed to load Object!");
@@ -119,6 +122,14 @@ public enum Objects {
         return dict.get(objectId).getSolidAreaDefaultY();
     }
 
+    public void setObjectHeight(int imageHeight) {
+        dict.get(objectId).setObjectHeight(imageHeight);
+    }
+
+    public void setObjectWidth(int imageWidth) {
+        dict.get(objectId).setObjectWidth(imageWidth);
+    }
+
 }
 
 class ObjectLoader {
@@ -152,6 +163,14 @@ class ObjectLoader {
 
     public int getObjectHeight() {
         return imageHeight;
+    }
+
+    public void setObjectWidth(int imageWidth) {
+        this.imageWidth = imageWidth;
+    } 
+
+    public void setObjectHeight(int imageHeight) {
+        this.imageHeight = imageHeight;
     }
 
     public boolean isCollision() {

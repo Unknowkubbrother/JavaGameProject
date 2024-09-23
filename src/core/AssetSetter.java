@@ -10,11 +10,21 @@ public class AssetSetter {
     }
 
     public void setObjects() {
-        Objects chest_1 = Objects.values()[0];
+        Objects spawn = Objects.values()[0];
+        spawn.setWorldX(gp.titleSize * 3);
+        spawn.setWorldY(gp.titleSize * 5);
+        spawn.setMapId(0);
+        spawn.setShow(true);
+        spawn.setObjectWidth(192);
+        spawn.setObjectHeight(192);
+        gp.objects.add(spawn);
+        Objects chest_1 = Objects.values()[1];
         chest_1.setWorldX(gp.titleSize * 3);
         chest_1.setWorldY(gp.titleSize * 3);
         chest_1.setMapId(1);
         chest_1.setShow(true);
+        chest_1.setObjectWidth(64);
+        chest_1.setObjectHeight(64);
         gp.objects.add(chest_1);
     }
 
@@ -30,7 +40,7 @@ public class AssetSetter {
                     gp.player.getStateMap() == gp.objects.get(i).getMapId() &&
                     gp.objects.get(i).isShow()
                     ) {
-                g2.drawImage(gp.objects.get(i).getObject(), screenX, screenY, gp.titleSize, gp.titleSize, null);
+                g2.drawImage(gp.objects.get(i).getObject(), screenX, screenY, gp.objects.get(i).getObjectWidth(), gp.objects.get(i).getObjectHeight(), null);
             }
         }
     }
