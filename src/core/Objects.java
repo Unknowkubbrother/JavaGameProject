@@ -9,7 +9,8 @@ import java.awt.Rectangle;
 
 public enum Objects {
     SPAWN(0),
-    GODDESS(1);
+    GODDESS(1),
+    CHEST(2);
 
 
 
@@ -27,6 +28,7 @@ public enum Objects {
         try{
             dict.put(0, new ObjectLoader("/resources/texture/objects/spawn.png", false));
             dict.put(1, new ObjectLoader("/resources/texture/objects/goddess.png", true));
+            dict.put(2, new ObjectLoader("/resources/texture/objects/chest.png", true));
 
         }catch(IOException e){
             System.out.println("[Object]: Failed to load Object!");

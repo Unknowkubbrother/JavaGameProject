@@ -124,6 +124,17 @@ public class Player extends Entity {
         }
     }
 
+    public void pickUpObject(int index){
+
+        if (index != -1){
+            if (gp.objects.get(index).getObjectId() == 2 && gp.objects.get(index).isShow()){
+                System.out.println("You picked up a chest!");
+                gp.objects.get(index).setShow(false);
+            }
+        }
+        
+    }
+
     public void update() {
         // Check collision with map
         collisionOn = false;
@@ -165,17 +176,6 @@ public class Player extends Entity {
         if (!keyH.up && !keyH.down && !keyH.left && !keyH.right) {
             isMoving = false;
         }
-    }
-
-    public void pickUpObject(int index){
-
-        if (index != -1){
-            // if (gp.objects.get(index).getObjectId() == 1 && gp.objects.get(index).isShow()){
-            //     System.out.println("You picked up a chest!");
-            //     gp.objects.get(index).setShow(false);
-            // }
-        }
-        
     }
 
     private int aniTickRight_Left = 0;

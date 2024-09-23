@@ -26,14 +26,14 @@ public class AssetSetter {
         goddess.setObjectWidth(90);
         goddess.setObjectHeight(192);
         gp.objects.add(goddess);
-        // Objects chest_1 = Objects.values()[1];
-        // chest_1.setWorldX(gp.titleSize * 3);
-        // chest_1.setWorldY(gp.titleSize * 3);
-        // chest_1.setMapId(1);
-        // chest_1.setShow(true);
-        // chest_1.setObjectWidth(64);
-        // chest_1.setObjectHeight(64);
-        // gp.objects.add(chest_1);
+        Objects chest_1 = Objects.values()[2];
+        chest_1.setWorldX(gp.titleSize * 3);
+        chest_1.setWorldY(gp.titleSize * 3);
+        chest_1.setMapId(1);
+        chest_1.setShow(true);
+        chest_1.setObjectWidth(64);
+        chest_1.setObjectHeight(64);
+        gp.objects.add(chest_1);
     }
 
     public void draw(Graphics g2) {
@@ -41,10 +41,10 @@ public class AssetSetter {
             int screenX = gp.objects.get(i).getWorldX() - gp.player.worldX + gp.player.screenX;
             int screenY = gp.objects.get(i).getWorldY() - gp.player.worldY + gp.player.screenY;
 
-            if (gp.objects.get(i).getWorldX() + gp.titleSize > gp.player.worldX - gp.player.screenX &&
-                    gp.objects.get(i).getWorldX() - gp.titleSize < gp.player.worldX + gp.player.screenX &&
-                    gp.objects.get(i).getWorldY() + gp.titleSize > gp.player.worldY - gp.player.screenY &&
-                    gp.objects.get(i).getWorldY() - gp.titleSize < gp.player.worldY + gp.player.screenY &&
+            if (gp.objects.get(i).getWorldX() + (gp.titleSize * 3) > gp.player.worldX - gp.player.screenX &&
+                    gp.objects.get(i).getWorldX() - (gp.titleSize * 3) < gp.player.worldX + gp.player.screenX &&
+                    gp.objects.get(i).getWorldY() + (gp.titleSize * 3) > gp.player.worldY - gp.player.screenY &&
+                    gp.objects.get(i).getWorldY() - (gp.titleSize * 3) < gp.player.worldY + gp.player.screenY &&
                     gp.player.getStateMap() == gp.objects.get(i).getMapId() &&
                     gp.objects.get(i).isShow()
                     ) {
