@@ -47,7 +47,7 @@ public class Player extends Entity {
         loadAnimation();
     }
 
-    void checkPlayerState(){
+    public void checkPlayerState(){
         System.out.println(getEntityCoords());
         if (getEntityCoords().get("x") >= gp.titleSize * 14 
             && getEntityCoords().get("x") <= gp.titleSize * 15
@@ -134,7 +134,6 @@ public class Player extends Entity {
         if (!keyH.up && !keyH.down && !keyH.left && !keyH.right) {
             isMoving = false;
         }
-        checkPlayerState();
     }
 
     private int aniTickRight_Left = 0;
