@@ -1,6 +1,7 @@
 import javax.swing.*;
 import core.GamePanel;
 import core.Texture;
+import core.Objects;
 
 public class Game {
 
@@ -12,6 +13,7 @@ public class Game {
 
         GamePanel gamePanel = new GamePanel();
         Texture.loadTexture();
+        Objects.loadObjects();
         window.add(gamePanel);
 
         window.pack();
@@ -19,6 +21,7 @@ public class Game {
         window.setLocationRelativeTo(null);
         window.setVisible(true);
 
+        gamePanel.setupGame();
         gamePanel.startGameThread();
         
     }

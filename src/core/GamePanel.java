@@ -34,6 +34,7 @@ public class GamePanel extends JPanel implements Runnable {
     public CollisionChecker cChecker = new CollisionChecker(this);
     public Player player = new Player(this, keyH);
     Supermap map = new LOBBY(this);
+    AssetSetter aSetter = new AssetSetter(this);
     BufferedImage bgGame;
 
     public GamePanel() {
@@ -97,12 +98,14 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    public void setupGame() {
+        aSetter.setObjects();
+    }
+
     public void update() {
         player.update();
         player.checkPlayerState();
-        
     }
-
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -119,6 +122,9 @@ public class GamePanel extends JPanel implements Runnable {
         }
         
         map.draw(g2);
+
+        // Draw objects
+        aSetter.draw(g2);
 
         // Draw player
         player.draw(g2);
