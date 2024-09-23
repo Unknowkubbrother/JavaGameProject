@@ -13,7 +13,7 @@ public class AssetSetter {
         Objects chest_1 = Objects.values()[0];
         chest_1.setWorldX(gp.titleSize * 3);
         chest_1.setWorldY(gp.titleSize * 3);
-        chest_1.setMapId(0);
+        chest_1.setMapId(1);
         chest_1.setShow(true);
         gp.objects.add(chest_1);
     }
