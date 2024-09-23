@@ -1,10 +1,8 @@
 package core;
 
-import java.util.ArrayList;
 import java.awt.Graphics;
 
 public class AssetSetter {
-    public ArrayList<Objects> objects = new ArrayList<>();
     GamePanel gp;
 
     public AssetSetter(GamePanel gp) {
@@ -13,26 +11,26 @@ public class AssetSetter {
 
     public void setObjects() {
         Objects chest_1 = Objects.values()[0];
-        chest_1.setWorldX(gp.titleSize * 2);
-        chest_1.setWorldY(gp.titleSize * 2);
+        chest_1.setWorldX(gp.titleSize * 3);
+        chest_1.setWorldY(gp.titleSize * 3);
         chest_1.setMapId(0);
         chest_1.setShow(true);
-        objects.add(chest_1);
+        gp.objects.add(chest_1);
     }
 
     public void draw(Graphics g2) {
-        for (int i = 0; i < objects.size(); i++) {
-            int screenX = objects.get(i).getWorldX() - gp.player.worldX + gp.player.screenX;
-            int screenY = objects.get(i).getWorldY() - gp.player.worldY + gp.player.screenY;
+        for (int i = 0; i < gp.objects.size(); i++) {
+            int screenX = gp.objects.get(i).getWorldX() - gp.player.worldX + gp.player.screenX;
+            int screenY = gp.objects.get(i).getWorldY() - gp.player.worldY + gp.player.screenY;
 
-            if (objects.get(i).getWorldX() + gp.titleSize > gp.player.worldX - gp.player.screenX &&
-                    objects.get(i).getWorldX() - gp.titleSize < gp.player.worldX + gp.player.screenX &&
-                    objects.get(i).getWorldY() + gp.titleSize > gp.player.worldY - gp.player.screenY &&
-                    objects.get(i).getWorldY() - gp.titleSize < gp.player.worldY + gp.player.screenY &&
-                    gp.player.getStateMap() == objects.get(i).getMapId() &&
-                    objects.get(i).isShow()
+            if (gp.objects.get(i).getWorldX() + gp.titleSize > gp.player.worldX - gp.player.screenX &&
+                    gp.objects.get(i).getWorldX() - gp.titleSize < gp.player.worldX + gp.player.screenX &&
+                    gp.objects.get(i).getWorldY() + gp.titleSize > gp.player.worldY - gp.player.screenY &&
+                    gp.objects.get(i).getWorldY() - gp.titleSize < gp.player.worldY + gp.player.screenY &&
+                    gp.player.getStateMap() == gp.objects.get(i).getMapId() &&
+                    gp.objects.get(i).isShow()
                     ) {
-                g2.drawImage(objects.get(i).getObject(), screenX, screenY, gp.titleSize, gp.titleSize, null);
+                g2.drawImage(gp.objects.get(i).getObject(), screenX, screenY, gp.titleSize, gp.titleSize, null);
             }
         }
     }

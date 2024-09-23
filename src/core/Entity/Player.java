@@ -53,6 +53,8 @@ public class Player extends Entity {
         // solidArea.height = 64;
         solidArea.x = 45;
         solidArea.y = 77;
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
         solidArea.width = 51;
         solidArea.height = 51;
 
@@ -69,6 +71,16 @@ public class Player extends Entity {
             && getEntityCoords().get("y") <= gp.titleSize * 6
             && player_state.getMap() == 0){
             player_state.setMap(1);
+            worldX = gp.titleSize * 1;
+            worldY = gp.titleSize * 5;
+        }
+        System.out.println(getEntityCoords());
+        if (getEntityCoords().get("x") >= gp.titleSize * 14 
+            && getEntityCoords().get("x") <= gp.titleSize * 15
+            && getEntityCoords().get("y") >= gp.titleSize * 5
+            && getEntityCoords().get("y") <= gp.titleSize * 6
+            && player_state.getMap() == 1){
+            player_state.setMap(0);
             worldX = gp.titleSize * 1;
             worldY = gp.titleSize * 5;
         }
@@ -118,8 +130,14 @@ public class Player extends Entity {
     }
 
     public void update() {
+        // Check collision with map
         collisionOn = false;
         gp.cChecker.checkMap(this);
+
+        // Check collision with objects
+        int objectIdx = gp.cChecker.checkObject(this, true);
+        pickUpObject(objectIdx);
+
         if (keyH.up) {
             direction = "up";
             if (!collisionOn) {
@@ -152,6 +170,17 @@ public class Player extends Entity {
         if (!keyH.up && !keyH.down && !keyH.left && !keyH.right) {
             isMoving = false;
         }
+    }
+
+    public void pickUpObject(int index){
+
+        if (index != -1){
+            if (gp.objects.get(index).getObjectId() == 0 && gp.objects.get(index).isShow()){
+                System.out.println("You picked up a chest!");
+                gp.objects.get(index).setShow(false);
+            }
+        }
+        
     }
 
     private int aniTickRight_Left = 0;

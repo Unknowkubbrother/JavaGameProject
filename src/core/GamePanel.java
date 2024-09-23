@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class GamePanel extends JPanel implements Runnable {
@@ -34,6 +35,7 @@ public class GamePanel extends JPanel implements Runnable {
     public CollisionChecker cChecker = new CollisionChecker(this);
     public Player player = new Player(this, keyH);
     Supermap map = new LOBBY(this);
+    public ArrayList<Objects> objects = new ArrayList<>();
     AssetSetter aSetter = new AssetSetter(this);
     BufferedImage bgGame;
 
@@ -119,6 +121,9 @@ public class GamePanel extends JPanel implements Runnable {
         if (player.getStateMap() == 1 && !(map instanceof STAGE_1)) {
             System.out.println("Change map to STAGE_1");
             map = new STAGE_1(this);
+        }else if (player.getStateMap() == 0 && !(map instanceof LOBBY)){
+            System.out.println("Change map to LOBBY");
+            map = new LOBBY(this);
         }
         
         map.draw(g2);

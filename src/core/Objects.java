@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
+import java.awt.Rectangle;
 
 public enum Objects {
     CHEST(0);
@@ -21,7 +22,7 @@ public enum Objects {
         long startTime = System.currentTimeMillis();
         System.err.println("Loading objects...");
         try{
-            dict.put(0, new ObjectLoader("/resources/texture/objects/chest.png", false));
+            dict.put(0, new ObjectLoader("/resources/texture/objects/chest.png", true));
 
         }catch(IOException e){
             System.out.println("[Object]: Failed to load Object!");
@@ -86,6 +87,43 @@ public enum Objects {
         dict.get(objectId).setShow(show);
     }
 
+    public void setSolidAreaX(int x) {
+        dict.get(objectId).setSolidAreaX(x);
+    }
+
+    public void setSolidAreaY(int y) {
+        dict.get(objectId).setSolidAreaY(y);
+    }
+
+    public void setSolidAreaWidth(int width) {
+        dict.get(objectId).setSolidAreaWidth(width);
+    }
+
+    public void setSolidAreaHeight(int height) {
+        dict.get(objectId).setSolidAreaHeight(height);
+    }
+
+    public void setSolidArea(int x, int y, int width, int height) {
+        dict.get(objectId).setSolidArea(x, y, width, height);
+    }
+
+    public Rectangle getSolidArea() {
+        return dict.get(objectId).getSolidArea();
+    }
+
+    public int getSolidAreaDefaultX() {
+        return dict.get(objectId).getSolidAreaDefaultX();
+    }
+
+    public int getSolidAreaDefaultY() {
+        return dict.get(objectId).getSolidAreaDefaultY();
+    }
+
+    public void Command(){
+        System.out.println("Command");
+    }
+    
+
 }
 
 class ObjectLoader {
@@ -97,6 +135,9 @@ class ObjectLoader {
     private int worldY;
     private int mapId;
     private boolean show;
+    private Rectangle solidArea; 
+    private int solidAreaDefaultX = 0;
+    private int solidAreaDefaultY = 0;
 
     public ObjectLoader(String path,boolean collision) throws IOException {
         this.image = ImageIO.read(getClass().getResourceAsStream(path));
@@ -107,6 +148,7 @@ class ObjectLoader {
         this.worldY = 0;
         this.mapId = 0;
         this.show = true;
+        this.solidArea = new Rectangle(0,0,64,64);
     }
 
     public int getObjectWidth() {
@@ -159,6 +201,42 @@ class ObjectLoader {
 
     public void setShow(boolean show) {
         this.show = show;
+    }
+
+
+    public void setSolidAreaX(int x) {
+        this.solidArea.x = x;
+    }
+
+    public void setSolidAreaY(int y) {
+        this.solidArea.x = y;
+    }
+
+    public void setSolidAreaWidth(int width) {
+        this.solidArea.width = width;
+    }
+
+    public void setSolidAreaHeight(int height) {
+        this.solidArea.height = height;
+    }
+
+    public void setSolidArea(int x, int y, int width, int height) {
+        this.solidArea.x = x;
+        this.solidArea.y = y;
+        this.solidArea.width = width;
+        this.solidArea.height = height;
+    }
+    
+    public Rectangle getSolidArea() {
+        return solidArea;
+    }
+
+    public int getSolidAreaDefaultX() {
+        return solidAreaDefaultX;
+    }
+
+    public int getSolidAreaDefaultY() {
+        return solidAreaDefaultY;
     }
 
     public BufferedImage getImage() {
