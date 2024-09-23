@@ -9,7 +9,8 @@ import java.awt.Rectangle;
 
 public enum Objects {
     SPAWN(0),
-    CHEST(1);
+    GODDESS(1);
+
 
 
     public final int objectId;
@@ -25,7 +26,7 @@ public enum Objects {
         System.err.println("Loading objects...");
         try{
             dict.put(0, new ObjectLoader("/resources/texture/objects/spawn.png", false));
-            dict.put(1, new ObjectLoader("/resources/texture/objects/chest.png", true));
+            dict.put(1, new ObjectLoader("/resources/texture/objects/goddess.png", true));
 
         }catch(IOException e){
             System.out.println("[Object]: Failed to load Object!");
@@ -154,7 +155,7 @@ class ObjectLoader {
         this.worldY = 0;
         this.mapId = 0;
         this.show = true;
-        this.solidArea = new Rectangle(0,0,64,64);
+        this.solidArea = new Rectangle(0,0,image.getWidth(),image.getHeight());
     }
 
     public int getObjectWidth() {
@@ -167,10 +168,12 @@ class ObjectLoader {
 
     public void setObjectWidth(int imageWidth) {
         this.imageWidth = imageWidth;
+        this.solidArea.width = imageWidth;
     } 
 
     public void setObjectHeight(int imageHeight) {
         this.imageHeight = imageHeight;
+        this.solidArea.height = imageHeight;
     }
 
     public boolean isCollision() {

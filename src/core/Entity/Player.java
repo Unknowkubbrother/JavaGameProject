@@ -86,7 +86,7 @@ public class Player extends Entity {
     }
 
     private void setDefaultValues() {
-        worldX = gp.titleSize * 3;
+        worldX = gp.titleSize * 1;
         worldY = gp.titleSize * 5;
         speed = 4;
         direction = "up";
@@ -170,10 +170,10 @@ public class Player extends Entity {
     public void pickUpObject(int index){
 
         if (index != -1){
-            if (gp.objects.get(index).getObjectId() == 1 && gp.objects.get(index).isShow()){
-                System.out.println("You picked up a chest!");
-                gp.objects.get(index).setShow(false);
-            }
+            // if (gp.objects.get(index).getObjectId() == 1 && gp.objects.get(index).isShow()){
+            //     System.out.println("You picked up a chest!");
+            //     gp.objects.get(index).setShow(false);
+            // }
         }
         
     }
