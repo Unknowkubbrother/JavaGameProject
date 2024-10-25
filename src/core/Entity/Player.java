@@ -4,11 +4,7 @@ import core.GamePanel;
 import core.KeyHandler;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-
-import javax.imageio.ImageIO;
-import java.io.IOException;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 class playerState{
     private int map = 0;
@@ -25,22 +21,17 @@ class playerState{
 public class Player extends Entity {
 
     //Default Player
-    GamePanel gp;
     KeyHandler keyH;
 
     public final int screenX;
     public final int screenY;
-    //movement
-    private ArrayList<BufferedImage> up = new ArrayList<>();
-    private ArrayList<BufferedImage> down = new ArrayList<>();
-    private ArrayList<BufferedImage> left = new ArrayList<>();
-    private ArrayList<BufferedImage> right = new ArrayList<>();
-    private boolean isMoving = false;
     public playerState player_state = new playerState();
     //
 
     public Player(GamePanel gp, KeyHandler keyH) {
-        this.gp = gp;
+        
+        super(gp);
+
         this.keyH = keyH;
 
         screenX = gp.screenWidth / 2 - (gp.titleSize / 2);
@@ -90,37 +81,32 @@ public class Player extends Entity {
         worldY = gp.titleSize * 6;
         speed = 4;
         direction = "up";
+        setImageWidth(gp.titleSize * 2);
+        setImageHeight(gp.titleSize * 2);
+        this.solidArea.width = 51;
+        this.solidArea.height = 51;
     }
 
-    private BufferedImage loadSprite(String path) {
-        BufferedImage sprite = null;
-        try {
-            sprite = ImageIO.read(getClass().getResource("/resources/texture/player/" + path));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return sprite;
-    }
-
-    private void loadAnimation() {
+    @Override
+    protected void loadAnimation() {
         // Up
-        for (int i = 1; i <= 1; i++) {
-            up.add(loadSprite(String.format("/up/up_%d.png", i)));
+        for (int i = 1; i <= 4; i++) {
+            up.add(loadSprite(String.format("player/right/right_%d.png", i)));
         }
 
         // Down
-        for (int i = 1; i <= 1; i++) {
-            down.add(loadSprite(String.format("/up/up_%d.png", i)));
+        for (int i = 1; i <= 4; i++) {
+            down.add(loadSprite(String.format("player/right/right_%d.png", i)));
         }
 
         // Right
         for (int i = 1; i <= 4; i++) {
-            right.add(loadSprite(String.format("/right/right_%d.png", i)));
+            right.add(loadSprite(String.format("player/right/right_%d.png", i)));
         }
 
         // Left
         for (int i = 1; i <= 4; i++) {
-            left.add(loadSprite(String.format("/left/left_%d.png", i)));
+            left.add(loadSprite(String.format("player/left/left_%d.png", i)));
         }
     }
 
@@ -135,14 +121,32 @@ public class Player extends Entity {
         
     }
 
+    @Override
+    public void setAction() {
+     }
+
+    public void InteractNpc(int npcIdx){
+        if (npcIdx != -1){
+            System.out.println("Interacting with NPC");
+        }
+    }
+
+
+    @Override
     public void update() {
         // Check collision with map
         collisionOn = false;
         gp.cChecker.checkMap(this);
 
+        // System.out.println("Collision: " + collisionOn);
+
         // Check collision with objects
         int objectIdx = gp.cChecker.checkObject(this, true);
         pickUpObject(objectIdx);
+
+        //CHECK NPC COLLISION
+        int npcIdx = gp.cChecker.checkEntity(this,gp.npc);
+        InteractNpc(npcIdx);
 
         if (keyH.up) {
             direction = "up";
@@ -176,61 +180,41 @@ public class Player extends Entity {
         if (!keyH.up && !keyH.down && !keyH.left && !keyH.right) {
             isMoving = false;
         }
-    }
 
-    private int aniTickRight_Left = 0;
-    private int aniSpeedRight_Left = 10;
-    private int aniIdxRight_Left = 1;
-
-    private void updateAnimationRight_Left() {
-        aniTickRight_Left++;
-        if (aniTickRight_Left >= aniSpeedRight_Left) {
-            aniTickRight_Left = 0;
-            aniIdxRight_Left++;
-            switch (direction) {
-                case "left":
-                    if (aniIdxRight_Left >= left.size()) {
-                        aniIdxRight_Left = 1;
-                    }
-                    break;
-                case "right":
-                    if (aniIdxRight_Left >= right.size()) {
-                        aniIdxRight_Left = 1;
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
-    private int aniTickUp_Down = 0;
-    private int aniSpeedUp_Down = 10;
-    private int aniIdxUp_Down = 0;
-
-    private void updateAnimationUp_Down() {
-        aniTickUp_Down++;
-        if (aniTickUp_Down >= aniSpeedUp_Down) {
-            aniTickUp_Down = 0;
-            aniIdxUp_Down++;
+        spriteCounter++;
+        if (spriteCounter > 10 && isMoving) {
+            spriteCounter = 0;
+            spriteNum++;
             switch (direction) {
                 case "up":
-                    if (aniIdxUp_Down >= up.size()) {
-                        aniIdxUp_Down = 0;
+                    if (spriteNum == up.size()) {
+                        spriteNum = 0;
                     }
                     break;
                 case "down":
-                    if (aniIdxUp_Down >= down.size()) {
-                        aniIdxUp_Down = 0;
+                    if (spriteNum == down.size()) {
+                        spriteNum = 0;
+                    }
+                    break;
+                case "left":
+                    if (spriteNum == left.size()) {
+                        spriteNum = 0;
+                    }
+                    break;
+                case "right":
+                    if (spriteNum == right.size()) {
+                        spriteNum = 0;
                     }
                     break;
                 default:
                     break;
             }
+
         }
     }
 
 
+    @Override
     public void draw(Graphics g2) {
 
         BufferedImage image = null;
@@ -255,20 +239,16 @@ public class Player extends Entity {
         }else{
             switch (direction) {
                 case "up":
-                    image = up.get(aniIdxUp_Down);
-                    updateAnimationUp_Down();
+                    image = up.get(spriteNum);
                     break;
                 case "down":
-                    image = up.get(aniIdxUp_Down);
-                    updateAnimationUp_Down();
+                    image = up.get(spriteNum);
                     break;
                 case "left":
-                    image = left.get(aniIdxRight_Left);
-                    updateAnimationRight_Left();
+                    image = left.get(spriteNum);
                     break;
                 case "right":
-                    image = right.get(aniIdxRight_Left);
-                    updateAnimationRight_Left();
+                    image = right.get(spriteNum);
                     break;
                 default:
                     break;
@@ -276,7 +256,7 @@ public class Player extends Entity {
         }
 
 
-        g2.drawImage(image, screenX, screenY, gp.titleSize * 2, gp.titleSize * 2, null);
+        g2.drawImage(image, screenX, screenY, getImageWidth(), getImageHeight() , null);
         g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
 
     }

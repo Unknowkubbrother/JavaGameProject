@@ -2,10 +2,10 @@ package core;
 
 import java.awt.Graphics;
 
-public class AssetSetter {
+public class AssetSetterObject {
     GamePanel gp;
 
-    public AssetSetter(GamePanel gp) {
+    public AssetSetterObject(GamePanel gp) {
         this.gp = gp;
     }
 

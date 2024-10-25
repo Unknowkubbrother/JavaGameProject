@@ -1,6 +1,7 @@
 package core.MAP;
 
 import core.GamePanel;
+import core.Entity.Mushroom;
 
 public class STAGE_1 extends Supermap{
 
@@ -24,6 +25,13 @@ public class STAGE_1 extends Supermap{
             {0,5,4,4,4,4,4,4,4,4,4,4,5,1,1,1,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
         };
+    }
+
+    @Override
+    public void setSpawnMonster(GamePanel gp) {
+        gp.npc.clear();
+        gp.npc.add(new Mushroom(gp, 5, 5));
+        
     }
 
     

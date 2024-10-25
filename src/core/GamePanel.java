@@ -2,6 +2,7 @@ package core;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import core.Entity.Entity;
 import core.Entity.Player;
 import core.MAP.*;
 
@@ -33,11 +34,22 @@ public class GamePanel extends JPanel implements Runnable {
 
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
+
+    // COLLISION
     public CollisionChecker cChecker = new CollisionChecker(this);
+
+    // ENTITIES
     public Player player = new Player(this, keyH);
+    public ArrayList<Entity> npc = new ArrayList<Entity>();
+
+    // MAP
     Supermap map = new LOBBY(this);
+
+    // OBJECTS
     public ArrayList<Objects> objects = new ArrayList<>();
-    AssetSetter aSetter = new AssetSetter(this);
+    AssetSetterObject aSetterObject = new AssetSetterObject(this);
+
+    // BACKGROUND
     BufferedImage bgGame;
 
     public GamePanel() {
@@ -103,12 +115,15 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void setupGame() {
-        aSetter.setObjects();
+        aSetterObject.setObjects();
     }
 
     public void update() {
         player.update();
         player.checkPlayerState();
+        for(int i = 0; i < npc.size(); i++){
+            npc.get(i).update();
+        }
     }
 
     public void DrawFPS(Graphics g2){
@@ -136,10 +151,15 @@ public class GamePanel extends JPanel implements Runnable {
         map.draw(g2);
 
         // Draw objects
-        aSetter.draw(g2);
+        aSetterObject.draw(g2);
 
         // Draw player
         player.draw(g2);
+
+        // Draw monster
+        for(int i = 0; i < npc.size(); i++){
+            npc.get(i).draw(g2);
+        }
 
         // Draw FPS
         DrawFPS(g2);

@@ -4,13 +4,14 @@ import core.GamePanel;
 import core.Texture;
 import java.awt.Graphics;
 
-public class Supermap{
+public abstract class Supermap{
 
     private GamePanel gp;
     public int MapContenet[][];
 
     public Supermap (GamePanel gp) { 
         this.gp = gp;
+        setSpawnMonster(gp);
     }
     
     public void draw(Graphics g2) {
@@ -32,6 +33,8 @@ public class Supermap{
               }
        }
     }
+
+    abstract public void setSpawnMonster(GamePanel gp);
 
     
 }

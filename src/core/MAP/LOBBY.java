@@ -1,6 +1,7 @@
 package core.MAP;
 
 import core.GamePanel;
+import core.Entity.Mushroom;
 
 public class LOBBY extends Supermap{
 
@@ -23,7 +24,12 @@ public class LOBBY extends Supermap{
             {0,7,7,7,7,8,7,7,7,7,7,7,11,12,11,12,11,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
         };
+    }
 
+    @Override
+    public void setSpawnMonster(GamePanel gp) {
+        gp.npc.clear();
+        gp.npc.add(new Mushroom(gp, 7, 7));
     }
 
 }
