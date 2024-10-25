@@ -6,23 +6,24 @@ import java.awt.image.BufferedImage;
 import core.GamePanel;
 import java.awt.Graphics;
 
-public class Mushroom extends Entity {
+public class Mushroom extends Entity implements Runnable {
 
     private ArrayList<BufferedImage> idle = new ArrayList<>();
     private ArrayList<BufferedImage> right = new ArrayList<>();
+    private ArrayList<BufferedImage> left = new ArrayList<>();
 
     int countState = 0;
+    private Thread gameThread;
 
     public Mushroom(GamePanel gp, int x, int y) {
         super(gp);
 
         setDefaultValues(x, y);
         loadAnimation();
-
+        startGameThread();
     }
 
     public void setDefaultValues(int x, int y) {
-
         direction = "idle";
         speed = 5;
         worldX = gp.titleSize * x;
@@ -47,13 +48,12 @@ public class Mushroom extends Entity {
             right.add(spriteRight.getSubimage(i * 150, 0, 150, 150));
         }
 
-        for(int i = 0; i < 8; i++){
+        for (int i = 0; i < 8; i++) {
             left.add(spriteLeft.getSubimage(i * 150, 0, 150, 150));
         }
     }
 
     public void setAction() {
-
         actionLockCounter++;
 
         if (actionLockCounter == 120) {
@@ -140,12 +140,10 @@ public class Mushroom extends Entity {
             default:
                 break;
         }
-
     }
 
     @Override
     public void draw(Graphics g2) {
-
         BufferedImage image = null;
 
         int screenX = worldX - gp.player.worldX + gp.player.screenX;
@@ -170,6 +168,24 @@ public class Mushroom extends Entity {
 
             g2.drawImage(image, screenX, screenY, getImageWidth(), getImageHeight(), null);
             g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+        }
+    }
+
+    public void startGameThread() {
+        gameThread = new Thread(this);
+        gameThread.start();
+    }
+
+    @Override
+    public void run() {
+        while (gameThread != null) {
+            update();
+            gp.repaint();
+            try {
+                Thread.sleep(16); // Approximately 60 FPS
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

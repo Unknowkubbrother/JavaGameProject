@@ -121,9 +121,6 @@ public class GamePanel extends JPanel implements Runnable {
     public void update() {
         player.update();
         player.checkPlayerState();
-        for(int i = 0; i < npc.size(); i++){
-            npc.get(i).update();
-        }
     }
 
     public void DrawFPS(Graphics g2){
