@@ -180,7 +180,6 @@ public class Mushroom extends Entity implements Runnable {
     public void run() {
         while (gameThread != null) {
             update();
-            gp.repaint();
             try {
                 Thread.sleep(16); // Approximately 60 FPS
             } catch (InterruptedException e) {
