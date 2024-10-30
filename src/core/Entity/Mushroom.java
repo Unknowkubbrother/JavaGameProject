@@ -37,7 +37,7 @@ public class Mushroom extends Entity implements Runnable {
 
     @Override
     protected void loadAnimation() {
-        BufferedImage spriteidle = loadSprite("Montser/Mushroom/idle.png");
+        BufferedImage spriteidle = loadSprite("Montser/Mushroom/Idle.png");
         BufferedImage spriteRight = loadSprite("Montser/Mushroom/right.png");
         BufferedImage spriteLeft = loadSprite("Montser/Mushroom/left.png");
         BufferedImage spriteAttack = loadSprite("Montser/Mushroom/Attack.png");
