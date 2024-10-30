@@ -32,10 +32,6 @@ public class STAGE_1 extends Supermap{
         gp.npc.clear();
         gp.npc.add(new Mushroom(gp, 5, 5));
         gp.npc.add(new Mushroom(gp, 7, 7));
-        gp.npc.add(new Mushroom(gp, 9, 9));
-        gp.npc.add(new Mushroom(gp, 1, 2));
-        gp.npc.add(new Mushroom(gp, 3, 4));
-        gp.npc.add(new Mushroom(gp, 5, 6));
         
     }
 

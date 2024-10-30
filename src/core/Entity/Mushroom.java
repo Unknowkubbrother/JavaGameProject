@@ -1,27 +1,22 @@
 package core.Entity;
 
 import java.util.ArrayList;
-import java.util.Random;
 import java.awt.image.BufferedImage;
 import core.GamePanel;
 import java.awt.Graphics;
 
-public class Mushroom extends Entity implements Runnable {
+public class Mushroom extends Entity{
 
     private ArrayList<BufferedImage> idle = new ArrayList<>();
     private ArrayList<BufferedImage> attack = new ArrayList<>();
-    private ArrayList<BufferedImage> right = new ArrayList<>();
-    private ArrayList<BufferedImage> left = new ArrayList<>();
 
     int countState = 0;
-    private Thread gameThread;
 
     public Mushroom(GamePanel gp, int x, int y) {
         super(gp);
 
         setDefaultValues(x, y);
         loadAnimation();
-        startGameThread();
     }
 
     public void setDefaultValues(int x, int y) {
@@ -61,42 +56,36 @@ public class Mushroom extends Entity implements Runnable {
     }
 
     public void setAction() {
-        actionLockCounter++;
-
-        if (actionLockCounter == 120) {
-            Random rand = new Random();
-            int n = rand.nextInt(6);
-            if (n == 0) {
-                direction = "idle";
-                isMoving = false;
-            }
-            if (n == 1) {
-                direction = "up";
-                isMoving = true;
-            }
-            if (n == 2) {
-                direction = "left";
-                isMoving = true;
-            }
-            if (n == 3) {
+        int playerX = gp.player.worldX;
+        int playerY = gp.player.worldY;
+    
+        int diffX = playerX - worldX;
+        int diffY = playerY - worldY;
+    
+        if (Math.abs(diffX) > Math.abs(diffY)) {
+            if (diffX > 0) {
                 direction = "right";
-                isMoving = true;
+            } else {
+                direction = "left";
             }
-            if (n == 4) {
+        } else {
+            if (diffY > 0) {
                 direction = "down";
-                isMoving = true;
+            } else {
+                direction = "up";
             }
-            if (n == 5){
-                direction = "attack";
-                isMoving = false;
-            }
-
-            actionLockCounter = 0;
         }
+    
+        isMoving = true;
     }
+    
 
     @Override
     public void update() {
+        if (gp.gameState == gp.pauseState || gp.gameState == gp.menuState){
+            return;
+        }
+        
         setAction();
 
         collisionOn = false;
@@ -194,23 +183,6 @@ public class Mushroom extends Entity implements Runnable {
 
             g2.drawImage(image, screenX, screenY, getImageWidth(), getImageHeight(), null);
             // g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
-        }
-    }
-
-    public void startGameThread() {
-        gameThread = new Thread(this);
-        gameThread.start();
-    }
-
-    @Override
-    public void run() {
-        while (gameThread != null) {
-            update();
-            try {
-                Thread.sleep(16); // Approximately 60 FPS
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
     }
 }

@@ -1,10 +1,13 @@
 package core;
+
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import core.Entity.Entity;
 import core.Entity.Player;
 import core.MAP.*;
+import core.UI.UI;
+import core.UI.UIStatus;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -14,32 +17,40 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
 public class GamePanel extends JPanel implements Runnable {
 
     // SCREEN SETTINGS
     public final int originalTitleSize = 16; // 16 x 16 pixels
     public final int scale = 4; // 3x scale
 
-    public final int titleSize = originalTitleSize * scale ; // 64 x 64 pixels
+    public final int titleSize = originalTitleSize * scale; // 64 x 64 pixels
     public final int maxScreenCol = 16;
     public final int maxScreenRow = 12;
     public final int screenWidth = titleSize * maxScreenCol; // 1024 pixels
     public final int screenHeight = titleSize * maxScreenRow; // 768 pixels
 
-
-    //FPS
-    int FPS = 60;
+    // FPS
+    int FPS = 120;
     int FrameRate = 0;
 
-    KeyHandler keyH = new KeyHandler();
+    KeyHandler keyH = new KeyHandler(this);
     Thread gameThread;
+
+    // UI
+    UI ui = new UI(this);
+
+    // GAME STATE
+    public int gameState;
+    public final int menuState = 0;
+    public final int playerState = 1;
+    public final int pauseState = 2;
 
     // COLLISION
     public CollisionChecker cChecker = new CollisionChecker(this);
 
     // ENTITIES
     public Player player = new Player(this, keyH);
+    public UIStatus UiStatus  = new UIStatus(this);
     public ArrayList<Entity> npc = new ArrayList<Entity>();
 
     // MAP
@@ -59,7 +70,6 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyH);
         this.setFocusable(true);
         this.setBackgroundGame();
-        this.map = new LOBBY(this);
     }
 
     public void startGameThread() {
@@ -67,7 +77,7 @@ public class GamePanel extends JPanel implements Runnable {
         gameThread.start();
     }
 
-    public void setBackgroundGame(){
+    public void setBackgroundGame() {
         try {
             bgGame = ImageIO.read(getClass().getResourceAsStream("/resources/bg.png"));
         } catch (IOException e) {
@@ -77,7 +87,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     @Override
 
-    public void run(){
+    public void run() {
 
         double drawInterval = 1000000000 / FPS; // 0.0166666666666667 seconds
         double delta = 0;
@@ -111,60 +121,79 @@ public class GamePanel extends JPanel implements Runnable {
                 drawCount = 0;
                 timer = 0;
             }
-            
+
         }
     }
 
     public void setupGame() {
         aSetterObject.setObjects();
+        gameState = menuState;
     }
 
     public void update() {
-        player.update();
-        player.checkPlayerState();
+        if (gameState == playerState) {
+            //
+        }
+        if (gameState == pauseState) {
+            // pause.update();
+
+        }
     }
 
-    public void DrawFPS(Graphics g2){
+    public void DrawFPS(Graphics g2) {
         g2.setColor(Color.WHITE);
         g2.drawString("FPS: " + FrameRate, 20, 20);
     }
 
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        Graphics g2 = (Graphics2D) g;
+        Graphics2D g2 = (Graphics2D) g;
 
-        // backgroundGame
-        g2.drawImage(bgGame, 0, 0, screenWidth, screenHeight, null);
-
-        // Draw map
-        if (player.getStateMap() == 1 && !(map instanceof STAGE_1)) {
-            System.out.println("Change map to STAGE_1");
-            map = new STAGE_1(this);
-        }else if (player.getStateMap() == 0 && !(map instanceof LOBBY)){
-            System.out.println("Change map to LOBBY");
-            map = new LOBBY(this);
+        if (gameState == menuState) {
+            ui.draw(g2);
         }
-        
-        map.draw(g2);
+        else {
 
-        // Draw objects
-        aSetterObject.draw(g2);
+            // backgroundGame
+            g2.drawImage(bgGame, 0, 0, screenWidth, screenHeight, null);
 
-        // Draw player
-        player.draw(g2);
-
-        // Draw monster
-        for(int i = 0; i < npc.size(); i++){
-            if (i < npc.size()) {
-                npc.get(i).draw(g2);
+            // Draw map
+            if (player.getStateMap() == 1 && !(map instanceof STAGE_1)) {
+                System.out.println("Change map to STAGE_1");
+                map = new STAGE_1(this);
+            } else if (player.getStateMap() == 0 && !(map instanceof LOBBY)) {
+                System.out.println("Change map to LOBBY");
+                map = new LOBBY(this);
             }
-        }
 
-        // Draw FPS
-        DrawFPS(g2);
+            map.draw(g2);
+
+            // Draw objects
+            aSetterObject.draw(g2);
+
+            // Draw player
+            player.draw(g2);
+
+            // Draw monster
+            for (int i = 0; i < npc.size(); i++) {
+                if (i < npc.size()) {
+                    npc.get(i).draw(g2);
+                }
+            }
+
+            // Draw FPS
+            DrawFPS(g2);
+
+            if (gameState == pauseState) {
+                ui.draw(g2);
+            }
+
+            UiStatus.draw(g2);
+
+        }
 
         g2.dispose();
     }
-    
+
 }

@@ -10,8 +10,12 @@ import core.GamePanel;
 
 import java.awt.Graphics;
 
-public abstract class Entity {
+public abstract class Entity implements Runnable {
     GamePanel gp;
+
+    // Thread
+    protected Thread EntityThread;
+    protected int ThreadDelay;
 
      //movement
     protected ArrayList<BufferedImage> up = new ArrayList<>();
@@ -37,6 +41,7 @@ public abstract class Entity {
         imageWidth = gp.titleSize;
         imageHeight = gp.titleSize;
         solidArea = new Rectangle(0,0,imageWidth,imageHeight);
+        startEntityThread();
     }
 
     public void setImageWidth(int imageWidth){
@@ -63,9 +68,9 @@ public abstract class Entity {
         return position;
     }
 
-    protected BufferedImage loadSprite(String path) {
+    protected static BufferedImage loadSprite(String path) {
         try {
-            return ImageIO.read(getClass().getResourceAsStream("/resources/texture/" + path));
+            return ImageIO.read(Entity.class.getResourceAsStream("/resources/texture/" + path));
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -76,6 +81,9 @@ public abstract class Entity {
     abstract public void setAction();
 
     public void update(){
+        if (gp.gameState == gp.pauseState){
+            return;
+        }
         setAction();
 
         collisionOn = false;
@@ -163,7 +171,22 @@ public abstract class Entity {
         }
     }
 
-   
+    public void startEntityThread() {
+        ThreadDelay = 16;
+        EntityThread = new Thread(this);
+        EntityThread.start();
+    }
 
+    @Override
+    public void run() {
+        while (EntityThread != null) {
+            update();
+            try {
+                Thread.sleep(ThreadDelay); // Approximately 60 FPS
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     
 }

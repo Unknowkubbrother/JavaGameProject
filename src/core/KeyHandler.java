@@ -1,9 +1,18 @@
 package core;
 import java.awt.event.KeyListener;
+
+import core.MAP.LOBBY;
+
 import java.awt.event.KeyEvent;
 
 public class KeyHandler implements KeyListener{
+    GamePanel gp;
     public boolean up, down, left, right;
+
+
+    public KeyHandler(GamePanel gp){
+        this.gp = gp;
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -16,6 +25,35 @@ public class KeyHandler implements KeyListener{
 
         int code = e.getKeyCode();
 
+        if (gp.gameState == gp.menuState){
+            if (code == KeyEvent.VK_UP) {
+                gp.ui.commandNum--;
+                if (gp.ui.commandNum < 0){
+                    gp.ui.commandNum = 2;
+                }
+            }
+            if (code == KeyEvent.VK_DOWN) {
+                gp.ui.commandNum++;
+                if (gp.ui.commandNum > 2){
+                    gp.ui.commandNum = 0;
+                }
+            }
+
+            if (code == KeyEvent.VK_ENTER) {
+                if (gp.ui.commandNum == 0){
+                    gp.map = new LOBBY(gp);
+                    gp.gameState = gp.playerState;
+                }
+                else if (gp.ui.commandNum == 2){
+                    System.exit(0);
+                }
+            }
+                
+        }
+
+
+
+
         if (code == KeyEvent.VK_W) {
             up = true;
         }
@@ -27,6 +65,30 @@ public class KeyHandler implements KeyListener{
         }
         if (code == KeyEvent.VK_D) {
             right = true;
+        }
+        
+        //Pause
+        if (code == KeyEvent.VK_ESCAPE) {
+            if (gp.gameState == gp.playerState){
+                gp.gameState = gp.pauseState;
+            }
+            else if (gp.gameState == gp.pauseState){
+                gp.gameState = gp.playerState;
+            }
+        }
+
+        if (gp.gameState == gp.playerState){
+            if (code == KeyEvent.VK_1){
+                gp.player.setCurrentElement(0);
+            }else if (code == KeyEvent.VK_2){
+                gp.player.setCurrentElement(1);
+            }
+            else if (code == KeyEvent.VK_3){
+                gp.player.setCurrentElement(2);
+            }
+            else if (code == KeyEvent.VK_4){
+                gp.player.setCurrentElement(3);
+            }
         }
 
     }
