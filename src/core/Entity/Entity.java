@@ -64,13 +64,12 @@ public abstract class Entity {
     }
 
     protected BufferedImage loadSprite(String path) {
-        BufferedImage sprite = null;
         try {
-            sprite = ImageIO.read(getClass().getResource("/resources/texture/" + path));
+            return ImageIO.read(getClass().getResourceAsStream("/resources/texture/" + path));
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
-        return sprite;
     }
 
     abstract protected void loadAnimation();
@@ -139,12 +138,16 @@ public abstract class Entity {
         BufferedImage image = null;
 
         if (direction.equals("up")) {
+            if (spriteNum >= up.size()) spriteNum = 0;
             image = up.get(spriteNum);
         } else if (direction.equals("down")) {
+            if (spriteNum >= down.size()) spriteNum = 0;
             image = down.get(spriteNum);
         } else if (direction.equals("left")) {
+            if (spriteNum >= left.size()) spriteNum = 0;
             image = left.get(spriteNum);
         } else if (direction.equals("right")) {
+            if (spriteNum >= right.size()) spriteNum = 0;
             image = right.get(spriteNum);
         }
         

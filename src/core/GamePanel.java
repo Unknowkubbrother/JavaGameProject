@@ -43,7 +43,7 @@ public class GamePanel extends JPanel implements Runnable {
     public ArrayList<Entity> npc = new ArrayList<Entity>();
 
     // MAP
-    Supermap map = new LOBBY(this);
+    Supermap map;
 
     // OBJECTS
     public ArrayList<Objects> objects = new ArrayList<>();
@@ -59,6 +59,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyH);
         this.setFocusable(true);
         this.setBackgroundGame();
+        this.map = new LOBBY(this);
     }
 
     public void startGameThread() {
@@ -155,7 +156,9 @@ public class GamePanel extends JPanel implements Runnable {
 
         // Draw monster
         for(int i = 0; i < npc.size(); i++){
-            npc.get(i).draw(g2);
+            if (i < npc.size()) {
+                npc.get(i).draw(g2);
+            }
         }
 
         // Draw FPS
