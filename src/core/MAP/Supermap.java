@@ -56,9 +56,9 @@ public abstract class Supermap implements ActionListener{
         for(int i=0;i<gp.npc.size();i++){
             if (gp.npc.get(i) instanceof Mushroom){
                 ((Mushroom)gp.npc.get(i)).stopEntityThread();
-                gp.npc.remove(i);
             }
         }
+        gp.npc.clear();
         
     }
 
