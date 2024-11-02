@@ -77,31 +77,39 @@ public class Mushroom extends Entity implements Runnable {
             actionLockCounter = 0;
         }
 
-        if (direction == "walk") {
+        if (direction.equals("walk")) {
             int playerX = gp.player.worldX;
             int playerY = gp.player.worldY;
-
+        
             int diffX = playerX - worldX;
             int diffY = playerY - worldY;
-
-            if (Math.abs(diffX) > Math.abs(diffY)) {
-                if (diffX > 0) {
+        
+            double distance = Math.sqrt(diffX * diffX + diffY * diffY);
+        
+            double directionX = diffX / distance;
+            double directionY = diffY / distance;
+        
+            worldX += directionX * speed;
+            worldY += directionY * speed;
+        
+            if (Math.abs(directionX) > Math.abs(directionY)) {
+                if (directionX > 0) {
                     direction = "right";
                 } else {
                     direction = "left";
                 }
             } else {
-                if (diffY > 0) {
+                if (directionY > 0) {
                     direction = "down";
                 } else {
                     direction = "up";
                 }
             }
-
+        
             lastDirection = direction;
-
             isMoving = true;
         }
+        
     }
 
     private int countHit = 0;
@@ -115,6 +123,11 @@ public class Mushroom extends Entity implements Runnable {
                 gp.player.worldX -= 10;
             } else {
                 gp.player.worldX += 10;
+            }
+            if (worldY > gp.player.worldY) {
+                gp.player.worldY -= 10;
+            } else {
+                gp.player.worldY += 10;
             }
             direction = "idle";
         }
