@@ -10,12 +10,12 @@ import core.GamePanel;
 
 import java.awt.Graphics;
 
-public abstract class Entity implements Runnable {
+public abstract class Entity {
     GamePanel gp;
 
-    // Thread
-    protected Thread EntityThread;
-    protected int ThreadDelay;
+    // // Thread
+    // protected Thread EntityThread;
+    // protected int ThreadDelay;
 
      //movement
     protected ArrayList<BufferedImage> up = new ArrayList<>();
@@ -26,6 +26,7 @@ public abstract class Entity implements Runnable {
     public int worldX, worldY;
     public int speed;
     public String direction;
+    public String lastDirection;
     public boolean isMoving = false;
     private int imageWidth;
     private int imageHeight;
@@ -36,12 +37,13 @@ public abstract class Entity implements Runnable {
     public int spriteCounter = 0;
     public int spriteNum = 0;
 
+
     public Entity(GamePanel gp){
         this.gp = gp;
         imageWidth = gp.titleSize;
         imageHeight = gp.titleSize;
         solidArea = new Rectangle(0,0,imageWidth,imageHeight);
-        startEntityThread();
+        // startEntityThread();
     }
 
     public void setImageWidth(int imageWidth){
@@ -171,22 +173,22 @@ public abstract class Entity implements Runnable {
         }
     }
 
-    public void startEntityThread() {
-        ThreadDelay = 16;
-        EntityThread = new Thread(this);
-        EntityThread.start();
-    }
+    // public void startEntityThread() {
+    //     ThreadDelay = 16;
+    //     EntityThread = new Thread(this);
+    //     EntityThread.start();
+    // }
 
-    @Override
-    public void run() {
-        while (EntityThread != null) {
-            update();
-            try {
-                Thread.sleep(ThreadDelay); // Approximately 60 FPS
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+    // @Override
+    // public void run() {
+    //     while (EntityThread != null) {
+    //         update();
+    //         try {
+    //             Thread.sleep(ThreadDelay); // Approximately 60 FPS
+    //         } catch (InterruptedException e) {
+    //             e.printStackTrace();
+    //         }
+    //     }
+    // }
     
 }

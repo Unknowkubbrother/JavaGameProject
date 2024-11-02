@@ -16,8 +16,10 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.awt.event.*;
+import javax.swing.Timer;
 
-public class GamePanel extends JPanel implements Runnable {
+public class GamePanel extends JPanel implements Runnable, ActionListener {
 
     // SCREEN SETTINGS
     public final int originalTitleSize = 16; // 16 x 16 pixels
@@ -30,11 +32,15 @@ public class GamePanel extends JPanel implements Runnable {
     public final int screenHeight = titleSize * maxScreenRow; // 768 pixels
 
     // FPS
-    int FPS = 120;
+    int FPS = 60;
     int FrameRate = 0;
 
     KeyHandler keyH = new KeyHandler(this);
     Thread gameThread;
+    Timer timerGame;
+
+    // GAME TIME
+    public int currentGameTime = 0;
 
     // UI
     UI ui = new UI(this);
@@ -125,6 +131,11 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        currentGameTime++;
+    }
+
     public void setupGame() {
         aSetterObject.setObjects();
         gameState = menuState;
@@ -132,10 +143,33 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
         if (gameState == playerState) {
-            //
+
+            if (!(timerGame instanceof Timer)) {
+                timerGame = new Timer(1000, this);
+                timerGame.start();
+            }
+
+            if (!(timerGame.isRunning())) {
+                timerGame.start();
+            }
+
+            // Update player
+            player.update();
+
+            // Update Map
+            if (player.getStateMap() == 1 && !(map instanceof STAGE_1)) {
+                System.out.println("Change map to STAGE_1");
+                map.timerMap.stop();
+                map = new STAGE_1(this);
+            } else if (player.getStateMap() == 0 && !(map instanceof LOBBY)) {
+                System.out.println("Change map to LOBBY");
+                map.timerMap.stop();
+                map = new LOBBY(this);
+            }
         }
         if (gameState == pauseState) {
             // pause.update();
+            timerGame.stop();
 
         }
     }
@@ -159,14 +193,6 @@ public class GamePanel extends JPanel implements Runnable {
             g2.drawImage(bgGame, 0, 0, screenWidth, screenHeight, null);
 
             // Draw map
-            if (player.getStateMap() == 1 && !(map instanceof STAGE_1)) {
-                System.out.println("Change map to STAGE_1");
-                map = new STAGE_1(this);
-            } else if (player.getStateMap() == 0 && !(map instanceof LOBBY)) {
-                System.out.println("Change map to LOBBY");
-                map = new LOBBY(this);
-            }
-
             map.draw(g2);
 
             // Draw objects

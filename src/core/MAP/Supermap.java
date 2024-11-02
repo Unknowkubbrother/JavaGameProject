@@ -3,15 +3,22 @@ package core.MAP;
 import core.GamePanel;
 import core.Texture;
 import java.awt.Graphics;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.Timer;
 
-public abstract class Supermap{
+public abstract class Supermap implements ActionListener{
 
-    private GamePanel gp;
+    protected GamePanel gp;
     public int MapContenet[][];
+    public Timer timerMap;
+    public int currentTimeMap = 0;
 
     public Supermap (GamePanel gp) { 
         this.gp = gp;
-        setSpawnMonster(gp);
+        timerMap = new Timer(1000, this);
+        timerMap.start();
+        setDefaultSpawnMonster();
     }
     
     public void draw(Graphics g2) {
@@ -34,7 +41,17 @@ public abstract class Supermap{
        }
     }
 
-    abstract public void setSpawnMonster(GamePanel gp);
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        currentTimeMap++;
+        System.out.println(currentTimeMap);
+        update();
+    }
+
+
+    abstract public void update();
+
+    abstract public void setDefaultSpawnMonster();
 
     
 }

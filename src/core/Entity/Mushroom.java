@@ -3,9 +3,14 @@ package core.Entity;
 import java.util.ArrayList;
 import java.awt.image.BufferedImage;
 import core.GamePanel;
+import java.util.Random;
 import java.awt.Graphics;
 
-public class Mushroom extends Entity{
+public class Mushroom extends Entity implements Runnable{
+
+    // Thread
+    protected Thread EntityThread;
+    protected int ThreadDelay;
 
     private ArrayList<BufferedImage> idle = new ArrayList<>();
     private ArrayList<BufferedImage> attack = new ArrayList<>();
@@ -17,6 +22,7 @@ public class Mushroom extends Entity{
 
         setDefaultValues(x, y);
         loadAnimation();
+        startEntityThread();
     }
 
     public void setDefaultValues(int x, int y) {
@@ -56,27 +62,64 @@ public class Mushroom extends Entity{
     }
 
     public void setAction() {
-        int playerX = gp.player.worldX;
-        int playerY = gp.player.worldY;
-    
-        int diffX = playerX - worldX;
-        int diffY = playerY - worldY;
-    
-        if (Math.abs(diffX) > Math.abs(diffY)) {
-            if (diffX > 0) {
-                direction = "right";
-            } else {
-                direction = "left";
+
+        actionLockCounter++;
+        if (actionLockCounter == 120) {
+            Random rand = new Random();
+            int n = rand.nextInt(5);
+            if (n == 0) {
+                direction = "idle";
             }
-        } else {
-            if (diffY > 0) {
-                direction = "down";
-            } else {
+            if (n == 1) {
                 direction = "up";
             }
+            if (n == 2) {
+                direction = "left";
+            }
+            if (n == 3) {
+                direction = "right";
+            }
+            if (n == 4) {
+                direction = "down";
+            }
+            actionLockCounter = 0;
         }
-    
-        isMoving = true;
+
+        if (direction != "idle") {
+           int playerX = gp.player.worldX;
+            int playerY = gp.player.worldY;
+        
+            int diffX = playerX - worldX;
+            int diffY = playerY - worldY;
+        
+            if (Math.abs(diffX) > Math.abs(diffY)) {
+                if (diffX > 0) {
+                    direction = "right";
+                } else {
+                    direction = "left";
+                }
+            } else {
+                if (diffY > 0) {
+                    direction = "down";
+                } else {
+                    direction = "up";
+                }
+            }
+        
+            isMoving = true; 
+        }
+    }
+
+    private int countHit = 0;
+
+    public void AttacktoPlayer() {
+        countHit++;
+        if (countHit > 12){
+            gp.player.setHealth(gp.player.getHealth() - 12);
+            countHit = 0;
+            gp.player.worldX -= 10;
+            direction = "idle";
+        }
     }
     
 
@@ -93,7 +136,11 @@ public class Mushroom extends Entity{
 
         gp.cChecker.checkObject(this, false);
 
-        gp.cChecker.checkPlayer(this);
+        if (gp.cChecker.checkPlayer(this)) {
+            direction = "attack";
+            isMoving = false;
+            AttacktoPlayer();
+        }
 
         if (!collisionOn && isMoving) {
             if (direction == "up") {
@@ -183,6 +230,24 @@ public class Mushroom extends Entity{
 
             g2.drawImage(image, screenX, screenY, getImageWidth(), getImageHeight(), null);
             // g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+        }
+    }
+
+    public void startEntityThread() {
+        ThreadDelay = 16;
+        EntityThread = new Thread(this);
+        EntityThread.start();
+    }
+
+    @Override
+    public void run() {
+        while (EntityThread != null) {
+            update();
+            try {
+                Thread.sleep(ThreadDelay); // Approximately 60 FPS
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

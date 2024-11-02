@@ -4,7 +4,6 @@ import core.GamePanel;
 import core.Entity.Mushroom;
 
 public class STAGE_1 extends Supermap{
-
     public STAGE_1 (GamePanel gp) { 
         super(gp);
 
@@ -26,12 +25,18 @@ public class STAGE_1 extends Supermap{
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
         };
     }
+    
+    @Override
+    public void update() {
+         if (currentTimeMap == 7){
+            gp.npc.add(new Mushroom(gp, 7, 7));
+        }
+        
+    }
 
     @Override
-    public void setSpawnMonster(GamePanel gp) {
+    public void setDefaultSpawnMonster() {
         gp.npc.clear();
-        gp.npc.add(new Mushroom(gp, 5, 5));
-        gp.npc.add(new Mushroom(gp, 7, 7));
         
     }
 
