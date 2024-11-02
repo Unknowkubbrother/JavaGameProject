@@ -436,7 +436,7 @@ public class Player extends Entity {
                 break;
         }
 
-        if (lastDirection != null && lastDirection == "left" && direction != "right") {
+        if (lastDirection != null && lastDirection == "left" && direction != "right" && direction != "left") {
             offsetX = 256;
             offsetWidth = -512;
         }
