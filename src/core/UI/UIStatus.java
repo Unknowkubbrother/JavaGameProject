@@ -43,7 +43,7 @@ public class UIStatus {
         g2.setFont(new Font("Arial", java.awt.Font.BOLD, 12));
         g2.setColor(java.awt.Color.BLACK);
         g2.fillRoundRect(25, 30, 200, 25, 10, 10);
-        g2.setColor(java.awt.Color.BLUE);
+        g2.setColor(java.awt.Color.GRAY);
         int armorWidth = (int) ((gp.player.getArmor() / 100.0) * 200);
         g2.fillRoundRect(25, 30, armorWidth, 25, 10, 10);
         g2.setColor(java.awt.Color.WHITE);

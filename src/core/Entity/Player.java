@@ -51,7 +51,7 @@ public class Player extends Entity {
         private int map = 0;
         private int currentElement = 0;
         private int health = 100;
-        private int armor = 0;
+        private int armor = 20;
         private int mana = 100;
         private boolean isDead = false;
         private boolean isAttacking = false;
@@ -172,6 +172,8 @@ public class Player extends Entity {
     // Animation
     private ArrayList<BufferedImage> idle = new ArrayList<>();
     private ArrayList<BufferedImage> attack_fire = new ArrayList<>();
+    private ArrayList<BufferedImage> attack_water = new ArrayList<>();
+    private ArrayList<BufferedImage> attack_wind = new ArrayList<>();
 
     // Default Player
     KeyHandler keyH;
@@ -220,6 +222,8 @@ public class Player extends Entity {
         BufferedImage spriteRight = loadSprite("player/right.png");
         BufferedImage spriteLeft = loadSprite("player/left.png");
         BufferedImage spriteAttackFire = loadSprite("player/Attack_Fire.png");
+        BufferedImage spriteAttackWater = loadSprite("player/Attack_Water.png");
+        BufferedImage spriteAttackWind = loadSprite("player/Attack_Wind.png");
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -255,11 +259,28 @@ public class Player extends Entity {
 
         for (int j = 7; j >= 0; j--) {
             for (int i = 3; i >= 0; i--) {
-            if (i == 2) {
-                attack_fire.add(spriteAttackFire.getSubimage(j * 256, i * 256, 256, 256));
-            }
+                if (i == 2) {
+                    attack_fire.add(spriteAttackFire.getSubimage(j * 256, i * 256, 256, 256));
+                }
             }
         }
+
+        for (int j = 7; j >= 0; j--) {
+            for (int i = 3; i >= 0; i--) {
+                if (i == 2) {
+                    attack_water.add(spriteAttackWater.getSubimage(j * 256, i * 256, 256, 256));
+                }
+            }
+        }
+
+        for (int j = 7; j >= 0; j--) {
+            for (int i = 3; i >= 0; i--) {
+                if (i == 2) {
+                    attack_wind.add(spriteAttackWind.getSubimage(j * 256, i * 256, 256, 256));
+                }
+            }
+        }
+
 
     }
 
@@ -348,10 +369,14 @@ public class Player extends Entity {
             if (getCurrentElement() != 0) {
                 if (getCurrentElement() == 1) {
                     direction = "attack_fire";
+                } else if (getCurrentElement() == 2) {
+                    direction = "attack_water";
+                }else if (getCurrentElement() == 3) {
+                    direction = "attack_wind";
                 }
                 isMoving = false;
                 ActionAttack();
-            }else{
+            } else {
                 isMoving = false;
                 direction = "idle";
                 setAttacking(false);
@@ -399,6 +424,18 @@ public class Player extends Entity {
                     setAttacking(false);
                 }
                 break;
+            case "attack_water":
+                if (spriteNum >= attack_water.size()) {
+                    spriteNum = 0;
+                    setAttacking(false);
+                }
+                break;
+            case "attack_wind":
+                if (spriteNum >= attack_wind.size()) {
+                    spriteNum = 0;
+                    setAttacking(false);
+                }
+                break;
             default:
                 break;
         }
@@ -432,15 +469,20 @@ public class Player extends Entity {
             case "attack_fire":
                 image = attack_fire.get(spriteNum);
                 break;
+            case "attack_water":
+                image = attack_water.get(spriteNum);
+                break;
+            case "attack_wind":
+                image = attack_wind.get(spriteNum);
+                break;
             default:
                 break;
         }
 
         if (lastDirection != null && lastDirection == "left" && direction != "right" && direction != "left") {
-            offsetX = 256;
-            offsetWidth = -512;
+            offsetX = getImageWidth();
+            offsetWidth = (getImageWidth() * 2) * -1;
         }
-
 
         g2.drawImage(image, screenX + offsetX, screenY, getImageWidth() + offsetWidth, getImageHeight(), null);
         g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);

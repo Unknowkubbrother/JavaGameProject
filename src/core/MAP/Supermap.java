@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.Timer;
+import core.Entity.Mushroom;
 
 public abstract class Supermap implements ActionListener{
 
@@ -51,7 +52,15 @@ public abstract class Supermap implements ActionListener{
 
     abstract public void update();
 
-    abstract public void setDefaultSpawnMonster();
+    public void setDefaultSpawnMonster() {
+        for(int i=0;i<gp.npc.size();i++){
+            if (gp.npc.get(i) instanceof Mushroom){
+                ((Mushroom)gp.npc.get(i)).stopEntityThread();
+                gp.npc.remove(i);
+            }
+        }
+        
+    }
 
     
 }

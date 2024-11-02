@@ -6,7 +6,7 @@ import core.GamePanel;
 import java.util.Random;
 import java.awt.Graphics;
 
-public class Mushroom extends Entity implements Runnable{
+public class Mushroom extends Entity implements Runnable {
 
     // Thread
     protected Thread EntityThread;
@@ -82,16 +82,20 @@ public class Mushroom extends Entity implements Runnable{
             if (n == 4) {
                 direction = "down";
             }
+            if (direction != "idle") {
+                lastDirection = direction;
+            }
+            
             actionLockCounter = 0;
         }
 
         if (direction != "idle") {
-           int playerX = gp.player.worldX;
+            int playerX = gp.player.worldX;
             int playerY = gp.player.worldY;
-        
+
             int diffX = playerX - worldX;
             int diffY = playerY - worldY;
-        
+
             if (Math.abs(diffX) > Math.abs(diffY)) {
                 if (diffX > 0) {
                     direction = "right";
@@ -105,8 +109,8 @@ public class Mushroom extends Entity implements Runnable{
                     direction = "up";
                 }
             }
-        
-            isMoving = true; 
+
+            isMoving = true;
         }
     }
 
@@ -114,21 +118,20 @@ public class Mushroom extends Entity implements Runnable{
 
     public void AttacktoPlayer() {
         countHit++;
-        if (countHit > 12){
+        if (countHit > 12) {
             gp.player.setHealth(gp.player.getHealth() - 12);
             countHit = 0;
             gp.player.worldX -= 10;
             direction = "idle";
         }
     }
-    
 
     @Override
     public void update() {
-        if (gp.gameState == gp.pauseState || gp.gameState == gp.menuState){
+        if (gp.gameState == gp.pauseState || gp.gameState == gp.menuState) {
             return;
         }
-        
+
         setAction();
 
         collisionOn = false;
@@ -155,7 +158,7 @@ public class Mushroom extends Entity implements Runnable{
             if (direction == "right") {
                 worldX += speed;
             }
-        }else{
+        } else {
             isMoving = false;
         }
 
@@ -204,6 +207,8 @@ public class Mushroom extends Entity implements Runnable{
     @Override
     public void draw(Graphics g2) {
         BufferedImage image = null;
+        int offsetX = 0;
+        int offsetWidth = 0;
 
         int screenX = worldX - gp.player.worldX + gp.player.screenX;
         int screenY = worldY - gp.player.worldY + gp.player.screenY;
@@ -215,9 +220,8 @@ public class Mushroom extends Entity implements Runnable{
 
             if (direction.equals("idle")) {
                 image = idle.get(spriteNum);
-            }
-            else if (direction.equals("attack")) {
-                    image = attack.get(spriteNum);
+            } else if (direction.equals("attack")) {
+                image = attack.get(spriteNum);
             } else if (direction.equals("right")) {
                 image = right.get(spriteNum);
             } else if (direction.equals("left")) {
@@ -228,9 +232,19 @@ public class Mushroom extends Entity implements Runnable{
                 image = right.get(spriteNum);
             }
 
-            g2.drawImage(image, screenX, screenY, getImageWidth(), getImageHeight(), null);
-            // g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+            if (lastDirection != null && lastDirection == "left" && direction != "right" && direction != "left") {
+                offsetX = getImageWidth();
+                offsetWidth = (getImageWidth()*2)*-1;
+            }
+
+            g2.drawImage(image, screenX + offsetX, screenY, getImageWidth() + offsetWidth, getImageHeight(), null);
+            // g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width,
+            // solidArea.height);
         }
+    }
+
+    public void stopEntityThread() {
+        EntityThread = null;
     }
 
     public void startEntityThread() {

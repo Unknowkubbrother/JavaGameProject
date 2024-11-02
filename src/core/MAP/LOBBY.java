@@ -24,18 +24,13 @@ public class LOBBY extends Supermap{
             {0,7,7,7,7,8,7,7,7,7,7,7,11,12,11,12,11,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
         };
+        setDefaultSpawnMonster();
     }
-    
+
     @Override
     public void update() {
         if (currentTimeMap == 5){
             gp.npc.add(new Mushroom(gp, 7, 7));
         }
     }
-
-    @Override
-    public void setDefaultSpawnMonster() {
-        gp.npc.clear();
-    }
-
 }

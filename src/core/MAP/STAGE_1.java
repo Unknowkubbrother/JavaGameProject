@@ -34,11 +34,5 @@ public class STAGE_1 extends Supermap{
         
     }
 
-    @Override
-    public void setDefaultSpawnMonster() {
-        gp.npc.clear();
-        
-    }
-
     
 }
