@@ -85,7 +85,7 @@ public class Mushroom extends Entity implements Runnable {
             if (direction != "idle") {
                 lastDirection = direction;
             }
-            
+
             actionLockCounter = 0;
         }
 
@@ -119,9 +119,13 @@ public class Mushroom extends Entity implements Runnable {
     public void AttacktoPlayer() {
         countHit++;
         if (countHit > 12) {
-            gp.player.setHealth(gp.player.getHealth() - 12);
+            gp.player.playerAttacked(12);
             countHit = 0;
-            gp.player.worldX -= 10;
+            if (worldX > gp.player.worldX) {
+                gp.player.worldX -= 10;
+            } else {
+                gp.player.worldX += 10;
+            }
             direction = "idle";
         }
     }
@@ -234,7 +238,7 @@ public class Mushroom extends Entity implements Runnable {
 
             if (lastDirection != null && lastDirection == "left" && direction != "right" && direction != "left") {
                 offsetX = getImageWidth();
-                offsetWidth = (getImageWidth()*2)*-1;
+                offsetWidth = (getImageWidth() * 2) * -1;
             }
 
             g2.drawImage(image, screenX + offsetX, screenY, getImageWidth() + offsetWidth, getImageHeight(), null);

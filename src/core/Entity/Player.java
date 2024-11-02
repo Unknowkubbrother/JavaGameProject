@@ -72,11 +72,25 @@ public class Player extends Entity {
         player_state.health = health;
     }
 
+    public void playerAttacked(int damage) {
+        if (getArmor() > 0) {
+            setArmor(getArmor() - damage);
+        } else {
+            setHealth(getHealth() - damage);
+        }
+    }
+
     public int getArmor() {
         return player_state.armor;
     }
 
     public void setArmor(int armor) {
+        if (armor > 100) {
+            armor = 100;
+        }
+        if (armor < 0) {
+            armor = 0;
+        }
         player_state.armor = armor;
     }
 
@@ -154,8 +168,10 @@ public class Player extends Entity {
         if (index != -1) {
             if (gp.objects.get(index).getObjectId() == 3 && gp.objects.get(index).getMapId() == getStateMap()
                     && gp.objects.get(index).isShow()) {
-                gp.objects.get(index).setShow(false);
-                System.out.println("You picked up a chest! on map: " + getStateMap());
+                    gp.objects.get(index).setShow(false);
+                    gp.objects.remove(index);
+                    speed += 10;
+                    System.out.println("You picked up a chest! on map: " + getStateMap());
             }
         }
 
@@ -203,7 +219,7 @@ public class Player extends Entity {
     private void setDefaultValues() {
         worldX = gp.titleSize * 2;
         worldY = gp.titleSize * 6;
-        speed = 10;
+        speed = 5;
         direction = "idle";
         setImageWidth(256);
         setImageHeight(256);
