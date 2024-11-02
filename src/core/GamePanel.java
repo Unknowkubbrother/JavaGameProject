@@ -50,6 +50,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     public final int menuState = 0;
     public final int playerState = 1;
     public final int pauseState = 2;
+    public final int gameOverState = 3;
 
     // COLLISION
     public CollisionChecker cChecker = new CollisionChecker(this);
@@ -167,11 +168,12 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
                 map = new LOBBY(this);
             }
         }
-        if (gameState == pauseState) {
+        if (gameState == pauseState || gameState == gameOverState) {
             // pause.update();
             timerGame.stop();
 
         }
+        
     }
 
     public void DrawFPS(Graphics g2) {
@@ -211,7 +213,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
             // Draw FPS
             DrawFPS(g2);
 
-            if (gameState == pauseState) {
+            if (gameState == pauseState || gameState == gameOverState) {
                 ui.draw(g2);
             }
 

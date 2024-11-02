@@ -27,8 +27,13 @@ public class UI {
         if (gp.gameState == gp.menuState) {
             menuStartGame();
         }
+
         if (gp.gameState == gp.pauseState) {
             pauseMenu();
+        }
+
+        if (gp.gameState == gp.gameOverState) {
+            gameOver();
         }
     }
 
@@ -36,6 +41,15 @@ public class UI {
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("Arial", Font.BOLD, 30));
         String text = "PAUSED";
+        int x = getXforCenteredText(text);
+        int y = gp.screenHeight / 2;
+        g2.drawString(text, x, y);
+    }
+
+    public void gameOver(){
+        g2.setColor(Color.RED);
+        g2.setFont(new Font("Arial", Font.BOLD, 30));
+        String text = "GAME OVER";
         int x = getXforCenteredText(text);
         int y = gp.screenHeight / 2;
         g2.drawString(text, x, y);

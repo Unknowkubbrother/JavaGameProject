@@ -83,9 +83,10 @@ public abstract class Entity {
     abstract public void setAction();
 
     public void update(){
-        if (gp.gameState == gp.pauseState){
+        if (gp.gameState == gp.pauseState || gp.gameState == gp.menuState || gp.gameState == gp.gameOverState) {
             return;
         }
+
         setAction();
 
         collisionOn = false;

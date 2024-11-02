@@ -316,14 +316,14 @@ public class Player extends Entity {
 
     @Override
     public void update() {
-        if (gp.gameState == gp.pauseState || gp.gameState == gp.menuState) {
+        if (gp.gameState == gp.pauseState || gp.gameState == gp.menuState || gp.gameState == gp.gameOverState) {
             return;
         }
 
         // Check if player is dead
-        // if (isDead()) {
-        // gp.gameState = gp.pauseState;
-        // }
+        if (isDead()) {
+            gp.gameState = gp.gameOverState;
+        }
 
         // Check collision with map
         collisionOn = false;

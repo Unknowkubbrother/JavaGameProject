@@ -64,32 +64,20 @@ public class Mushroom extends Entity implements Runnable {
     public void setAction() {
 
         actionLockCounter++;
-        if (actionLockCounter == 120) {
+        if (actionLockCounter == 60) {
             Random rand = new Random();
-            int n = rand.nextInt(5);
+            int n = rand.nextInt(2);
             if (n == 0) {
                 direction = "idle";
             }
             if (n == 1) {
-                direction = "up";
-            }
-            if (n == 2) {
-                direction = "left";
-            }
-            if (n == 3) {
-                direction = "right";
-            }
-            if (n == 4) {
-                direction = "down";
-            }
-            if (direction != "idle") {
-                lastDirection = direction;
+                direction = "walk";
             }
 
             actionLockCounter = 0;
         }
 
-        if (direction != "idle") {
+        if (direction == "walk") {
             int playerX = gp.player.worldX;
             int playerY = gp.player.worldY;
 
@@ -109,6 +97,8 @@ public class Mushroom extends Entity implements Runnable {
                     direction = "up";
                 }
             }
+
+            lastDirection = direction;
 
             isMoving = true;
         }
@@ -132,7 +122,7 @@ public class Mushroom extends Entity implements Runnable {
 
     @Override
     public void update() {
-        if (gp.gameState == gp.pauseState || gp.gameState == gp.menuState) {
+        if (gp.gameState == gp.pauseState || gp.gameState == gp.menuState || gp.gameState == gp.gameOverState) {
             return;
         }
 
