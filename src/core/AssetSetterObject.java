@@ -9,11 +9,11 @@ public class AssetSetterObject {
         this.gp = gp;
     }
 
-    public void setSpawnObjects(int id, int x, int y, int childMap , int width , int height){
+    public void setSpawnObjects(int id, int x, int y , int width , int height){
         Objects spawn = ObjectsEnum.values()[id].copy();
         spawn.setWorldX(x);
         spawn.setWorldY(y);
-        spawn.setMapId(gp.currentParentMap,childMap);
+        spawn.setMapId(gp.player.getStateMap()[0],gp.player.getStateMap()[1]);
         spawn.setShow(true);
         spawn.setObjectWidth(width);
         spawn.setObjectHeight(height);

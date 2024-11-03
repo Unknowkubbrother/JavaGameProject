@@ -53,8 +53,6 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     public final int gameOverState = 3;
     public final int selectMapState = 4;
 
-    // CURRENT PARENT MAP
-    public int currentParentMap;
 
     // COLLISION
     public CollisionChecker cChecker = new CollisionChecker(this);

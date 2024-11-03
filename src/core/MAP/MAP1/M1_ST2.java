@@ -26,16 +26,11 @@ public class M1_ST2 extends Supermap{
             {0,5,4,4,4,4,4,4,4,4,4,4,5,1,1,1,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
         };
-
-        parentMap = 0;
-        childMap = 1;
-        setDefaultObjects();
     }
 
     @Override
     public void setDefaultObjects() {
-        gp.objects.clear();
-        gp.aSetterObject.setSpawnObjects(3,gp.titleSize * 7,gp.titleSize * 7,childMap,64,64);
+        gp.aSetterObject.setSpawnObjects(3,gp.titleSize * 7,gp.titleSize * 7,64,64);
     }
     
     @Override

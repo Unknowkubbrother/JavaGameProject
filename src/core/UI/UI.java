@@ -114,14 +114,12 @@ public class UI  implements MouseListener{
          }else if (gp.gameState == gp.selectMapState) {
              if (e.getX() > gp.titleSize*3 && e.getX() < gp.titleSize*3 + 100) {
                  if (e.getY() > gp.titleSize*3 && e.getY() < gp.titleSize*3 + 100) {
-                     gp.currentParentMap = 0;
+                     gp.player.setMap(gp.player.getStateMap()[0], 0);
                      gp.map = new M1_ST1(gp);
-                     gp.player.setMap(gp.currentParentMap, 0);
                      gp.gameState = gp.playerState;
                  }
              }else if (e.getX() > gp.titleSize*4 + 100 && e.getX() < gp.titleSize*4 + 200) {
                  if (e.getY() > gp.titleSize*3 && e.getY() < gp.titleSize*3 + 100) {
-                    gp.currentParentMap = 1;
                      gp.gameState = gp.playerState;
                  }
              }

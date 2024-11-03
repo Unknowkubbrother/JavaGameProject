@@ -171,13 +171,13 @@ public class Player extends Entity {
             return;
         }
 
-        if (getStateMap()[0] == gp.currentParentMap){
+        if (getStateMap()[0] == 0){
             if (getStateMap()[1] == 0) {
                 if (getEntityCoords().get("x") >= 910
                         && getEntityCoords().get("y") >= 340
                         && getEntityCoords().get("y") <= 450) {
                         gp.map.timerMap.stop();
-                        setMap(gp.currentParentMap, 1);
+                        setMap(getStateMap()[0], 1);
                         gp.map = new M1_ST2(gp);
                         worldX = gp.titleSize * 3;
                         worldY = gp.titleSize * 5;
@@ -188,7 +188,7 @@ public class Player extends Entity {
                         && getEntityCoords().get("y") >= 255
                         && getEntityCoords().get("y") <= 510) {
                         gp.map.timerMap.stop();
-                        setMap(gp.currentParentMap, 0);
+                        setMap(getStateMap()[0], 0);
                         gp.map = new M1_ST1(gp);
                         worldX = gp.titleSize * 3;
                         worldY = gp.titleSize * 5;

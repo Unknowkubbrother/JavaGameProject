@@ -15,14 +15,13 @@ public abstract class Supermap implements ActionListener{
     public int MapContenet[][];
     public Timer timerMap;
     public int currentTimeMap = 0;
-    public int parentMap;
-    public int childMap;
 
     public Supermap (GamePanel gp) { 
         this.gp = gp;
         timerMap = new Timer(1000, this);
         timerMap.start();
-        setDefaultSpawnEntity();
+        setDefaultSpawnEntityAndObjects();
+        setDefaultObjects();
     }
     
     public void draw(Graphics g2) {
@@ -55,13 +54,14 @@ public abstract class Supermap implements ActionListener{
     abstract public void update();
     abstract public void setDefaultObjects();
 
-    public void setDefaultSpawnEntity() {
+    public void setDefaultSpawnEntityAndObjects() {
         for(int i=0;i<gp.monster.size();i++){
             if (gp.monster.get(i) instanceof Monster){
                 ((Monster)gp.monster.get(i)).stopMonsterThread();
             }
         }
         gp.monster.clear();
+        gp.objects.clear();
         
     }
 
