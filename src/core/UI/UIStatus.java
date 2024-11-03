@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.Font;
 import java.awt.Color;
+
 public class UIStatus {
     GamePanel gp;
     Graphics2D g2;
@@ -90,5 +91,6 @@ public class UIStatus {
         int y = gp.screenHeight / 2;
         g2.drawString(alertText, x, y);
     }
+
 
 }

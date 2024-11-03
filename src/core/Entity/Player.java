@@ -8,6 +8,7 @@ import java.awt.image.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import core.MAP.MAP1.*;
 
 public class Player extends Entity {
 
@@ -170,22 +171,29 @@ public class Player extends Entity {
             return;
         }
 
-        if (getEntityCoords().get("x") >= 910
-                && getEntityCoords().get("y") >= 340
-                && getEntityCoords().get("y") <= 450
-                && getStateMap()[0] == 0 && getStateMap()[1] == 0) {
-            setMap(0, 1);
-            worldX = gp.titleSize * 3;
-            worldY = gp.titleSize * 5;
-        }
-
-        if (getEntityCoords().get("x") >= 864
-                && getEntityCoords().get("y") >= 250
-                && getEntityCoords().get("y") <= 508
-                && getStateMap()[0] == 0 && getStateMap()[1] == 1) {
-            setMap(0, 0);
-            worldX = gp.titleSize * 3;
-            worldY = gp.titleSize * 5;
+        if (getStateMap()[0] == gp.currentParentMap){
+            if (getStateMap()[1] == 0) {
+                if (getEntityCoords().get("x") >= 910
+                        && getEntityCoords().get("y") >= 340
+                        && getEntityCoords().get("y") <= 450) {
+                        gp.map.timerMap.stop();
+                        setMap(gp.currentParentMap, 1);
+                        gp.map = new M1_ST2(gp);
+                        worldX = gp.titleSize * 3;
+                        worldY = gp.titleSize * 5;
+                }
+            } 
+            else if (getStateMap()[1] == 1) {
+                if (getEntityCoords().get("x") >= 857
+                        && getEntityCoords().get("y") >= 255
+                        && getEntityCoords().get("y") <= 510) {
+                        gp.map.timerMap.stop();
+                        setMap(gp.currentParentMap, 0);
+                        gp.map = new M1_ST1(gp);
+                        worldX = gp.titleSize * 3;
+                        worldY = gp.titleSize * 5;
+                }
+            }
         }
     }
 

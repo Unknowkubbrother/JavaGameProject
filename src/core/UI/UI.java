@@ -5,20 +5,25 @@ import core.GamePanel;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import java.awt.Graphics2D;
-import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseEvent;
+import core.MAP.MAP1.*;
 
-public class UI {
+public class UI  implements MouseListener{
     Graphics2D g2;
+    Image bg = new ImageIcon(getClass().getResource("/resources/bg.png")).getImage();
     Image bgMenu = new ImageIcon(getClass().getResource("/resources/BgMenuStart.png")).getImage();
-    JPanel uiPanel = new JPanel();
+    Image buttonStart = new ImageIcon(getClass().getResource("/resources/ButtonStart.png")).getImage();
+    Image buttonExit = new ImageIcon(getClass().getResource("/resources/ButtonExit.png")).getImage();
     public int commandNum = 0;
 
     GamePanel gp;
 
     public UI(GamePanel gp) {
         this.gp = gp;
+        gp.addMouseListener(this);
     }
 
     public void draw(Graphics2D g2) {
@@ -34,6 +39,11 @@ public class UI {
 
         if (gp.gameState == gp.gameOverState) {
             gameOver();
+        }
+
+
+        if (gp.gameState == gp.selectMapState) {
+            selectMap();
         }
     }
 
@@ -57,32 +67,29 @@ public class UI {
 
     public void menuStartGame() {
         g2.drawImage(bgMenu, 0, 0, gp.screenWidth, gp.screenHeight, null);
+        g2.drawImage(buttonStart, gp.screenWidth / 2 - 100, gp.screenHeight - gp.titleSize*3, gp.titleSize*3, gp.titleSize, null);
+        g2.drawImage(buttonExit, gp.screenWidth / 2 - 100, gp.screenHeight - gp.titleSize*2, gp.titleSize*3, gp.titleSize, null);
+    }
 
-        g2.setFont(new Font("Arial", Font.BOLD, 30));
-        String text = "New Game";
-        int x = getXforCenteredText(text);
-        int y = gp.titleSize * 9;
+    public void selectMap(){
+        g2.drawImage(bg, 0, 0, gp.screenWidth, gp.screenHeight, null);
+        g2.setFont(new Font("Arial", Font.BOLD, 20));
         g2.setColor(Color.WHITE);
-        g2.drawString(text, x, y);
-        if (commandNum == 0) {
-            g2.drawString(">", x - 30, y);
-        }
-
-        text = "Settings";
-        x = getXforCenteredText(text);
-        y += gp.titleSize;
-        g2.drawString(text, x, y);
-        if (commandNum == 1) {
-            g2.drawString(">", x - 30, y);
-        }
-
-        text = "Exit";
-        x = getXforCenteredText(text);
-        y += gp.titleSize;
-        g2.drawString(text, x, y);
-        if (commandNum == 2) {
-            g2.drawString(">", x - 30, y);
-        }
+        g2.fillRoundRect(gp.titleSize*3, gp.titleSize*3 , 100, 100, 10, 10);
+        g2.setColor(Color.BLACK);
+        String text = "MAP 1";
+        int textWidth = g2.getFontMetrics().stringWidth(text);
+        int textX = gp.titleSize*3 + (100 - textWidth) / 2;
+        int textY = gp.titleSize*3 + (100 + g2.getFontMetrics().getAscent()) / 2;
+        g2.drawString(text, textX, textY);
+        g2.setColor(Color.WHITE);
+        g2.fillRoundRect(gp.titleSize*4 + 100, gp.titleSize*3 , 100, 100, 10, 10);
+        g2.setColor(Color.BLACK);
+        text = "MAP 2";
+        textWidth = g2.getFontMetrics().stringWidth(text);
+        textX = gp.titleSize*4 + 100 + (100 - textWidth) / 2;
+        textY = gp.titleSize*3 + (100 + g2.getFontMetrics().getAscent()) / 2;
+        g2.drawString(text, textX, textY);
     }
 
 
@@ -91,4 +98,53 @@ public class UI {
         int x =  gp.screenWidth / 2 - length / 2;
         return x;
     }
+
+
+     // MouseListener
+     @Override
+     public void mouseClicked(MouseEvent e) {
+         if (gp.gameState == gp.menuState) {
+                if (e.getX() > gp.screenWidth / 2 - 100 && e.getX() < gp.screenWidth / 2 - 100 + gp.titleSize*3) {
+                    if (e.getY() > gp.screenHeight - gp.titleSize*3 && e.getY() < gp.screenHeight - gp.titleSize*2) {
+                        gp.gameState = gp.selectMapState;
+                    } else if (e.getY() > gp.screenHeight - gp.titleSize*2 && e.getY() < gp.screenHeight - gp.titleSize) {
+                        System.exit(0);
+                    }
+                }
+         }else if (gp.gameState == gp.selectMapState) {
+             if (e.getX() > gp.titleSize*3 && e.getX() < gp.titleSize*3 + 100) {
+                 if (e.getY() > gp.titleSize*3 && e.getY() < gp.titleSize*3 + 100) {
+                     gp.currentParentMap = 0;
+                     gp.map = new M1_ST1(gp);
+                     gp.player.setMap(gp.currentParentMap, 0);
+                     gp.gameState = gp.playerState;
+                 }
+             }else if (e.getX() > gp.titleSize*4 + 100 && e.getX() < gp.titleSize*4 + 200) {
+                 if (e.getY() > gp.titleSize*3 && e.getY() < gp.titleSize*3 + 100) {
+                    gp.currentParentMap = 1;
+                     gp.gameState = gp.playerState;
+                 }
+             }
+         }
+ 
+     }
+ 
+     @Override
+     public void mousePressed(MouseEvent e) {
+ 
+     }
+ 
+     @Override
+     public void mouseReleased(MouseEvent e) {
+ 
+     }
+ 
+     @Override
+     public void mouseEntered(MouseEvent e) {
+ 
+     }
+ 
+     @Override
+     public void mouseExited(MouseEvent e) {
+     }
 }

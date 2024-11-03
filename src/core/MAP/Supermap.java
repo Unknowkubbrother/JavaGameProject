@@ -15,6 +15,8 @@ public abstract class Supermap implements ActionListener{
     public int MapContenet[][];
     public Timer timerMap;
     public int currentTimeMap = 0;
+    public int parentMap;
+    public int childMap;
 
     public Supermap (GamePanel gp) { 
         this.gp = gp;
@@ -47,11 +49,11 @@ public abstract class Supermap implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         currentTimeMap++;
         update();
-        System.out.println("currentTimeMap: "+currentTimeMap);
     }
 
 
     abstract public void update();
+    abstract public void setDefaultObjects();
 
     public void setDefaultSpawnEntity() {
         for(int i=0;i<gp.monster.size();i++){

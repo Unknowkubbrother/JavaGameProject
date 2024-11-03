@@ -5,8 +5,8 @@ import core.Entity.BringerOfDeath;
 import core.Entity.Mushroom;
 import core.MAP.Supermap;
 
-public class STAGE_1 extends Supermap{
-    public STAGE_1 (GamePanel gp) { 
+public class M1_ST2 extends Supermap{
+    public M1_ST2 (GamePanel gp) { 
         super(gp);
 
         MapContenet = new int[][]{
@@ -26,6 +26,16 @@ public class STAGE_1 extends Supermap{
             {0,5,4,4,4,4,4,4,4,4,4,4,5,1,1,1,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
         };
+
+        parentMap = 0;
+        childMap = 1;
+        setDefaultObjects();
+    }
+
+    @Override
+    public void setDefaultObjects() {
+        gp.objects.clear();
+        gp.aSetterObject.setSpawnObjects(3,gp.titleSize * 7,gp.titleSize * 7,childMap,64,64);
     }
     
     @Override

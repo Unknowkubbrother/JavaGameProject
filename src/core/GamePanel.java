@@ -6,8 +6,6 @@ import javax.swing.JPanel;
 import core.Entity.Entity;
 import core.Entity.Player;
 import core.MAP.*;
-import core.MAP.MAP1.LOBBY;
-import core.MAP.MAP1.STAGE_1;
 import core.UI.UI;
 import core.UI.UIStatus;
 
@@ -53,6 +51,10 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     public final int playerState = 1;
     public final int pauseState = 2;
     public final int gameOverState = 3;
+    public final int selectMapState = 4;
+
+    // CURRENT PARENT MAP
+    public int currentParentMap;
 
     // COLLISION
     public CollisionChecker cChecker = new CollisionChecker(this);
@@ -64,7 +66,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     public ArrayList<Entity> npc = new ArrayList<Entity>();
 
     // MAP
-    Supermap map;
+    public Supermap map;
 
     // OBJECTS
     public ArrayList<Objects> objects = new ArrayList<>();
@@ -96,7 +98,6 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     }
 
     @Override
-
     public void run() {
 
         double drawInterval = 1000000000 / FPS; // 0.0166666666666667 seconds
@@ -146,7 +147,6 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     }
 
     public void setupGame() {
-        aSetterObject.setDefaultObjects();
         gameState = menuState;
     }
 
@@ -165,24 +165,9 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
             // Update player
             player.update();
 
-            // // Update Map
-            if (player.getStateMap()[0] == 0 &&
-                    player.getStateMap()[1] == 0 &&
-                    !(map instanceof LOBBY)) {
+            // Update map
+            player.checkPlayerStateMap();
 
-                System.out.println("Change map to LOBBY");
-                map.timerMap.stop();
-                map = new LOBBY(this);
-            } else if (player.getStateMap()[0] == 0 &&
-                    player.getStateMap()[1] == 1 &&
-                    !(map instanceof STAGE_1)) {
-                System.out.println("Change map to STAGE_1");
-                map.timerMap.stop();
-                map = new STAGE_1(this);
-
-            }
-
-            
         }
         if (gameState == pauseState || gameState == gameOverState) {
             // pause.update();
@@ -202,7 +187,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
 
         Graphics2D g2 = (Graphics2D) g;
 
-        if (gameState == menuState) {
+        if (gameState == menuState || gameState == selectMapState) {
             ui.draw(g2);
         } else {
 

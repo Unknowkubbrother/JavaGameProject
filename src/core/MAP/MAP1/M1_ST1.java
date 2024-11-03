@@ -6,9 +6,9 @@ import core.Entity.FringEye;
 import core.Entity.Mushroom;
 import core.MAP.Supermap;
 
-public class LOBBY extends Supermap{
+public class M1_ST1 extends Supermap{
 
-    public LOBBY (GamePanel gp) { 
+    public M1_ST1 (GamePanel gp) { 
         super(gp);
         
         MapContenet = new int[][]{
@@ -27,6 +27,20 @@ public class LOBBY extends Supermap{
             {0,7,7,7,7,8,7,7,7,7,7,7,11,12,11,12,11,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
         };
+
+        parentMap = 0;
+        childMap = 0;
+        setDefaultObjects();
+    }
+
+    @Override
+    public void setDefaultObjects() {
+        gp.objects.clear();
+        gp.aSetterObject.setSpawnObjects(0,gp.titleSize * 2,gp.titleSize * 6,childMap,192,192);
+        gp.aSetterObject.setSpawnObjects(1,gp.titleSize * 5,gp.titleSize * 2,childMap,90,192);
+        gp.aSetterObject.setSpawnObjects(2,gp.titleSize * 13,gp.titleSize * 8,childMap,90,192);
+        gp.aSetterObject.setSpawnObjects(2,gp.titleSize * 13,gp.titleSize * 3,childMap,90,192);
+        gp.aSetterObject.setSpawnObjects(3,gp.titleSize * 2,gp.titleSize * 2,childMap,64,64);
     }
 
     @Override
@@ -41,8 +55,7 @@ public class LOBBY extends Supermap{
                 4,
                 738,
                 364,
-                0,
-                0,
+                childMap,
                 40,
                 40
             );
