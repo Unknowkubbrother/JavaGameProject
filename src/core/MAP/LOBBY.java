@@ -1,6 +1,7 @@
 package core.MAP;
 
 import core.GamePanel;
+import core.Entity.FringEye;
 import core.Entity.Mushroom;
 
 public class LOBBY extends Supermap{
@@ -29,9 +30,9 @@ public class LOBBY extends Supermap{
     @Override
     public void update() {
         if (currentTimeMap == 5){
-            for(int i=1;i<=3;i++){
-                gp.monster.add(new Mushroom(gp, (currentTimeMap*i)%14, (currentTimeMap*i)%10));
-            }
+            // for(int i=1;i<=3;i++){
+                gp.monster.add(new FringEye(gp, 7, 7));
+            // }
             gp.aSetterObject.setSpawnObjects(
                 4,
                 738,
