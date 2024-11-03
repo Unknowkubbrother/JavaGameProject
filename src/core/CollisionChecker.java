@@ -76,51 +76,29 @@ public class CollisionChecker {
                 switch (entity.direction) {
                     case "up":
                         entity.solidArea.y = entity.solidArea.y - entity.speed;
-                        if (entity.solidArea.intersects(gp.objects.get(i).getSolidArea())) {
-                            if (gp.objects.get(i).isCollision()) {
-                                entity.collisionOn = true;
-                            }
-                            if (player) {
-                                index = i;
-                            }
-                        }
                         break;
                     case "down":
                         entity.solidArea.y = entity.solidArea.y + entity.speed;
-                        if (entity.solidArea.intersects(gp.objects.get(i).getSolidArea())) {
-                            if (gp.objects.get(i).isCollision()) {
-                                entity.collisionOn = true;
-                            }
-                            if (player) {
-                                index = i;
-                            }
-                        }
                         break;
                     case "left":
                         entity.solidArea.x = entity.solidArea.x - entity.speed;
-                        if (entity.solidArea.intersects(gp.objects.get(i).getSolidArea())) {
-                            if (gp.objects.get(i).isCollision()) {
-                                entity.collisionOn = true;
-                            }
-                            if (player) {
-                                index = i;
-                            }
-                        }
                         break;
                     case "right":
                         entity.solidArea.x = entity.solidArea.x + entity.speed;
-                        if (entity.solidArea.intersects(gp.objects.get(i).getSolidArea())) {
-                            if (gp.objects.get(i).isCollision()) {
-                                entity.collisionOn = true;
-                            }
-                            if (player) {
-                                index = i;
-                            }
-                        }
                         break;
                     default:
                         break;
                 }
+
+                if (entity.solidArea.intersects(gp.objects.get(i).getSolidArea())) {
+                    if (gp.objects.get(i).isCollision()) {
+                        entity.collisionOn = true;
+                    }
+                    if (player) {
+                        index = i;
+                    }
+                }
+
                 entity.solidArea.x = entity.solidAreaDefaultX;
                 entity.solidArea.y = entity.solidAreaDefaultY;
                 gp.objects.get(i).getSolidArea().x = gp.objects.get(i).getSolidAreaDefaultX();
@@ -146,35 +124,27 @@ public class CollisionChecker {
                 switch (entity.direction) {
                     case "up":
                         entity.solidArea.y = entity.solidArea.y - entity.speed;
-                        if (entity.solidArea.intersects(target.get(i).solidArea)) {
-                            entity.collisionOn = true;
-                            index = i;
-                        }
                         break;
                     case "down":
                         entity.solidArea.y = entity.solidArea.y + entity.speed;
-                        if (entity.solidArea.intersects(target.get(i).solidArea)) {
-                            entity.collisionOn = true;
-                            index = i;
-                        }
                         break;
                     case "left":
                         entity.solidArea.x = entity.solidArea.x - entity.speed;
-                        if (entity.solidArea.intersects(target.get(i).solidArea)) {
-                            entity.collisionOn = true;
-                            index = i;
-                        }
                         break;
                     case "right":
                         entity.solidArea.x = entity.solidArea.x + entity.speed;
-                        if (entity.solidArea.intersects(target.get(i).solidArea)) {
-                            entity.collisionOn = true;
-                            index = i;
-                        }
                         break;
                     default:
                         break;
                 }
+
+                if (entity.solidArea.intersects(target.get(i).solidArea)) {
+                    if (target.get(i) != entity) {
+                        entity.collisionOn = true;
+                        index = i;
+                    }
+                }
+
                 entity.solidArea.x = entity.solidAreaDefaultX;
                 entity.solidArea.y = entity.solidAreaDefaultY;
                 target.get(i).solidArea.x = target.get(i).solidAreaDefaultX;
@@ -184,7 +154,42 @@ public class CollisionChecker {
         return index;
     }
 
-    public boolean checkPlayer(Entity entity){
+    public ArrayList<Integer> checkPlayerAttackMonster(Entity entity, ArrayList<Entity> target) {
+        ArrayList<Integer> monsterHit = new ArrayList<>();
+    
+        for (int i = 0; i < target.size(); i++) {
+            Entity monster = target.get(i);
+            if (monster != null) {
+                // เก็บค่าตำแหน่งเดิมไว้
+                int originalAttackX = entity.attackArea.x;
+                int originalAttackY = entity.attackArea.y;
+                int originalSolidX = monster.solidArea.x;
+                int originalSolidY = monster.solidArea.y;
+    
+                // คำนวณตำแหน่งใหม่
+                entity.attackArea.x += entity.worldX;
+                entity.attackArea.y += entity.worldY;
+                monster.solidArea.x += monster.worldX;
+                monster.solidArea.y += monster.worldY;
+    
+                // ตรวจสอบการชนกัน
+                if (entity.attackArea.intersects(monster.solidArea)) {
+                    if (monster != entity) {
+                        monsterHit.add(i);
+                    }
+                }
+    
+                // คืนค่าตำแหน่งเดิม
+                entity.attackArea.x = originalAttackX;
+                entity.attackArea.y = originalAttackY;
+                monster.solidArea.x = originalSolidX;
+                monster.solidArea.y = originalSolidY;
+            }
+        }
+        return monsterHit;
+    }
+    
+    public boolean checkPlayer(Entity entity) {
         boolean collision = false;
         entity.solidArea.x = entity.worldX + entity.solidArea.x;
         entity.solidArea.y = entity.worldY + entity.solidArea.y;

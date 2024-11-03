@@ -58,6 +58,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     // ENTITIES
     public Player player = new Player(this, keyH);
     public UIStatus UiStatus  = new UIStatus(this);
+    public ArrayList<Entity> monster = new ArrayList<Entity>();
     public ArrayList<Entity> npc = new ArrayList<Entity>();
 
     // MAP
@@ -204,6 +205,13 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
             player.draw(g2);
 
             // Draw monster
+            for (int i = 0; i < monster.size(); i++) {
+                if (i < monster.size()) {
+                    monster.get(i).draw(g2);
+                }
+            }
+
+            // Draw NPC
             for (int i = 0; i < npc.size(); i++) {
                 if (i < npc.size()) {
                     npc.get(i).draw(g2);

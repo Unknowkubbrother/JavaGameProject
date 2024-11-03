@@ -31,6 +31,7 @@ public abstract class Entity {
     private int imageWidth;
     private int imageHeight;
     public Rectangle solidArea;
+    public Rectangle attackArea = new Rectangle(0,0,0,0);
     public int solidAreaDefaultX , solidAreaDefaultY;
     public boolean collisionOn = false;
     public int actionLockCounter = 0;
@@ -173,23 +174,5 @@ public abstract class Entity {
             g2.drawImage(image, screenX, screenY, gp.titleSize, gp.titleSize, null);
         }
     }
-
-    // public void startEntityThread() {
-    //     ThreadDelay = 16;
-    //     EntityThread = new Thread(this);
-    //     EntityThread.start();
-    // }
-
-    // @Override
-    // public void run() {
-    //     while (EntityThread != null) {
-    //         update();
-    //         try {
-    //             Thread.sleep(ThreadDelay); // Approximately 60 FPS
-    //         } catch (InterruptedException e) {
-    //             e.printStackTrace();
-    //         }
-    //     }
-    // }
     
 }

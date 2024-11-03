@@ -29,7 +29,7 @@ public class STAGE_1 extends Supermap{
     @Override
     public void update() {
          if (currentTimeMap == 7){
-            gp.npc.add(new Mushroom(gp, 7, 7));
+            gp.monster.add(new Mushroom(gp, 7, 7));
         }
         
     }

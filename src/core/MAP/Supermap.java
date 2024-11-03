@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.Timer;
+
+import core.Entity.Monster;
 import core.Entity.Mushroom;
 
 public abstract class Supermap implements ActionListener{
@@ -19,7 +21,7 @@ public abstract class Supermap implements ActionListener{
         this.gp = gp;
         timerMap = new Timer(1000, this);
         timerMap.start();
-        setDefaultSpawnMonster();
+        setDefaultSpawnEntity();
     }
     
     public void draw(Graphics g2) {
@@ -45,20 +47,19 @@ public abstract class Supermap implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         currentTimeMap++;
-        System.out.println(currentTimeMap);
         update();
     }
 
 
     abstract public void update();
 
-    public void setDefaultSpawnMonster() {
-        for(int i=0;i<gp.npc.size();i++){
-            if (gp.npc.get(i) instanceof Mushroom){
-                ((Mushroom)gp.npc.get(i)).stopEntityThread();
+    public void setDefaultSpawnEntity() {
+        for(int i=0;i<gp.monster.size();i++){
+            if (gp.monster.get(i) instanceof Monster){
+                ((Monster)gp.monster.get(i)).stopMonsterThread();
             }
         }
-        gp.npc.clear();
+        gp.monster.clear();
         
     }
 

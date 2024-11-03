@@ -168,10 +168,10 @@ public class Player extends Entity {
         if (index != -1) {
             if (gp.objects.get(index).getObjectId() == 3 && gp.objects.get(index).getMapId() == getStateMap()
                     && gp.objects.get(index).isShow()) {
-                    gp.objects.get(index).setShow(false);
-                    gp.objects.remove(index);
-                    speed += 10;
-                    System.out.println("You picked up a chest! on map: " + getStateMap());
+                gp.objects.get(index).setShow(false);
+                gp.objects.remove(index);
+                speed += 10;
+                System.out.println("You picked up a chest! on map: " + getStateMap());
             }
         }
 
@@ -230,6 +230,11 @@ public class Player extends Entity {
         solidAreaDefaultY = solidArea.y;
         this.solidArea.width = 51;
         this.solidArea.height = 64;
+
+        attackArea.width = 51;
+        attackArea.height = 64;
+        attackArea.x = 102;
+        attackArea.y = 65;
     }
 
     @Override
@@ -297,16 +302,72 @@ public class Player extends Entity {
             }
         }
 
-
     }
 
     public void ActionAttack() {
         spriteCounter++;
         if (spriteCounter > 2) {
             spriteCounter = 0;
+            if (spriteNum == 3) {
+                int OriginalX = attackArea.x;
+                int OriginalY = attackArea.y;
+
+                if (lastDirection != null) {
+                    switch (lastDirection) {
+                        case "up":
+                            attackArea.y -= attackArea.height;
+                            break;
+                        case "down":
+                            attackArea.y += attackArea.height;
+                            break;
+                        case "left":
+                            attackArea.x -= attackArea.width;
+                            break;
+                        case "right":
+                            attackArea.x += attackArea.width;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+                ArrayList<Integer> monsterHit = gp.cChecker.checkPlayerAttackMonster(this, gp.monster);
+                damageMonster(monsterHit);
+
+                attackArea.x = OriginalX;
+                attackArea.y = OriginalY;
+            }
+
             spriteNum++;
         }
+    }
 
+    public void damageMonster(ArrayList<Integer> monsterIdx) {
+        if (monsterIdx.size() == 0) {
+            System.out.println("No monster hit");
+            return;
+        }
+        for (int i = 0; i < monsterIdx.size(); i++) {
+            int idx = monsterIdx.get(i);
+            if (idx >= 0 && idx < gp.monster.size()) {
+                Monster monster = (Monster) gp.monster.get(idx);
+
+                if (getCurrentElement() == 1) {
+                    monster.setHealth(monster.getHealth() - 10);
+                } else if (getCurrentElement() == 2) {
+                    monster.setHealth(monster.getHealth() - 20);
+                } else if (getCurrentElement() == 3) {
+                    monster.setHealth(monster.getHealth() - 30);
+                }
+
+                if (monster.isDead()) {
+                    monster.stopMonsterThread();
+                    gp.monster.remove(idx);
+                }
+            
+                System.out.println("Monster health: " + monster.getHealth());
+            }
+        }
     }
 
     @Override
@@ -338,6 +399,9 @@ public class Player extends Entity {
         // CHECK NPC COLLISION
         int npcIdx = gp.cChecker.checkEntity(this, gp.npc);
         InteractNpc(npcIdx);
+
+        // Check collision with monster
+        gp.cChecker.checkEntity(this, gp.monster);
 
         if (keyH.up) {
             direction = "up";
@@ -387,7 +451,7 @@ public class Player extends Entity {
                     direction = "attack_fire";
                 } else if (getCurrentElement() == 2) {
                     direction = "attack_water";
-                }else if (getCurrentElement() == 3) {
+                } else if (getCurrentElement() == 3) {
                     direction = "attack_wind";
                 }
                 isMoving = false;
@@ -438,18 +502,24 @@ public class Player extends Entity {
                 if (spriteNum >= attack_fire.size()) {
                     spriteNum = 0;
                     setAttacking(false);
+                    attackArea.x = solidArea.x;
+                    attackArea.y = solidArea.y;
                 }
                 break;
             case "attack_water":
                 if (spriteNum >= attack_water.size()) {
                     spriteNum = 0;
                     setAttacking(false);
+                    attackArea.x = solidArea.x;
+                    attackArea.y = solidArea.y;
                 }
                 break;
             case "attack_wind":
                 if (spriteNum >= attack_wind.size()) {
                     spriteNum = 0;
                     setAttacking(false);
+                    attackArea.x = solidArea.x;
+                    attackArea.y = solidArea.y;
                 }
                 break;
             default:
@@ -502,6 +572,8 @@ public class Player extends Entity {
 
         g2.drawImage(image, screenX + offsetX, screenY, getImageWidth() + offsetWidth, getImageHeight(), null);
         g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+        // g2.setColor(Color.RED);
+        // g2.drawRect(screenX + attackArea.x, screenY + attackArea.y, attackArea.width, attackArea.height);
 
     }
 

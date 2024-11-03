@@ -6,23 +6,18 @@ import core.GamePanel;
 import java.util.Random;
 import java.awt.Graphics;
 
-public class Mushroom extends Entity implements Runnable {
-
-    // Thread
-    protected Thread EntityThread;
-    protected int ThreadDelay;
+public class Mushroom extends Monster{
 
     private ArrayList<BufferedImage> idle = new ArrayList<>();
     private ArrayList<BufferedImage> attack = new ArrayList<>();
 
-    int countState = 0;
 
     public Mushroom(GamePanel gp, int x, int y) {
         super(gp);
-
+        
         setDefaultValues(x, y);
         loadAnimation();
-        startEntityThread();
+        startMonsterThread();
     }
 
     public void setDefaultValues(int x, int y) {
@@ -61,6 +56,7 @@ public class Mushroom extends Entity implements Runnable {
 
     }
 
+    @Override
     public void setAction() {
 
         actionLockCounter++;
@@ -114,20 +110,21 @@ public class Mushroom extends Entity implements Runnable {
 
     private int countHit = 0;
 
+    @Override
     public void AttacktoPlayer() {
         countHit++;
-        if (countHit > 12) {
-            gp.player.playerAttacked(12);
+        if (countHit > 30) {
+            gp.player.playerAttacked(attackDamage);
             countHit = 0;
             if (worldX > gp.player.worldX) {
-                gp.player.worldX -= 10;
+                gp.player.worldX -= rebound;
             } else {
-                gp.player.worldX += 10;
+                gp.player.worldX += rebound;
             }
             if (worldY > gp.player.worldY) {
-                gp.player.worldY -= 10;
+                gp.player.worldY -= rebound;
             } else {
-                gp.player.worldY += 10;
+                gp.player.worldY += rebound;
             }
             direction = "idle";
         }
@@ -247,28 +244,6 @@ public class Mushroom extends Entity implements Runnable {
             g2.drawImage(image, screenX + offsetX, screenY, getImageWidth() + offsetWidth, getImageHeight(), null);
             // g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width,
             // solidArea.height);
-        }
-    }
-
-    public void stopEntityThread() {
-        EntityThread = null;
-    }
-
-    public void startEntityThread() {
-        ThreadDelay = 16;
-        EntityThread = new Thread(this);
-        EntityThread.start();
-    }
-
-    @Override
-    public void run() {
-        while (EntityThread != null) {
-            update();
-            try {
-                Thread.sleep(ThreadDelay); // Approximately 60 FPS
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
     }
 }
