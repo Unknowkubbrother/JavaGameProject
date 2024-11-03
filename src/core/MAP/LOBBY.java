@@ -32,7 +32,7 @@ public class LOBBY extends Supermap{
     public void update() {
         if (currentTimeMap == 5){
             // for(int i=1;i<=3;i++){
-                gp.monster.add(new BringerOfDeath(gp, 7, 7));
+                // gp.monster.add(new BringerOfDeath(gp, 7, 7));
                 gp.monster.add(new FringEye(gp, 5, 5));
             // }
             gp.aSetterObject.setSpawnObjects(

@@ -52,6 +52,10 @@ public abstract class Monster extends Entity implements Runnable{
         spriteNum = 0;
         spriteCounter = 0;
         setHealth(getHealth() - attackDamage);
+
+        if (isDead()) {
+            stopMonsterThread();
+        }
     }
 
     abstract public void setDefaultValues(int x, int y);

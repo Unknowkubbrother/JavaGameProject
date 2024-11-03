@@ -171,8 +171,6 @@ public class BringerOfDeath extends Monster {
             isMoving = false;
         }
 
-        System.out.println(direction);
-
         spriteCounter++;
         if (spriteCounter > 8) {
             spriteCounter = 0;

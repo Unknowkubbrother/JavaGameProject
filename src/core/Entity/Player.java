@@ -386,12 +386,12 @@ public class Player extends Entity {
                 if (monster.element == getCurrentElement()) {
                     monster.AttackedByPlayer(ElementEnums.getDamageElementId(getCurrentElement()));
                 } else{
-                    gp.UiStatus.alertText = "Element not match!";
+                    gp.UiStatus.alertText = "Element not match and Attack power is One!";
+                    monster.AttackedByPlayer(1);
                     gp.UiStatus.cooldownAlert = 500/16;
                 }
 
                 if (monster.isDead()) {
-                    monster.stopMonsterThread();
                     gp.monster.remove(idx);
                 }
 
