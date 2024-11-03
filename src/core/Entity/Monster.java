@@ -10,8 +10,9 @@ public abstract class Monster extends Entity implements Runnable{
     protected int ThreadDelay;
 
     protected int health = 100;
-    protected int attackDamage = 10;
-    protected int rebound = 10;
+    protected int attackDamage;
+    protected int rebound;
+    protected int element;
 
     public Monster(GamePanel gp){
         super(gp);

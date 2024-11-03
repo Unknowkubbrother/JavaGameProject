@@ -202,7 +202,7 @@ public class Player extends Entity {
                 System.out.println("You picked up a chest! on map: " + getStateMap());
                 gp.objects.get(index).setShow(false);
                 gp.objects.remove(index);
-            }else if (gp.objects.get(index).getObjectId() == 4) {
+            } else if (gp.objects.get(index).getObjectId() == 4) {
                 setMana(getMana() + 50);
                 System.out.println("You picked up a mana! on map: " + getStateMap());
                 gp.objects.get(index).setShow(false);
@@ -388,7 +388,12 @@ public class Player extends Entity {
             if (idx >= 0 && idx < gp.monster.size()) {
                 Monster monster = (Monster) gp.monster.get(idx);
 
-                monster.AttackedByPlayer(ElementEnums.getDamageElementId(getCurrentElement()));
+                if (monster.element == getCurrentElement()) {
+                    monster.AttackedByPlayer(ElementEnums.getDamageElementId(getCurrentElement()));
+                } else{
+                    gp.UiStatus.alertText = "Element not match!";
+                    gp.UiStatus.cooldownAlert = 500/16;
+                }
 
                 if (monster.isDead()) {
                     monster.stopMonsterThread();

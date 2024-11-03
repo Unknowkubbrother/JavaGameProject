@@ -31,6 +31,8 @@ public class Mushroom extends Monster{
         this.solidAreaDefaultX = (getImageWidth() - this.solidArea.width) / 2;
         this.solidAreaDefaultY = (getImageHeight() - this.solidArea.height + 30) / 2;
         attackDamage = 5;
+        rebound = 10;
+        element = 2;
     }
 
     @Override
