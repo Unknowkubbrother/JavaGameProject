@@ -22,7 +22,7 @@ public class FringEye extends Monster{
     }
 
     public void setDefaultValues(int x, int y) {
-        direction = "flight";
+        direction = "idle";
         speed = 1;
         worldX = gp.titleSize * x;
         worldY = gp.titleSize * y;
@@ -258,8 +258,8 @@ public class FringEye extends Monster{
             }
 
             g2.drawImage(image, screenX + offsetX, screenY, getImageWidth() + offsetWidth, getImageHeight(), null);
-            // g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width,
-            // solidArea.height);
+            g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width,
+            solidArea.height);
         }
     }
 }

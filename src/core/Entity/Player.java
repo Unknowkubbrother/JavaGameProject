@@ -74,7 +74,6 @@ public class Player extends Entity {
         private int health = 100;
         private int armor = 20;
         private int mana = 100;
-        private boolean isDead = false;
         private boolean isAttacking = false;
     }
 
@@ -87,7 +86,6 @@ public class Player extends Entity {
             health = 100;
         }
         if (health < 0) {
-            player_state.isDead = true;
             health = 0;
         }
         player_state.health = health;
@@ -134,12 +132,9 @@ public class Player extends Entity {
     }
 
     public boolean isDead() {
-        return player_state.isDead;
+        return player_state.health <= 0;
     }
 
-    public void setDead(boolean isDead) {
-        player_state.isDead = isDead;
-    }
 
     public boolean isAttacking() {
         return player_state.isAttacking;

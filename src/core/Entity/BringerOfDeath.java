@@ -6,16 +6,15 @@ import core.GamePanel;
 import java.util.Random;
 import java.awt.Graphics;
 
-public class Mushroom extends Monster{
+public class BringerOfDeath extends Monster {
 
     private ArrayList<BufferedImage> idle = new ArrayList<>();
     private ArrayList<BufferedImage> attack = new ArrayList<>();
     private ArrayList<BufferedImage> hit = new ArrayList<>();
 
-
-    public Mushroom(GamePanel gp, int x, int y) {
+    public BringerOfDeath(GamePanel gp, int x, int y) {
         super(gp);
-        
+
         setDefaultValues(x, y);
         loadAnimation();
         startMonsterThread();
@@ -26,41 +25,38 @@ public class Mushroom extends Monster{
         speed = 1;
         worldX = gp.titleSize * x;
         worldY = gp.titleSize * y;
-        setImageHeight(150 * 2);
-        setImageWidth(150 * 2);
-        this.solidAreaDefaultX = (getImageWidth() - this.solidArea.width) / 2;
-        this.solidAreaDefaultY = (getImageHeight() - this.solidArea.height + 30) / 2;
-        attackDamage = 5;
+        setImageHeight(93 * 2);
+        setImageWidth(140 * 2);
+        solidArea.width = 140;
+        solidArea.height = 93;
+        solidArea.x = (getImageWidth() - (solidArea.width * 2));
+        solidArea.y = (getImageHeight()) / 2;
+        this.solidAreaDefaultX = solidArea.x;
+        this.solidAreaDefaultY = solidArea.y;
+
+        attackDamage = 50;
         rebound = 10;
-        element = 2;
+        element = 1;
     }
 
     @Override
     protected void loadAnimation() {
-        BufferedImage spriteidle = loadSprite("Montser/Mushroom/Idle.png");
-        BufferedImage spriteRight = loadSprite("Montser/Mushroom/right.png");
-        BufferedImage spriteLeft = loadSprite("Montser/Mushroom/left.png");
-        BufferedImage spriteAttack = loadSprite("Montser/Mushroom/Attack.png");
-        BufferedImage spriteHit = loadSprite("Montser/Mushroom/Hit.png");
+        BufferedImage spriteAll = loadSprite("Montser/BringerofDeath/All.png");
+        // BufferedImage spriteLeft = loadSprite("Montser/BringerofDeath/left.png");
+        for (int j = 0; j < 8; j++) {
+            for (int i = 0; i < 8; i++) {
+                if (i == 0) {
+                    idle.add(spriteAll.getSubimage(j * 140, i * 93, 140, 93));
+                } else if (i == 1) {
+                    right.add(spriteAll.getSubimage(j * 140, i * 93, 140, 93));
+                    left.add(spriteAll.getSubimage(j * 140, i * 93, 140, 93));
+                } else if (i == 2) {
+                    attack.add(spriteAll.getSubimage(j * 140, i * 93, 140, 93));
+                } else if (i == 6) {
+                    hit.add(spriteAll.getSubimage(j * 140, i * 93, 140, 93));
+                }
 
-        for (int i = 0; i < 4; i++) {
-            idle.add(spriteidle.getSubimage(i * 150, 0, 150, 150));
-        }
-
-        for (int i = 0; i < 8; i++) {
-            right.add(spriteRight.getSubimage(i * 150, 0, 150, 150));
-        }
-
-        for (int i = 0; i < 8; i++) {
-            left.add(spriteLeft.getSubimage(i * 150, 0, 150, 150));
-        }
-
-        for (int i = 0; i < 8; i++) {
-            attack.add(spriteAttack.getSubimage(i * 150, 0, 150, 150));
-        }
-
-        for (int i = 0; i < 4; i++) {
-            hit.add(spriteHit.getSubimage(i * 150, 0, 150, 150));
+            }
         }
 
     }
@@ -85,18 +81,18 @@ public class Mushroom extends Monster{
         if (direction.equals("walk")) {
             int playerX = gp.player.worldX;
             int playerY = gp.player.worldY;
-        
+
             int diffX = playerX - worldX;
             int diffY = playerY - worldY;
-        
+
             double distance = Math.sqrt(diffX * diffX + diffY * diffY);
-        
+
             double directionX = diffX / distance;
             double directionY = diffY / distance;
-        
+
             worldX += directionX * speed;
             worldY += directionY * speed;
-        
+
             if (Math.abs(directionX) > Math.abs(directionY)) {
                 if (directionX > 0) {
                     direction = "right";
@@ -110,11 +106,11 @@ public class Mushroom extends Monster{
                     direction = "up";
                 }
             }
-        
+
             lastDirection = direction;
             isMoving = true;
         }
-        
+
     }
 
     private int countHit = 0;
@@ -174,6 +170,8 @@ public class Mushroom extends Monster{
         } else {
             isMoving = false;
         }
+
+        System.out.println(direction);
 
         spriteCounter++;
         if (spriteCounter > 8) {
@@ -248,18 +246,18 @@ public class Mushroom extends Monster{
                 image = right.get(spriteNum);
             } else if (direction.equals("down")) {
                 image = right.get(spriteNum);
-            }else if (direction.equals("hit")) {
+            } else if (direction.equals("hit")) {
                 image = hit.get(spriteNum);
             }
 
-            if (lastDirection != null && lastDirection == "left" && direction != "right" && direction != "left") {
-                offsetX = getImageWidth();
+            if (lastDirection != null && lastDirection == "left" && direction != "right") {
+                offsetX = getImageWidth()/2;
                 offsetWidth = (getImageWidth() * 2) * -1;
             }
 
             g2.drawImage(image, screenX + offsetX, screenY, getImageWidth() + offsetWidth, getImageHeight(), null);
             g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width,
-            solidArea.height);
+                    solidArea.height);
         }
     }
 }
