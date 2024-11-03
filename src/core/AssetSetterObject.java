@@ -67,8 +67,8 @@ public class AssetSetterObject {
 
     public void setSpawnObjects(int id, int x, int y, int mapId, int width , int height){
         Objects spawn = ObjectsEnum.values()[id].copy();
-        spawn.setWorldX(gp.titleSize * x);
-        spawn.setWorldY(gp.titleSize * y);
+        spawn.setWorldX(x + gp.titleSize);
+        spawn.setWorldY(y + gp.titleSize);
         spawn.setMapId(mapId);
         spawn.setShow(true);
         spawn.setObjectWidth(width);

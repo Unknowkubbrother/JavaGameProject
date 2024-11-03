@@ -90,4 +90,5 @@ public class UIStatus {
         int y = gp.screenHeight / 2;
         g2.drawString(alertText, x, y);
     }
+
 }

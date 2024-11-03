@@ -34,9 +34,9 @@ public class LOBBY extends Supermap{
             }
             gp.aSetterObject.setSpawnObjects(
                 4,
-                6,
-                6,
-                0,
+                738,
+                364,
+                1,
                 40,
                 40
             );
