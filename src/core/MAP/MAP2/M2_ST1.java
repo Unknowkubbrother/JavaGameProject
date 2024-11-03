@@ -26,6 +26,8 @@ public class M2_ST1 extends Supermap{
             {0,5,4,4,4,4,4,4,4,4,4,4,5,1,1,1,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
         };
+
+        gp.UiStatus.setAlert("Welcome to the second map", 1000);
     }
 
     @Override
