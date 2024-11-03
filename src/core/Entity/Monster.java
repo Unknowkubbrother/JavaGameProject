@@ -46,6 +46,13 @@ public abstract class Monster extends Entity implements Runnable{
         this.health = health;
     }
 
+    public void AttackedByPlayer (int attackDamage) {
+        direction = "hit";
+        spriteNum = 0;
+        spriteCounter = 0;
+        setHealth(getHealth() - attackDamage);
+    }
+
     abstract public void setDefaultValues(int x, int y);
     abstract protected void loadAnimation();
     abstract public void setAction();

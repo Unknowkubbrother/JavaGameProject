@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.Timer;
 
 import core.Entity.Monster;
-import core.Entity.Mushroom;
 
 public abstract class Supermap implements ActionListener{
 

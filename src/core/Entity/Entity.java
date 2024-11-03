@@ -71,7 +71,7 @@ public abstract class Entity {
         return position;
     }
 
-    protected static BufferedImage loadSprite(String path) {
+    public static BufferedImage loadSprite(String path) {
         try {
             return ImageIO.read(Entity.class.getResourceAsStream("/resources/texture/" + path));
         } catch (IOException e) {

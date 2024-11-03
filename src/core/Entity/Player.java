@@ -11,6 +11,19 @@ import java.util.Map;
 
 public class Player extends Entity {
 
+    static class Element {
+        public int damage;
+        public int manaCost;
+        BufferedImage image;
+
+        public Element(String path, int damage, int manaCost) {
+            this.image = loadSprite(path);
+            this.damage = damage;
+            this.manaCost = manaCost;
+        }
+        
+    }
+
     // Element Enums
     enum ElementEnums {
         PUNCH(0),
@@ -19,7 +32,7 @@ public class Player extends Entity {
         WIND(3);
 
         public final int elementId;
-        private static final Map<Integer, BufferedImage> dict = new HashMap<>();
+        private static final Map<Integer, Element> dict = new HashMap<>();
 
         private ElementEnums(int elementId) {
             this.elementId = elementId;
@@ -28,10 +41,10 @@ public class Player extends Entity {
         public static void loadElements() {
             long startTime = System.currentTimeMillis();
             System.err.println("Loading Element...");
-            dict.put(0, loadSprite("player/elements/punch.png"));
-            dict.put(1, loadSprite("player/elements/fire.png"));
-            dict.put(2, loadSprite("player/elements/water.png"));
-            dict.put(3, loadSprite("player/elements/wind.png"));
+            dict.put(0, new Element("player/elements/punch.png", 0, 0));
+            dict.put(1, new Element("player/elements/fire.png", 10, 5));
+            dict.put(2, new Element("player/elements/water.png", 20, 10));
+            dict.put(3, new Element("player/elements/wind.png", 30, 15));
             System.out.println("[Element]: Element loaded! (" + (System.currentTimeMillis() - startTime) + "ms)");
 
         }
@@ -41,10 +54,19 @@ public class Player extends Entity {
         }
 
         public static BufferedImage getImageElementId(int id) {
-            return dict.get(id);
+            return dict.get(id).image;
+        }
+
+        public static int getDamageElementId(int id) {
+            return dict.get(id).damage;
+        }
+
+        public static int getManaCostElementId(int id) {
+            return dict.get(id).manaCost;
         }
 
     }
+
 
     // Player State
     class PlayerState {
@@ -99,7 +121,17 @@ public class Player extends Entity {
     }
 
     public void setMana(int mana) {
+        if (mana > 100) {
+            mana = 100;
+        }
+        if (mana < 0) {
+            mana = 0;
+        }
         player_state.mana = mana;
+    }
+
+    public int getCurrentManaCost() {
+        return ElementEnums.getManaCostElementId(player_state.currentElement);
     }
 
     public boolean isDead() {
@@ -333,6 +365,7 @@ public class Player extends Entity {
 
                 ArrayList<Integer> monsterHit = gp.cChecker.checkPlayerAttackMonster(this, gp.monster);
                 damageMonster(monsterHit);
+                setMana(getMana() - getCurrentManaCost());
 
                 attackArea.x = OriginalX;
                 attackArea.y = OriginalY;
@@ -352,17 +385,7 @@ public class Player extends Entity {
             if (idx >= 0 && idx < gp.monster.size()) {
                 Monster monster = (Monster) gp.monster.get(idx);
 
-                monster.direction = "hit";
-                monster.spriteNum = 0;
-                monster.spriteCounter = 0;
-
-                if (getCurrentElement() == 1) {
-                    monster.setHealth(monster.getHealth() - 10);
-                } else if (getCurrentElement() == 2) {
-                    monster.setHealth(monster.getHealth() - 20);
-                } else if (getCurrentElement() == 3) {
-                    monster.setHealth(monster.getHealth() - 30);
-                }
+                monster.AttackedByPlayer(ElementEnums.getDamageElementId(getCurrentElement()));
 
                 if (monster.isDead()) {
                     monster.stopMonsterThread();
@@ -377,6 +400,12 @@ public class Player extends Entity {
     @Override
     public void setAction() {
 
+    }
+
+    public void restoreMana(){
+        if (getMana() < 100){
+            setMana(getMana() + 1);
+        }
     }
 
     @Override

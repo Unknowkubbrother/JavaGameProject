@@ -57,7 +57,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
 
     // ENTITIES
     public Player player = new Player(this, keyH);
-    public UIStatus UiStatus  = new UIStatus(this);
+    public UIStatus UiStatus = new UIStatus(this);
     public ArrayList<Entity> monster = new ArrayList<Entity>();
     public ArrayList<Entity> npc = new ArrayList<Entity>();
 
@@ -135,7 +135,12 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        currentGameTime++;
+        if (gameState == playerState) {
+            currentGameTime++;
+            if (currentGameTime % 5 == 0) {
+                player.restoreMana();
+            }
+        }
     }
 
     public void setupGame() {
@@ -174,7 +179,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
             timerGame.stop();
 
         }
-        
+
     }
 
     public void DrawFPS(Graphics g2) {
@@ -189,8 +194,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
 
         if (gameState == menuState) {
             ui.draw(g2);
-        }
-        else {
+        } else {
 
             // backgroundGame
             g2.drawImage(bgGame, 0, 0, screenWidth, screenHeight, null);
