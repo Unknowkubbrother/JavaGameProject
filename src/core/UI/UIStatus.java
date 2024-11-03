@@ -12,8 +12,8 @@ public class UIStatus {
     GamePanel gp;
     Graphics2D g2;
     private BufferedImage mana;
-    public int cooldownAlert = 0;
-    public String alertText = "";
+    private int cooldownAlert = 0;
+    private String alertText = "";
 
     public UIStatus(GamePanel gp) {
         this.gp = gp;
@@ -33,6 +33,11 @@ public class UIStatus {
             drawAlert();
             cooldownAlert--;
         }
+    }
+
+    public void setAlert(String text, int cooldown) {
+        alertText = text;
+        cooldownAlert = cooldown/16;
     }
 
     public void drawElement(){

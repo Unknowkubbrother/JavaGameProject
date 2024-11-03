@@ -46,6 +46,10 @@ public abstract class Supermap implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (gp.gameState != gp.playerState) {
+            return;
+        }
+        
         currentTimeMap++;
         update();
     }

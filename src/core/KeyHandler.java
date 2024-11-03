@@ -64,8 +64,7 @@ public class KeyHandler implements KeyListener{
         if (gp.gameState == gp.playerState){
             if (code == KeyEvent.VK_SPACE && !gp.player.isAttacking()){
                 if (gp.player.getMana() < gp.player.getCurrentManaCost()){
-                    gp.UiStatus.alertText = "Not enough mana";
-                    gp.UiStatus.cooldownAlert = 3000/16;
+                    gp.UiStatus.setAlert("Not enough mana", 1000);
                     return;
                 }
                 gp.player.setAttacking(true);

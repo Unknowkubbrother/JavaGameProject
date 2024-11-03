@@ -28,6 +28,8 @@ public class M1_ST1 extends Supermap{
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
         };
 
+        gp.UiStatus.setAlert("Welcome to the first map", 1000);
+
     }
 
     @Override
@@ -43,11 +45,8 @@ public class M1_ST1 extends Supermap{
     @Override
     public void update() {
         if (currentTimeMap == 5){
-            // for(int i=1;i<=3;i++){
-                // gp.monster.add(new BringerOfDeath(gp, 7, 7));
-                gp.monster.add(new FringEye(gp, 5, 5));
-                gp.monster.add(new Mushroom(gp, 5, 7));
-            // }
+            gp.monster.add(new FringEye(gp, 5, 5));
+            gp.monster.add(new Mushroom(gp, 5, 7));
             gp.aSetterObject.setSpawnObjects(
                 4,
                 738,
