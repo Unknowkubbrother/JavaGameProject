@@ -1,9 +1,10 @@
-package core.MAP;
+package core.MAP.MAP1;
 
 import core.GamePanel;
 // import core.Entity.BringerOfDeath;
 import core.Entity.FringEye;
 import core.Entity.Mushroom;
+import core.MAP.Supermap;
 
 public class LOBBY extends Supermap{
 
@@ -40,6 +41,7 @@ public class LOBBY extends Supermap{
                 4,
                 738,
                 364,
+                0,
                 0,
                 40,
                 40

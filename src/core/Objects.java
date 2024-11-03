@@ -57,7 +57,7 @@ public class Objects {
     private boolean collision;
     private int worldX;
     private int worldY;
-    private int mapId;
+    private int[] mapId;
     private boolean show;
     private Rectangle solidArea; 
     private int solidAreaDefaultX = 0;
@@ -70,7 +70,7 @@ public class Objects {
         this.collision = collision;
         this.worldX = 0;
         this.worldY = 0;
-        this.mapId = 0;
+        this.mapId = new int[]{0, 0};
         this.show = true;
         this.solidArea = new Rectangle(0,0,image.getWidth(),image.getHeight());
         this.objectId = objectId;
@@ -83,7 +83,7 @@ public class Objects {
         this.collision = collision;
         this.worldX = 0;
         this.worldY = 0;
-        this.mapId = 0;
+        this.mapId = new int[]{0, 0};
         this.show = true;
         this.solidArea = new Rectangle(0,0,image.getWidth(),image.getHeight());
         this.objectId = objectId;
@@ -144,12 +144,13 @@ public class Objects {
         this.worldY = worldY;
     }
 
-    public int getMapId() {
+    public int[] getMapId() {
         return mapId;
     }
 
-    public void setMapId(int mapId) {
-        this.mapId = mapId;
+    public void setMapId(int parent, int child) {
+        this.mapId[0] = parent;
+        this.mapId[1] = child;
     }
 
     public boolean isShow() {
@@ -182,7 +183,10 @@ public class Objects {
             copy = new Objects(image, collision, objectId);
             copy.setWorldX(worldX);
             copy.setWorldY(worldY);
-            copy.setMapId(mapId);
+            copy.setMapId(
+                mapId[0],
+                mapId[1]
+            );
             copy.setShow(show);
             copy.setObjectWidth(imageWidth);
             copy.setObjectHeight(imageHeight);

@@ -1,8 +1,9 @@
-package core.MAP;
+package core.MAP.MAP1;
 
 import core.GamePanel;
 import core.Entity.BringerOfDeath;
 import core.Entity.Mushroom;
+import core.MAP.Supermap;
 
 public class STAGE_1 extends Supermap{
     public STAGE_1 (GamePanel gp) { 

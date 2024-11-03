@@ -6,6 +6,8 @@ import javax.swing.JPanel;
 import core.Entity.Entity;
 import core.Entity.Player;
 import core.MAP.*;
+import core.MAP.MAP1.LOBBY;
+import core.MAP.MAP1.STAGE_1;
 import core.UI.UI;
 import core.UI.UIStatus;
 
@@ -163,16 +165,24 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
             // Update player
             player.update();
 
-            // Update Map
-            if (player.getStateMap() == 1 && !(map instanceof STAGE_1)) {
-                System.out.println("Change map to STAGE_1");
-                map.timerMap.stop();
-                map = new STAGE_1(this);
-            } else if (player.getStateMap() == 0 && !(map instanceof LOBBY)) {
+            // // Update Map
+            if (player.getStateMap()[0] == 0 &&
+                    player.getStateMap()[1] == 0 &&
+                    !(map instanceof LOBBY)) {
+
                 System.out.println("Change map to LOBBY");
                 map.timerMap.stop();
                 map = new LOBBY(this);
+            } else if (player.getStateMap()[0] == 0 &&
+                    player.getStateMap()[1] == 1 &&
+                    !(map instanceof STAGE_1)) {
+                System.out.println("Change map to STAGE_1");
+                map.timerMap.stop();
+                map = new STAGE_1(this);
+
             }
+
+            
         }
         if (gameState == pauseState || gameState == gameOverState) {
             // pause.update();

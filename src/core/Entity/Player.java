@@ -69,7 +69,7 @@ public class Player extends Entity {
 
     // Player State
     class PlayerState {
-        private int map = 0;
+        private int[] map = { 0, 0 };
         private int currentElement = 0;
         private int health = 100;
         private int armor = 20;
@@ -135,7 +135,6 @@ public class Player extends Entity {
         return player_state.health <= 0;
     }
 
-
     public boolean isAttacking() {
         return player_state.isAttacking;
     }
@@ -144,7 +143,7 @@ public class Player extends Entity {
         player_state.isAttacking = isAttacking;
     }
 
-    public int getStateMap() {
+    public int[] getStateMap() {
         return player_state.map;
     }
 
@@ -160,8 +159,9 @@ public class Player extends Entity {
         return player_state.currentElement;
     }
 
-    public void setMap(int map) {
-        player_state.map = map;
+    public void setMap(int parent, int child) {
+        player_state.map[0] = parent;
+        player_state.map[1] = child;
     }
 
     // Check player state map
@@ -173,8 +173,8 @@ public class Player extends Entity {
         if (getEntityCoords().get("x") >= 910
                 && getEntityCoords().get("y") >= 340
                 && getEntityCoords().get("y") <= 450
-                && getStateMap() == 0) {
-            setMap(1);
+                && getStateMap()[0] == 0 && getStateMap()[1] == 0) {
+            setMap(0, 1);
             worldX = gp.titleSize * 3;
             worldY = gp.titleSize * 5;
         }
@@ -182,8 +182,8 @@ public class Player extends Entity {
         if (getEntityCoords().get("x") >= 864
                 && getEntityCoords().get("y") >= 250
                 && getEntityCoords().get("y") <= 508
-                && getStateMap() == 1) {
-            setMap(0);
+                && getStateMap()[0] == 0 && getStateMap()[1] == 1) {
+            setMap(0, 0);
             worldX = gp.titleSize * 3;
             worldY = gp.titleSize * 5;
         }
@@ -191,7 +191,11 @@ public class Player extends Entity {
 
     public void pickUpObject(int index) {
 
-        if (index != -1 && gp.objects.get(index).getMapId() == getStateMap() && gp.objects.get(index).isShow()) {
+        if (index != -1 && gp.objects.get(index).getMapId()[0] == getStateMap()[0]
+                && gp.objects.get(index).getMapId()[1] == getStateMap()[1]
+                && gp.objects.get(index).isShow()) {
+
+
             if (gp.objects.get(index).getObjectId() == 3) {
                 speed += 10;
                 System.out.println("You picked up a chest! on map: " + getStateMap());
@@ -203,6 +207,9 @@ public class Player extends Entity {
                 gp.objects.get(index).setShow(false);
                 gp.objects.remove(index);
             }
+
+
+            
         }
 
     }
@@ -385,7 +392,7 @@ public class Player extends Entity {
 
                 if (monster.element == getCurrentElement()) {
                     monster.AttackedByPlayer(ElementEnums.getDamageElementId(getCurrentElement()));
-                } else{
+                } else {
                     // gp.UiStatus.alertText = "Element not match and Attack power is One!";
                     monster.AttackedByPlayer(10);
                     // gp.UiStatus.cooldownAlert = 500/16;

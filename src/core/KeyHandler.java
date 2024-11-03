@@ -1,7 +1,7 @@
 package core;
 import java.awt.event.KeyListener;
 
-import core.MAP.LOBBY;
+import core.MAP.MAP1.LOBBY;
 
 import java.awt.event.KeyEvent;
 

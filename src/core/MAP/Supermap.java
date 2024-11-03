@@ -47,6 +47,7 @@ public abstract class Supermap implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         currentTimeMap++;
         update();
+        System.out.println("currentTimeMap: "+currentTimeMap);
     }
 
 

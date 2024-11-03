@@ -65,7 +65,9 @@ public class CollisionChecker {
 
         for (int i = 0; i < gp.objects.size(); i++) {
             if (gp.objects.get(i) != null && gp.objects.get(i).isShow()
-                    && gp.objects.get(i).getMapId() == gp.player.getStateMap()) {
+                    && gp.objects.get(i).getMapId()[0] == gp.player.getStateMap()[0]
+                    && gp.objects.get(i).getMapId()[1] == gp.player.getStateMap()[1]
+                    ) {
                 // Get entity's solid area position
                 entity.solidArea.x = entity.worldX + entity.solidArea.x;
                 entity.solidArea.y = entity.worldY + entity.solidArea.y;
