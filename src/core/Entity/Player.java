@@ -352,6 +352,10 @@ public class Player extends Entity {
             if (idx >= 0 && idx < gp.monster.size()) {
                 Monster monster = (Monster) gp.monster.get(idx);
 
+                monster.direction = "hit";
+                monster.spriteNum = 0;
+                monster.spriteCounter = 0;
+
                 if (getCurrentElement() == 1) {
                     monster.setHealth(monster.getHealth() - 10);
                 } else if (getCurrentElement() == 2) {

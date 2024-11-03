@@ -29,8 +29,8 @@ public class LOBBY extends Supermap{
     @Override
     public void update() {
         if (currentTimeMap == 5){
-            for(int i=1;i<=3;i++){
-                gp.monster.add(new Mushroom(gp, (currentTimeMap*i)%16, (currentTimeMap*i)%12));
+            for(int i=1;i<=20;i++){
+                gp.monster.add(new Mushroom(gp, (currentTimeMap*i)%14, (currentTimeMap*i)%10));
             }
         }
     }

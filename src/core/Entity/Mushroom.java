@@ -10,6 +10,7 @@ public class Mushroom extends Monster{
 
     private ArrayList<BufferedImage> idle = new ArrayList<>();
     private ArrayList<BufferedImage> attack = new ArrayList<>();
+    private ArrayList<BufferedImage> hit = new ArrayList<>();
 
 
     public Mushroom(GamePanel gp, int x, int y) {
@@ -29,6 +30,7 @@ public class Mushroom extends Monster{
         setImageWidth(150 * 2);
         this.solidAreaDefaultX = (getImageWidth() - this.solidArea.width) / 2;
         this.solidAreaDefaultY = (getImageHeight() - this.solidArea.height + 30) / 2;
+        attackDamage = 5;
     }
 
     @Override
@@ -37,6 +39,7 @@ public class Mushroom extends Monster{
         BufferedImage spriteRight = loadSprite("Montser/Mushroom/right.png");
         BufferedImage spriteLeft = loadSprite("Montser/Mushroom/left.png");
         BufferedImage spriteAttack = loadSprite("Montser/Mushroom/Attack.png");
+        BufferedImage spriteHit = loadSprite("Montser/Mushroom/Hit.png");
 
         for (int i = 0; i < 4; i++) {
             idle.add(spriteidle.getSubimage(i * 150, 0, 150, 150));
@@ -52,6 +55,10 @@ public class Mushroom extends Monster{
 
         for (int i = 0; i < 8; i++) {
             attack.add(spriteAttack.getSubimage(i * 150, 0, 150, 150));
+        }
+
+        for (int i = 0; i < 4; i++) {
+            hit.add(spriteHit.getSubimage(i * 150, 0, 150, 150));
         }
 
     }
@@ -143,7 +150,7 @@ public class Mushroom extends Monster{
 
         gp.cChecker.checkObject(this, false);
 
-        if (gp.cChecker.checkPlayer(this)) {
+        if (gp.cChecker.checkPlayer(this) && direction != "hit") {
             direction = "attack";
             isMoving = false;
             AttacktoPlayer();
@@ -203,6 +210,11 @@ public class Mushroom extends Monster{
                     spriteNum = 0;
                 }
                 break;
+            case "hit":
+                if (spriteNum >= hit.size()) {
+                    spriteNum = 0;
+                }
+                break;
             default:
                 break;
         }
@@ -234,6 +246,8 @@ public class Mushroom extends Monster{
                 image = right.get(spriteNum);
             } else if (direction.equals("down")) {
                 image = right.get(spriteNum);
+            }else if (direction.equals("hit")) {
+                image = hit.get(spriteNum);
             }
 
             if (lastDirection != null && lastDirection == "left" && direction != "right" && direction != "left") {
