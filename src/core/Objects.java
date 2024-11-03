@@ -160,30 +160,6 @@ public class Objects {
         this.show = show;
     }
 
-
-    public void setSolidAreaX(int x) {
-        this.solidArea.x = x;
-    }
-
-    public void setSolidAreaY(int y) {
-        this.solidArea.x = y;
-    }
-
-    public void setSolidAreaWidth(int width) {
-        this.solidArea.width = width;
-    }
-
-    public void setSolidAreaHeight(int height) {
-        this.solidArea.height = height;
-    }
-
-    public void setSolidArea(int x, int y, int width, int height) {
-        this.solidArea.x = x;
-        this.solidArea.y = y;
-        this.solidArea.width = width;
-        this.solidArea.height = height;
-    }
-    
     public Rectangle getSolidArea() {
         return solidArea;
     }

@@ -1,6 +1,7 @@
 package core.MAP;
 
 import core.GamePanel;
+import core.Entity.BringerOfDeath;
 import core.Entity.Mushroom;
 
 public class STAGE_1 extends Supermap{
@@ -30,6 +31,7 @@ public class STAGE_1 extends Supermap{
     public void update() {
          if (currentTimeMap == 7){
             gp.monster.add(new Mushroom(gp, 7, 7));
+            gp.monster.add(new BringerOfDeath(gp, 5, 7));
         }
         
     }

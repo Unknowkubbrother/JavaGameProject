@@ -91,8 +91,8 @@ public class BringerOfDeath extends Monster {
             }
 
             g2.drawImage(image, screenX + offsetX, screenY, getImageWidth() + offsetWidth, getImageHeight(), null);
-            g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width,
-                    solidArea.height);
+            // g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width,
+            //         solidArea.height);
         }
     }
 }
