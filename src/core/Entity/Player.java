@@ -42,9 +42,9 @@ public class Player extends Entity {
             long startTime = System.currentTimeMillis();
             System.err.println("Loading Element...");
             dict.put(0, new Element("player/elements/punch.png", 0, 0));
-            dict.put(1, new Element("player/elements/fire.png", 10, 5));
-            dict.put(2, new Element("player/elements/water.png", 20, 10));
-            dict.put(3, new Element("player/elements/wind.png", 30, 15));
+            dict.put(1, new Element("player/elements/fire.png", 30, 10));
+            dict.put(2, new Element("player/elements/water.png", 30, 10));
+            dict.put(3, new Element("player/elements/wind.png", 30, 10));
             System.out.println("[Element]: Element loaded! (" + (System.currentTimeMillis() - startTime) + "ms)");
 
         }
@@ -386,9 +386,9 @@ public class Player extends Entity {
                 if (monster.element == getCurrentElement()) {
                     monster.AttackedByPlayer(ElementEnums.getDamageElementId(getCurrentElement()));
                 } else{
-                    gp.UiStatus.alertText = "Element not match and Attack power is One!";
-                    monster.AttackedByPlayer(1);
-                    gp.UiStatus.cooldownAlert = 500/16;
+                    // gp.UiStatus.alertText = "Element not match and Attack power is One!";
+                    monster.AttackedByPlayer(10);
+                    // gp.UiStatus.cooldownAlert = 500/16;
                 }
 
                 if (monster.isDead()) {
