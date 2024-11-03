@@ -13,10 +13,6 @@ import java.awt.Graphics;
 public abstract class Entity {
     GamePanel gp;
 
-    // // Thread
-    // protected Thread EntityThread;
-    // protected int ThreadDelay;
-
      //movement
     protected ArrayList<BufferedImage> up = new ArrayList<>();
     protected ArrayList<BufferedImage> down = new ArrayList<>();
@@ -43,7 +39,6 @@ public abstract class Entity {
         imageWidth = gp.titleSize;
         imageHeight = gp.titleSize;
         solidArea = new Rectangle(0,0,imageWidth,imageHeight);
-        // startEntityThread();
     }
 
     public void setImageWidth(int imageWidth){
@@ -81,97 +76,7 @@ public abstract class Entity {
 
     abstract protected void loadAnimation();
     abstract public void setAction();
-
-    public void update(){
-        if (gp.gameState == gp.pauseState || gp.gameState == gp.menuState || gp.gameState == gp.gameOverState) {
-            return;
-        }
-
-        setAction();
-
-        collisionOn = false;
-        gp.cChecker.checkMap(this);
-
-        gp.cChecker.checkObject(this, false);
-
-        gp.cChecker.checkPlayer(this);
-
-        if (!collisionOn) {
-            if (direction == "up") {
-                worldY -= speed;
-            }
-            if (direction == "down") {
-                worldY += speed;
-            }
-            if (direction == "left") {
-                worldX -= speed;
-            }
-            if (direction == "right") {
-                worldX += speed;
-            }
-        }
-
-        spriteCounter++;
-        if (spriteCounter > 12) {
-            spriteCounter = 0;
-            spriteNum++;
-        }
-
-        switch (direction) {
-            case "right":
-                if (spriteNum >= right.size()) {
-                    spriteNum = 0;
-                }
-                break;
-            case "left":
-                if (spriteNum >= left.size()) {
-                    spriteNum = 0;
-                }
-                break;
-            case "up":
-                if (spriteNum >= up.size()) {
-                    spriteNum = 0;
-                }
-                break;
-            case "down":
-                if (spriteNum >= down.size()) {
-                    spriteNum = 0;
-                }
-                break;
-            default:
-                break;
-        }
-
-    }
-
-    public void draw(Graphics g2) {
-
-        BufferedImage image = null;
-
-        if (direction.equals("up")) {
-            if (spriteNum >= up.size()) spriteNum = 0;
-            image = up.get(spriteNum);
-        } else if (direction.equals("down")) {
-            if (spriteNum >= down.size()) spriteNum = 0;
-            image = down.get(spriteNum);
-        } else if (direction.equals("left")) {
-            if (spriteNum >= left.size()) spriteNum = 0;
-            image = left.get(spriteNum);
-        } else if (direction.equals("right")) {
-            if (spriteNum >= right.size()) spriteNum = 0;
-            image = right.get(spriteNum);
-        }
-        
-        int screenX = worldX - gp.player.worldX + gp.player.screenX;
-        int screenY = worldY - gp.player.worldY + gp.player.screenY;
-
-        if (worldX + gp.titleSize > gp.player.worldX - gp.player.screenX &&
-            worldX - gp.titleSize < gp.player.worldX + gp.player.screenX &&
-            worldY + gp.titleSize > gp.player.worldY - gp.player.screenY &&
-            worldY - gp.titleSize < gp.player.worldY + gp.player.screenY)
-        {
-            g2.drawImage(image, screenX, screenY, gp.titleSize, gp.titleSize, null);
-        }
-    }
+    abstract public void update();
+    abstract public void draw(Graphics g2);
     
 }

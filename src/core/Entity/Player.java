@@ -166,7 +166,7 @@ public class Player extends Entity {
 
     // Check player state map
     public void checkPlayerStateMap() {
-        if (gp.gameState == gp.pauseState || gp.gameState == gp.menuState) {
+        if (gp.gameState != gp.playerState) {
             return;
         }
 
@@ -413,7 +413,7 @@ public class Player extends Entity {
 
     @Override
     public void update() {
-        if (gp.gameState == gp.pauseState || gp.gameState == gp.menuState || gp.gameState == gp.gameOverState) {
+        if (gp.gameState != gp.playerState) {
             return;
         }
 

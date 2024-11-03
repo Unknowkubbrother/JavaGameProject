@@ -124,8 +124,9 @@ public abstract class Monster extends Entity implements Runnable{
     };
 
 
+    @Override
     public void update(){
-        if (gp.gameState == gp.pauseState || gp.gameState == gp.menuState || gp.gameState == gp.gameOverState) {
+        if (gp.gameState != gp.playerState) {
             return;
         }
 
