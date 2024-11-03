@@ -1,16 +1,10 @@
 package core.Entity;
 
-import java.util.ArrayList;
 import java.awt.image.BufferedImage;
 import core.GamePanel;
-import java.util.Random;
 import java.awt.Graphics;
 
 public class BringerOfDeath extends Monster {
-
-    private ArrayList<BufferedImage> idle = new ArrayList<>();
-    private ArrayList<BufferedImage> attack = new ArrayList<>();
-    private ArrayList<BufferedImage> hit = new ArrayList<>();
 
     public BringerOfDeath(GamePanel gp, int x, int y) {
         super(gp);
@@ -33,10 +27,10 @@ public class BringerOfDeath extends Monster {
         solidArea.y = (getImageHeight()) / 2;
         this.solidAreaDefaultX = solidArea.x;
         this.solidAreaDefaultY = solidArea.y;
-
         attackDamage = 50;
         rebound = 10;
         element = 1;
+        DestinationActionLockCounter = 120;
     }
 
     @Override
@@ -59,163 +53,6 @@ public class BringerOfDeath extends Monster {
             }
         }
 
-    }
-
-    @Override
-    public void setAction() {
-
-        actionLockCounter++;
-        if (actionLockCounter == 60) {
-            Random rand = new Random();
-            int n = rand.nextInt(2);
-            if (n == 0) {
-                direction = "idle";
-            }
-            if (n == 1) {
-                direction = "walk";
-            }
-
-            actionLockCounter = 0;
-        }
-
-        if (direction.equals("walk")) {
-            int playerX = gp.player.worldX;
-            int playerY = gp.player.worldY;
-
-            int diffX = playerX - worldX;
-            int diffY = playerY - worldY;
-
-            double distance = Math.sqrt(diffX * diffX + diffY * diffY);
-
-            double directionX = diffX / distance;
-            double directionY = diffY / distance;
-
-            worldX += directionX * speed;
-            worldY += directionY * speed;
-
-            if (Math.abs(directionX) > Math.abs(directionY)) {
-                if (directionX > 0) {
-                    direction = "right";
-                } else {
-                    direction = "left";
-                }
-            } else {
-                if (directionY > 0) {
-                    direction = "down";
-                } else {
-                    direction = "up";
-                }
-            }
-
-            lastDirection = direction;
-            isMoving = true;
-        }
-
-    }
-
-    private int countHit = 0;
-
-    @Override
-    public void AttacktoPlayer() {
-        countHit++;
-        if (countHit > 30) {
-            gp.player.playerAttacked(attackDamage);
-            countHit = 0;
-            if (worldX > gp.player.worldX) {
-                gp.player.worldX -= rebound;
-            } else {
-                gp.player.worldX += rebound;
-            }
-            if (worldY > gp.player.worldY) {
-                gp.player.worldY -= rebound;
-            } else {
-                gp.player.worldY += rebound;
-            }
-            direction = "idle";
-        }
-    }
-
-    @Override
-    public void update() {
-        if (gp.gameState == gp.pauseState || gp.gameState == gp.menuState || gp.gameState == gp.gameOverState) {
-            return;
-        }
-
-        setAction();
-
-        collisionOn = false;
-        gp.cChecker.checkMap(this);
-
-        gp.cChecker.checkObject(this, false);
-
-        if (gp.cChecker.checkPlayer(this) && direction != "hit") {
-            direction = "attack";
-            isMoving = false;
-            AttacktoPlayer();
-        }
-
-        if (!collisionOn && isMoving) {
-            if (direction == "up") {
-                worldY -= speed;
-            }
-            if (direction == "down") {
-                worldY += speed;
-            }
-            if (direction == "left") {
-                worldX -= speed;
-            }
-            if (direction == "right") {
-                worldX += speed;
-            }
-        } else {
-            isMoving = false;
-        }
-
-        spriteCounter++;
-        if (spriteCounter > 8) {
-            spriteCounter = 0;
-            spriteNum++;
-        }
-
-        switch (direction) {
-            case "idle":
-                if (spriteNum >= idle.size()) {
-                    spriteNum = 0;
-                }
-                break;
-            case "attack":
-                if (spriteNum >= attack.size()) {
-                    spriteNum = 0;
-                }
-                break;
-            case "right":
-                if (spriteNum >= right.size()) {
-                    spriteNum = 0;
-                }
-                break;
-            case "left":
-                if (spriteNum >= left.size()) {
-                    spriteNum = 0;
-                }
-                break;
-            case "up":
-                if (spriteNum >= right.size()) {
-                    spriteNum = 0;
-                }
-                break;
-            case "down":
-                if (spriteNum >= right.size()) {
-                    spriteNum = 0;
-                }
-                break;
-            case "hit":
-                if (spriteNum >= hit.size()) {
-                    spriteNum = 0;
-                }
-                break;
-            default:
-                break;
-        }
     }
 
     @Override

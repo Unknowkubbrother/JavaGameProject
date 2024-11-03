@@ -34,7 +34,6 @@ public abstract class Entity {
     public Rectangle attackArea = new Rectangle(0,0,0,0);
     public int solidAreaDefaultX , solidAreaDefaultY;
     public boolean collisionOn = false;
-    public int actionLockCounter = 0;
     public int spriteCounter = 0;
     public int spriteNum = 0;
 
