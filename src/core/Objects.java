@@ -11,7 +11,8 @@ enum ObjectsEnum {
     SPAWN(0),
     GODDESS(1),
     POLE(2),
-    chest(3);
+    chest(3),
+    mana(4);
 
 
     public final int objectId;
@@ -30,7 +31,7 @@ enum ObjectsEnum {
             dict.put(1, new Objects("/resources/texture/objects/goddess.png", true,1));
             dict.put(2, new Objects("/resources/texture/objects/pole.png", true,2));
             dict.put(3, new Objects("/resources/texture/objects/chest.png", true,3));
-
+            dict.put(4, new Objects("/resources/texture/objects/mana.png", true,4));
         }catch(IOException e){
             System.out.println("[Object]: Failed to load Object!");
             e.printStackTrace();

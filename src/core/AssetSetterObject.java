@@ -9,7 +9,7 @@ public class AssetSetterObject {
         this.gp = gp;
     }
 
-    public void setObjects() {
+    public void setDefaultObjects() {
         Objects spawn = ObjectsEnum.values()[0].copy();
         spawn.setWorldX(gp.titleSize * 2);
         spawn.setWorldY(gp.titleSize * 6);
@@ -63,6 +63,17 @@ public class AssetSetterObject {
         chest_2.setObjectWidth(64);
         chest_2.setObjectHeight(64);
         gp.objects.add(chest_2);
+    }
+
+    public void setSpawnObjects(int id, int x, int y, int mapId, int width , int height){
+        Objects spawn = ObjectsEnum.values()[id].copy();
+        spawn.setWorldX(gp.titleSize * x);
+        spawn.setWorldY(gp.titleSize * y);
+        spawn.setMapId(mapId);
+        spawn.setShow(true);
+        spawn.setObjectWidth(width);
+        spawn.setObjectHeight(height);
+        gp.objects.add(spawn);
     }
 
     public void draw(Graphics g2) {

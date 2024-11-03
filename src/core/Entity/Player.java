@@ -21,7 +21,7 @@ public class Player extends Entity {
             this.damage = damage;
             this.manaCost = manaCost;
         }
-        
+
     }
 
     // Element Enums
@@ -66,7 +66,6 @@ public class Player extends Entity {
         }
 
     }
-
 
     // Player State
     class PlayerState {
@@ -197,14 +196,20 @@ public class Player extends Entity {
 
     public void pickUpObject(int index) {
 
-        if (index != -1) {
-            if (gp.objects.get(index).getObjectId() == 3 && gp.objects.get(index).getMapId() == getStateMap()
-                    && gp.objects.get(index).isShow()) {
-                gp.objects.get(index).setShow(false);
-                gp.objects.remove(index);
+        if (index != -1 && gp.objects.get(index).getMapId() == getStateMap() && gp.objects.get(index).isShow()) {
+            if (gp.objects.get(index).getObjectId() == 3) {
                 speed += 10;
                 System.out.println("You picked up a chest! on map: " + getStateMap());
+                gp.objects.get(index).setShow(false);
+                gp.objects.remove(index);
+            }else if (gp.objects.get(index).getObjectId() == 4) {
+                setMana(getMana() + 50);
+                System.out.println("You picked up a mana! on map: " + getStateMap());
+                gp.objects.get(index).setShow(false);
+                gp.objects.remove(index);
             }
+            
+            System.out.println(index);
         }
 
     }
@@ -391,7 +396,7 @@ public class Player extends Entity {
                     monster.stopMonsterThread();
                     gp.monster.remove(idx);
                 }
-            
+
                 System.out.println("Monster health: " + monster.getHealth());
             }
         }
@@ -402,8 +407,8 @@ public class Player extends Entity {
 
     }
 
-    public void restoreMana(){
-        if (getMana() < 100){
+    public void restoreMana() {
+        if (getMana() < 100) {
             setMana(getMana() + 1);
         }
     }
@@ -606,7 +611,8 @@ public class Player extends Entity {
         g2.drawImage(image, screenX + offsetX, screenY, getImageWidth() + offsetWidth, getImageHeight(), null);
         g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
         // g2.setColor(Color.RED);
-        // g2.drawRect(screenX + attackArea.x, screenY + attackArea.y, attackArea.width, attackArea.height);
+        // g2.drawRect(screenX + attackArea.x, screenY + attackArea.y, attackArea.width,
+        // attackArea.height);
 
     }
 

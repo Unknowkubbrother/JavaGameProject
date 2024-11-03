@@ -66,7 +66,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
 
     // OBJECTS
     public ArrayList<Objects> objects = new ArrayList<>();
-    AssetSetterObject aSetterObject = new AssetSetterObject(this);
+    public AssetSetterObject aSetterObject = new AssetSetterObject(this);
 
     // BACKGROUND
     BufferedImage bgGame;
@@ -144,7 +144,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     }
 
     public void setupGame() {
-        aSetterObject.setObjects();
+        aSetterObject.setDefaultObjects();
         gameState = menuState;
     }
 
