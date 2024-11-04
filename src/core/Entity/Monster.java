@@ -66,6 +66,13 @@ public abstract class Monster extends Entity implements Runnable{
 
         if (isDead()) {
             stopMonsterThread();
+            gp.player.setCountKilled(gp.player.getCountKilled() + 1);
+            if (gp.player.getCountKilled() >= gp.map.getMonsterCount() &&
+                gp.player.getStateMap()[0] == 0 &&
+                gp.player.getStateMap()[1] == 1
+            ) {
+                gp.gameState = gp.gameWinState;
+            }
         }
     }
 

@@ -15,6 +15,7 @@ public abstract class Supermap implements ActionListener{
     public int MapContenet[][];
     public Timer timerMap;
     public int currentTimeMap = 0;
+    public int countMonster = 0;
 
     public Supermap (GamePanel gp) { 
         this.gp = gp;
@@ -22,6 +23,7 @@ public abstract class Supermap implements ActionListener{
         timerMap.start();
         setDefaultSpawnEntityAndObjects();
         setDefaultObjects();
+        resetCountKilled();
     }
     
     public void draw(Graphics g2) {
@@ -57,6 +59,14 @@ public abstract class Supermap implements ActionListener{
 
     abstract public void update();
     abstract public void setDefaultObjects();
+
+    public int getMonsterCount() {
+        return countMonster;
+    }
+
+    public void resetCountKilled(){
+        gp.player.setCountKilled(0);
+    }
 
     public void setDefaultSpawnEntityAndObjects() {
         for(int i=0;i<gp.monster.size();i++){

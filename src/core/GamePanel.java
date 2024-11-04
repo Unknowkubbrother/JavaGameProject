@@ -52,6 +52,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     public final int pauseState = 2;
     public final int gameOverState = 3;
     public final int selectMapState = 4;
+    public final int gameWinState = 5;
 
 
     // COLLISION
@@ -218,7 +219,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
             // Draw FPS
             DrawFPS(g2);
 
-            if (gameState == pauseState || gameState == gameOverState) {
+            if (gameState == pauseState || gameState == gameOverState || gameState == gameWinState) {
                 ui.draw(g2);
             }
 

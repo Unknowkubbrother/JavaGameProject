@@ -38,6 +38,12 @@ public class UI  implements MouseListener{
             pauseMenu();
         }
 
+        
+        if (gp.gameState == gp.gameWinState) {
+            System.out.println("gameWin");
+            gameWin();
+        }
+
         if (gp.gameState == gp.gameOverState) {
             gameOver();
         }
@@ -60,7 +66,16 @@ public class UI  implements MouseListener{
     public void gameOver(){
         g2.setColor(Color.RED);
         g2.setFont(new Font("Arial", Font.BOLD, 30));
-        String text = "GAME OVER";
+        String text = "YOU LOSE";
+        int x = getXforCenteredText(text);
+        int y = gp.screenHeight / 2;
+        g2.drawString(text, x, y);
+    }
+
+    public void gameWin(){
+        g2.setColor(Color.YELLOW);
+        g2.setFont(new Font("Arial", Font.BOLD, 30));
+        String text = "YOU WINNER";
         int x = getXforCenteredText(text);
         int y = gp.screenHeight / 2;
         g2.drawString(text, x, y);

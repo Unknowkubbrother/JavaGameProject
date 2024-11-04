@@ -75,6 +75,7 @@ class PlayerState {
     protected int armor = 20;
     protected int mana = 100;
     protected boolean isAttacking = false;
+    protected int countKilled = 0;
 }
 
 
@@ -200,6 +201,17 @@ public class Player extends Entity {
     }
 
     //Player State
+    public int getCountKilled() {
+        return player_state.countKilled;
+    }
+
+    public void setCountKilled(int count) {
+        if (count < 0) {
+            count = 0;
+        }
+        player_state.countKilled = count;
+    }
+
     public int getHealth() {
         return player_state.health;
     }
@@ -405,7 +417,7 @@ public class Player extends Entity {
 
                 object.AttackedByPlayer(ElementEnums.getDamageElementId(getCurrentElement()));
                 System.out.println("Object health: " + object.getHealth());
-                
+
                 if (object.ObjectisDead()) {
                     gp.objects.remove(idx);
                 }

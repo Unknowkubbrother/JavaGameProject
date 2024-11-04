@@ -32,7 +32,7 @@ public class M2_ST1 extends Supermap{
 
     @Override
     public void setDefaultObjects() {
-        gp.aSetterObject.setSpawnObjects(3,gp.titleSize * 7,gp.titleSize * 7,64,64);
+        gp.aSetterObject.setSpawnObjects(3,gp.titleSize * 7,gp.titleSize * 7,64,64,100);
     }
     
     @Override

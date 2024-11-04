@@ -28,6 +28,8 @@ public class M1_ST1 extends Supermap{
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
         };
 
+        countMonster = 2;
+
         gp.UiStatus.setAlert("Welcome to the first map", 1000);
 
     }
@@ -35,11 +37,15 @@ public class M1_ST1 extends Supermap{
     @Override
     public void setDefaultObjects() {
         gp.objects.clear();
-        gp.aSetterObject.setSpawnObjects(0,gp.titleSize * 2,gp.titleSize * 6,192,192);
-        gp.aSetterObject.setSpawnObjects(1,gp.titleSize * 5,gp.titleSize * 2,90,192);
-        gp.aSetterObject.setSpawnObjects(2,gp.titleSize * 13,gp.titleSize * 8,90,192);
-        gp.aSetterObject.setSpawnObjects(2,gp.titleSize * 13,gp.titleSize * 3,90,192);
-        gp.aSetterObject.setSpawnObjects(3,gp.titleSize * 2,gp.titleSize * 2,64,64);
+        gp.aSetterObject.setSpawnObjects(0,gp.titleSize * 2,gp.titleSize * 6,192,192,100);
+        gp.aSetterObject.setSpawnObjects(1,gp.titleSize * 5,gp.titleSize * 2,90,192,
+        100);
+        gp.aSetterObject.setSpawnObjects(2,gp.titleSize * 13,gp.titleSize * 8,90,192,
+        100);
+        gp.aSetterObject.setSpawnObjects(2,gp.titleSize * 13,gp.titleSize * 3,90,192,
+        100);
+        gp.aSetterObject.setSpawnObjects(3,gp.titleSize * 2,gp.titleSize * 2,64,64,
+        100);
     }
 
     @Override
@@ -52,7 +58,8 @@ public class M1_ST1 extends Supermap{
                 738,
                 364,
                 40,
-                40
+                40,
+                30
             );
         }
     }
