@@ -32,7 +32,7 @@ public class M1_ST1 extends Supermap {
 
     @Override
     public void setDefaultObjects() {
-        // set cheat
+        // set chest
         gp.aSetterObject.setSpawnObjects(3, gp.titleSize * 14, gp.titleSize * 2, 64, 64, 100);
         // set boxwood
         gp.aSetterObject.setSpawnObjects(5, gp.titleSize * 12, gp.titleSize * 2, 64, 64, 100);
@@ -87,12 +87,12 @@ public class M1_ST1 extends Supermap {
 
             if (currentTimeMap == 10) {
                 gp.aSetterObject.setSpawnObjects(10, gp.titleSize * 3, gp.titleSize * 5, 40, 40, 100);
-                gp.UiStatus.setAlert("Find to Cheat!!", 1000);
+                gp.UiStatus.setAlert("Find to Chest!!", 1000);
                 gp.monster.add(new Mushroom(gp, 588, 94));
                 currentMonster += 1;
             }
             if (currentTimeMap == 15) {
-                gp.UiStatus.setAlert("Find to Cheat!!", 1000);
+                gp.UiStatus.setAlert("Find to Chest!!", 1000);
                 gp.monster.add(new Mushroom(gp, 803, 45));
                 gp.aSetterObject.setSpawnObjects(12, gp.titleSize * 11, gp.titleSize * 3, 40, 40, 0);
                 gp.monster.add(new FringEye(gp, 540, 94));
@@ -100,15 +100,15 @@ public class M1_ST1 extends Supermap {
             }
 
             if (currentTimeMap == 40) {
-                gp.UiStatus.setAlert("Find to Cheat!!", 1000);
+                gp.UiStatus.setAlert("Find to Chest!!", 1000);
             }
 
             if (currentTimeMap == 50) {
-                gp.UiStatus.setAlert("Find to Cheat!!", 1000);
+                gp.UiStatus.setAlert("Find to Chest!!", 1000);
             }
 
             if (currentTimeMap == 60) {
-                gp.UiStatus.setAlert("Find to Cheat!!", 1000);
+                gp.UiStatus.setAlert("Find to Chest!!", 1000);
             }
 
             if (currentTimeMap == 20) {
