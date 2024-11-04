@@ -81,7 +81,7 @@ class PlayerState {
     protected int[] map = { 0, 0 };
     protected int currentElement = 0;
     protected int health = 100;
-    protected int armor = 20;
+    protected int armor = 0;
     protected int mana = 100;
     protected boolean isAttacking = false;
     protected int countKilled = 0;
@@ -335,6 +335,13 @@ public class Player extends Entity {
                     gp.UiStatus.setAlert("You can pass the door!", 5000);
                 }
             }
+            if (gp.player.getStateMap()[0] == 1){
+                if (gp.player.getStateMap()[1] == 1){
+                    gp.gameState = gp.gameWinState;
+                }else {
+                    gp.UiStatus.setAlert("You can pass the door!", 5000);
+                }
+            }
         }
 
         if (gp.monster.size() <= 0){
@@ -470,7 +477,6 @@ public class Player extends Entity {
 
     public void damageObject(ArrayList<Integer> objectIdx) {
         if (objectIdx.size() == 0) {
-            System.out.println("No object hit");
             return;
         }
 
@@ -497,7 +503,6 @@ public class Player extends Entity {
 
     public void damageMonster(ArrayList<Integer> monsterIdx) {
         if (monsterIdx.size() == 0) {
-            System.out.println("No monster hit");
             return;
         }
         for (int i = 0; i < monsterIdx.size(); i++) {

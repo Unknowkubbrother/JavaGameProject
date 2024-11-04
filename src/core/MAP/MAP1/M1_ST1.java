@@ -52,8 +52,6 @@ public class M1_ST1 extends Supermap {
 
     @Override
     public void update() {
-        int x = gp.player.getEntityCoords().get("x");
-        int y = gp.player.getEntityCoords().get("y");
 
         // spawn item to end game
         if (gp.player.getCountKilled() >= countMonster) {
@@ -95,9 +93,10 @@ public class M1_ST1 extends Supermap {
             }
             if (currentTimeMap == 15) {
                 gp.UiStatus.setAlert("Find to Cheat!!", 1000);
+                gp.monster.add(new Mushroom(gp, 803, 45));
                 gp.aSetterObject.setSpawnObjects(12, gp.titleSize * 11, gp.titleSize * 3, 40, 40, 0);
                 gp.monster.add(new FringEye(gp, 540, 94));
-                currentMonster += 1;
+                currentMonster += 2;
             }
 
             if (currentTimeMap == 40) {
@@ -118,11 +117,6 @@ public class M1_ST1 extends Supermap {
                 currentMonster += 1;
             }
 
-            // span monster in cheat
-            if (x > 723 && x <= 868 && y > 0 && y <= 124) {
-                gp.monster.add(new Mushroom(gp, 803, 45));
-                currentMonster += 1;
-            }
 
         }
 
