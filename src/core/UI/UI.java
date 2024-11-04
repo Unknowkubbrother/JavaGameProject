@@ -131,6 +131,8 @@ public class UI  implements MouseListener{
                  if (e.getY() > gp.titleSize*3 && e.getY() < gp.titleSize*3 + 100) {
                      gp.player.setMap(0, 0);
                      gp.map = new M1_ST1(gp);
+                    // gp.player.setMap(0, 1);
+                    // gp.map = new M1_ST2(gp);
                      gp.gameState = gp.playerState;
                  }
              }else if (e.getX() > gp.titleSize*4 + 100 && e.getX() < gp.titleSize*4 + 200) {

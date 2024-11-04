@@ -31,8 +31,8 @@ public class BringerOfDeath extends Monster {
         rebound = 10;
         element = 1;
         DestinationActionLockCounter = 120;
-        health = 200;
-        maxHealth = 200;
+        health = 300;
+        maxHealth = 300;
     }
 
     @Override

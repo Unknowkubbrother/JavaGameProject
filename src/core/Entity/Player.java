@@ -22,6 +22,10 @@ class Element {
         this.manaCost = manaCost;
     }
 
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+
 }
 
 // Element Enums
@@ -42,9 +46,9 @@ enum ElementEnums {
         long startTime = System.currentTimeMillis();
         System.err.println("Loading Element...");
         dict.put(0, new Element("player/elements/punch.png", 2, 0));
-        dict.put(1, new Element("player/elements/fire.png", 30, 5));
-        dict.put(2, new Element("player/elements/water.png", 30, 5));
-        dict.put(3, new Element("player/elements/wind.png", 30, 5));
+        dict.put(1, new Element("player/elements/fire.png", 30, 2));
+        dict.put(2, new Element("player/elements/water.png", 30, 2));
+        dict.put(3, new Element("player/elements/wind.png", 30, 2));
         System.out.println("[Element]: Element loaded! (" + (System.currentTimeMillis() - startTime) + "ms)");
 
     }
@@ -65,6 +69,11 @@ enum ElementEnums {
         return dict.get(id).manaCost;
     }
 
+    public static void setDamageElementId(int id, int damage) {
+        dict.get(id).setDamage(damage);
+    }
+
+
 }
 
 // Player State
@@ -76,6 +85,7 @@ class PlayerState {
     protected int mana = 100;
     protected boolean isAttacking = false;
     protected int countKilled = 0;
+    protected int itemDelay = 0;
 }
 
 
@@ -212,6 +222,17 @@ public class Player extends Entity {
         player_state.countKilled = count;
     }
 
+    public int getItemDelay() {
+        return player_state.itemDelay;
+    }
+
+    public void setItemDelay(int delay) {
+        if (delay < 0) {
+            delay = 0;
+        }
+        player_state.itemDelay = delay;
+    }
+
     public int getHealth() {
         return player_state.health;
     }
@@ -306,42 +327,45 @@ public class Player extends Entity {
         }
 
         if (gp.player.getCountKilled() >= gp.map.getMonsterCount()) {
-            setCountKilled(0);
             gp.map.removeBoxDoor();
             if ( gp.player.getStateMap()[0] == 0){
                 if (gp.player.getStateMap()[1] == 1){
                     gp.gameState = gp.gameWinState;
                 }else {
-                    gp.UiStatus.setAlert("You can pass the door!", 1000);
+                    gp.UiStatus.setAlert("You can pass the door!", 5000);
                 }
             }
         }
 
-        if (getStateMap()[0] == 0){
-            if (getStateMap()[1] == 0) {
-                if (getEntityCoords().get("x") >= 910
-                        && getEntityCoords().get("y") >= 340
-                        && getEntityCoords().get("y") <= 450) {
-                        gp.map.timerMap.stop();
-                        setMap(getStateMap()[0], 1);
-                        gp.map = new M1_ST1(gp);
-                        worldX = gp.titleSize * 3;
-                        worldY = gp.titleSize * 5;
-                }
-            } 
-            else if (getStateMap()[1] == 1) {
-                if (getEntityCoords().get("x") >= 857
-                        && getEntityCoords().get("y") >= 255
-                        && getEntityCoords().get("y") <= 510) {
-                        gp.map.timerMap.stop();
-                        setMap(getStateMap()[0], 0);
-                        gp.map = new M1_ST1(gp);
-                        worldX = gp.titleSize * 3;
-                        worldY = gp.titleSize * 5;
+        if (gp.monster.size() <= 0){
+            if (getStateMap()[0] == 0){
+                if (getStateMap()[1] == 0) {
+                    if (getEntityCoords().get("x") >= 857
+                            && getEntityCoords().get("y") >= 255
+                            && getEntityCoords().get("y") <= 510) {
+                            gp.map.timerMap.stop();
+                            setMap(getStateMap()[0], 1);
+                            gp.map = new M1_ST2(gp);
+                            worldX = gp.titleSize * 6;
+                            worldY = gp.titleSize * 6;
+                    }
                 }
             }
         }
     }
+
+    public void checkBootSpeedItemDelay(){
+        if (speed > 5){
+            if (getItemDelay() > 0){
+                setItemDelay(getItemDelay() - 1);
+            }
+            if (getItemDelay() <= 0){
+                speed = 5;
+            }
+        }
+    }
+
+    int actionThornCounter = 0;
 
     public void checkEventObject(int index) {
 
@@ -357,14 +381,20 @@ public class Player extends Entity {
 
             // attack damage to player
             if (gp.objects.get(index).getObjectId() == 6) {
-                playerAttacked(1);
+                actionThornCounter++;
+                if (actionThornCounter > 5) {
+                    actionThornCounter = 0;
+                    playerAttacked(1);
+                }
             }
 
 
             // pick up object
             if (gp.objects.get(index).getObjectId() == 3) {
-                // speed += 10;
-                gp.UiStatus.setAlert("You picked up a chest!", 1000);
+                ElementEnums.setDamageElementId(1, ElementEnums.getDamageElementId(1) + 5);
+                ElementEnums.setDamageElementId(2, ElementEnums.getDamageElementId(2) + 5);
+                ElementEnums.setDamageElementId(3, ElementEnums.getDamageElementId(3) + 5);
+                gp.UiStatus.setAlert("You pick up the chest and your sword damage increases +5!!", 5000);
                 gp.objects.remove(index);
             }else if (gp.objects.get(index).getObjectId() == 4) {
                 setMana(getMana() + 50);
@@ -377,6 +407,11 @@ public class Player extends Entity {
             }else if (gp.objects.get(index).getObjectId() == 10) {
                 setArmor(getArmor() + 50);
                 gp.UiStatus.setAlert("You picked up a Armor + 50!", 1000);
+                gp.objects.remove(index);
+            }else if (gp.objects.get(index).getObjectId() == 12) {
+                speed = 10;
+                setItemDelay(5);
+                gp.UiStatus.setAlert("You picked up a BootSpeed + 5 in 5 seconds!", 1000);
                 gp.objects.remove(index);
             }
             
@@ -575,7 +610,7 @@ public class Player extends Entity {
             } else {
                 isMoving = false;
                 // direction = "idle";
-                gp.UiStatus.setAlert("Pushing is Two damage.", 500);
+                gp.UiStatus.setAlert("Pushing is Two damage.", 300);
             }
             ActionAttack();
         }

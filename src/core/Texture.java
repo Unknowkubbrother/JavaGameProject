@@ -20,7 +20,8 @@ public enum Texture {
     GRASS_4(10),
     GRASS_STONE1(11),
     GRASS_STONE2(12),
-    STONE(13);
+    STONE(13),
+    BoxWood1(14);
 
     public final int textureId;
     private static Map<Integer, TextureLoader> dict = new HashMap<>();
@@ -47,6 +48,7 @@ public enum Texture {
             dict.put(11, new TextureLoader("/resources/texture/map/grass_stone1.png", false));
             dict.put(12, new TextureLoader("/resources/texture/map/grass_stone2.png", false));
             dict.put(13, new TextureLoader("/resources/texture/map/stone.png", false));
+            dict.put(14, new TextureLoader("/resources/texture/map/BoxWood1.png", true));
 
         }catch(IOException e){
             System.out.println("[Texture]: Failed to load textures!");

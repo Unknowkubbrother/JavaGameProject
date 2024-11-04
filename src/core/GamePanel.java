@@ -36,7 +36,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     int FrameRate = 0;
 
     KeyHandler keyH = new KeyHandler(this);
-    Thread gameThread;
+    public Thread gameThread;
     Timer timerGame;
 
     // GAME TIME
@@ -140,6 +140,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
         if (gameState == playerState) {
             currentGameTime++;
             player.restoreMana();
+            player.checkBootSpeedItemDelay();
         }
     }
 
