@@ -41,7 +41,7 @@ enum ElementEnums {
     public static void loadElements() {
         long startTime = System.currentTimeMillis();
         System.err.println("Loading Element...");
-        dict.put(0, new Element("player/elements/punch.png", 0, 0));
+        dict.put(0, new Element("player/elements/punch.png", 2, 0));
         dict.put(1, new Element("player/elements/fire.png", 30, 5));
         dict.put(2, new Element("player/elements/water.png", 30, 5));
         dict.put(3, new Element("player/elements/wind.png", 30, 5));
@@ -474,7 +474,7 @@ public class Player extends Entity {
                     monster.AttackedByPlayer(ElementEnums.getDamageElementId(getCurrentElement()));
                 } else {
                     // gp.UiStatus.alertText = "Element not match and Attack power is One!";
-                    monster.AttackedByPlayer(10);
+                    monster.AttackedByPlayer(5);
                     // gp.UiStatus.cooldownAlert = 500/16;
                 }
             }
@@ -572,12 +572,12 @@ public class Player extends Entity {
                     direction = "attack_wind";
                 }
                 isMoving = false;
-                ActionAttack();
             } else {
                 isMoving = false;
-                direction = "idle";
-                setAttacking(false);
+                // direction = "idle";
+                gp.UiStatus.setAlert("Pushing is Two damage.", 500);
             }
+            ActionAttack();
         }
 
         if (direction == "idle" || direction == "right" || direction == "left" || direction == "up"
@@ -592,6 +592,9 @@ public class Player extends Entity {
         switch (direction) {
             case "idle":
                 if (spriteNum >= idle.size()) {
+                    if (isAttacking()){
+                        setAttacking(false);
+                    }
                     spriteNum = 0;
                 }
                 break;

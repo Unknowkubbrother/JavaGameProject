@@ -40,14 +40,14 @@ public class M1_ST1 extends Supermap{
 
         //set boxdoor
         for(int i=4;i<=8;i++){
-            gp.aSetterObject.setSpawnObjects(11,gp.titleSize * 15,gp.titleSize + (i * 64),64,64,100);
+            gp.aSetterObject.setSpawnObjects(11,gp.titleSize * 15,gp.titleSize + (i * 64),64,64,80);
         }
 
         //set VeganHealth
-        gp.aSetterObject.setSpawnObjects(8,gp.titleSize * 3,gp.titleSize * 2 ,64,64,100);
-        gp.aSetterObject.setSpawnObjects(8,gp.titleSize * 6,gp.titleSize * 12 ,64,64,100);
+        gp.aSetterObject.setSpawnObjects(8,gp.titleSize * 3,gp.titleSize * 2 ,64,64,60);
+        gp.aSetterObject.setSpawnObjects(8,gp.titleSize * 6,gp.titleSize * 12 ,64,64,60);
         //set VeganMana
-        gp.aSetterObject.setSpawnObjects(9,gp.titleSize * 7,gp.titleSize * 12 ,64,64,100);
+        gp.aSetterObject.setSpawnObjects(9,gp.titleSize * 7,gp.titleSize * 12 ,64,64,60);
     }
     
     @Override
@@ -71,6 +71,11 @@ public class M1_ST1 extends Supermap{
                 gp.monster.add(new FringEye(gp, 683, 334));
                 currentMonster+=1;
             } 
+
+            if (currentTimeMap == 7){
+                gp.UiStatus.setAlert("Select the matching sword element.", 3000);
+            }
+
             if (currentTimeMap == 10){
                 gp.aSetterObject.setSpawnObjects(10,gp.titleSize * 3,gp.titleSize * 5 ,40,40,100);
                 gp.UiStatus.setAlert("Find to Cheat!!", 1000);
@@ -97,6 +102,7 @@ public class M1_ST1 extends Supermap{
          
             if (currentTimeMap == 20){
                 gp.monster.add(new Mushroom(gp, 555,120));
+                gp.UiStatus.setAlert("Mushroom say I will kill you !!!!", 2000);
                 currentMonster+=1;
             }
 

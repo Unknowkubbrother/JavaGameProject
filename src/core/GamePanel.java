@@ -139,9 +139,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (gameState == playerState) {
             currentGameTime++;
-            if (currentGameTime % 5 == 0) {
-                player.restoreMana();
-            }
+            player.restoreMana();
         }
     }
 
