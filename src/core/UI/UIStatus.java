@@ -28,7 +28,7 @@ public class UIStatus {
         drawElement();
         drawBoxArmor();
         drawBoxHealth();
-        drawCurrentPlayTime();
+        // drawCurrentPlayTime();
         drawMana();
         drawBoxHealthMonster();
         drawCoords();

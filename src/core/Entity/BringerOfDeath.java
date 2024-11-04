@@ -27,10 +27,10 @@ public class BringerOfDeath extends Monster {
         solidArea.y = (getImageHeight()) / 2;
         this.solidAreaDefaultX = solidArea.x;
         this.solidAreaDefaultY = solidArea.y;
-        attackDamage = 30;
+        attackDamage = 60;
         rebound = 10;
         element = 1;
-        DestinationActionLockCounter = 120;
+        DestinationActionLockCounter = 30;
         health = 300;
         maxHealth = 300;
     }

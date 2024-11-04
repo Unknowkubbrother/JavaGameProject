@@ -2,7 +2,7 @@ package core;
 
 import java.awt.event.KeyListener;
 
-import core.Entity.Monster;
+// import core.Entity.Monster;
 
 import java.awt.event.KeyEvent;
 
@@ -62,18 +62,19 @@ public class KeyHandler implements KeyListener {
             }
         }
 
-        if (gp.gameState == gp.playerState) {
-            if (code == KeyEvent.VK_Q) {
-                for(int i=0;i<gp.monster.size();i++){
-                    Monster monster = (Monster) gp.monster.get(i);
-                    monster.stopMonsterThread();
-                    gp.monster.remove(i);
-                }
-                gp.map.currentTimeMap = 100000;
-                gp.map.currentMonster = gp.map.countMonster;
-                gp.player.setCountKilled(gp.map.countMonster+1);
-            }
-        }
+        // hot key Hack Win
+        // if (gp.gameState == gp.playerState) {
+        //     if (code == KeyEvent.VK_P) {
+        //         for(int i=0;i<gp.monster.size();i++){
+        //             Monster monster = (Monster) gp.monster.get(i);
+        //             monster.stopMonsterThread();
+        //             gp.monster.remove(i);
+        //         }
+        //         gp.map.currentTimeMap = 100000;
+        //         gp.map.currentMonster = gp.map.countMonster;
+        //         gp.player.setCountKilled(gp.map.countMonster+1);
+        //     }
+        // }
 
         // Set Attack
         if (gp.gameState == gp.playerState) {

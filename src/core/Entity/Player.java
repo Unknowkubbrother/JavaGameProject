@@ -543,8 +543,10 @@ public class Player extends Entity {
     }
 
     public void restoreMana() {
-        if (getMana() < 100) {
-            setMana(getMana() + 1);
+        if (gp.currentGameTime %2 == 0){
+            if (getMana() < 100) {
+                setMana(getMana() + 1);
+            }
         }
     }
 
