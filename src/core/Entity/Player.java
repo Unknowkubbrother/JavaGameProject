@@ -305,6 +305,12 @@ public class Player extends Entity {
             return;
         }
 
+        if (gp.player.getCountKilled() >= gp.map.getMonsterCount()) {
+            if ( gp.player.getStateMap()[0] == 0 && gp.player.getStateMap()[1] == 1){
+                gp.gameState = gp.gameWinState;
+            }
+        }
+
         if (getStateMap()[0] == 0){
             if (getStateMap()[1] == 0) {
                 if (getEntityCoords().get("x") >= 910
@@ -442,12 +448,6 @@ public class Player extends Entity {
                     monster.AttackedByPlayer(10);
                     // gp.UiStatus.cooldownAlert = 500/16;
                 }
-
-                if (monster.isDead()) {
-                    gp.monster.remove(idx);
-                }
-
-                System.out.println("Monster health: " + monster.getHealth());
             }
         }
     }

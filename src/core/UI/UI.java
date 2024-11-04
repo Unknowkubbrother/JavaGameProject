@@ -40,7 +40,6 @@ public class UI  implements MouseListener{
 
         
         if (gp.gameState == gp.gameWinState) {
-            System.out.println("gameWin");
             gameWin();
         }
 

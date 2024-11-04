@@ -57,8 +57,9 @@ public class UIStatus {
                 x = monster.worldX - gp.player.worldX + gp.player.screenX + gp.titleSize / 2;
                 y = monster.worldY - gp.player.worldY + gp.player.screenY;
             }
+            int healthMaxWidth = (int) ((monster.getMaxHealth() / 100.0) * 50);
             g2.setColor(Color.BLACK);
-            g2.fillRoundRect(x, y, 50, 5, 2, 2);
+            g2.fillRoundRect(x, y, healthMaxWidth, 5, 2, 2);
             g2.setColor(Color.RED);
             int healthWidth = (int) ((monster.getHealth() / 100.0) * 50);
             g2.fillRoundRect(x, y, healthWidth, 5, 2, 2);

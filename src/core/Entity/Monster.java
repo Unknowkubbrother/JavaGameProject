@@ -14,6 +14,7 @@ public abstract class Monster extends Entity implements Runnable{
 
     // Status
     protected int health = 100;
+    protected int maxHealth = 100;
     protected int attackDamage;
     protected int rebound;
     protected int element;
@@ -48,12 +49,16 @@ public abstract class Monster extends Entity implements Runnable{
         return health;
     }
 
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
     public void setHealth(int health) {
         if (health < 0) {
             health = 0;
         }
-        if (health > 100) {
-            health = 100;
+        if (health > maxHealth) {
+            health = maxHealth;
         }
         this.health = health;
     }
@@ -66,13 +71,8 @@ public abstract class Monster extends Entity implements Runnable{
 
         if (isDead()) {
             stopMonsterThread();
+            gp.monster.remove(this);
             gp.player.setCountKilled(gp.player.getCountKilled() + 1);
-            if (gp.player.getCountKilled() >= gp.map.getMonsterCount() &&
-                gp.player.getStateMap()[0] == 0 &&
-                gp.player.getStateMap()[1] == 1
-            ) {
-                gp.gameState = gp.gameWinState;
-            }
         }
     }
 
