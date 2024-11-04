@@ -135,6 +135,15 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
         }
     }
 
+    public void resetStateAll(){
+        int parentMapId = player.getStateMap()[0];
+        currentGameTime = 0;
+        map.setDefaultSpawnEntityAndObjects();
+        map.timerMap.stop();
+        player.setDefaultValues();
+        player.setMap(parentMapId, 0);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (gameState == playerState) {

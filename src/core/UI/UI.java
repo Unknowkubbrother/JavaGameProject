@@ -64,20 +64,42 @@ public class UI  implements MouseListener{
 
     public void gameOver(){
         g2.setColor(Color.RED);
-        g2.setFont(new Font("Arial", Font.BOLD, 30));
+        g2.setFont(new Font("Arial", Font.BOLD, 50));
         String text = "YOU LOSE";
         int x = getXforCenteredText(text);
-        int y = gp.screenHeight / 2;
+        int y = gp.titleSize * 5;
         g2.drawString(text, x, y);
+        g2.setColor(Color.WHITE);
+        g2.fillRoundRect(gp.screenWidth / 2 - gp.titleSize*2, gp.titleSize*6 , gp.titleSize*4, gp.titleSize, 10, 10);
+        g2.fillRoundRect(gp.screenWidth / 2 - gp.titleSize*2, gp.titleSize*7 + 15, gp.titleSize*4, gp.titleSize, 10, 10);
+        g2.setFont(new Font("Arial", Font.BOLD, 30));
+        g2.setColor(Color.BLACK);
+        text = "Replay";
+        x = getXforCenteredText(text);
+        g2.drawString(text, x , gp.titleSize*6 + gp.titleSize/2 + 10);
+        text = "Return";
+        x = getXforCenteredText(text);
+        g2.drawString(text, x , gp.titleSize*7 + gp.titleSize/2 + 25);
     }
 
     public void gameWin(){
         g2.setColor(Color.YELLOW);
-        g2.setFont(new Font("Arial", Font.BOLD, 30));
+        g2.setFont(new Font("Arial", Font.BOLD, 50));
         String text = "YOU WINNER";
         int x = getXforCenteredText(text);
-        int y = gp.screenHeight / 2;
+        int y = gp.titleSize * 5;
         g2.drawString(text, x, y);
+        g2.setColor(Color.WHITE);
+        g2.fillRoundRect(gp.screenWidth / 2 - gp.titleSize*2, gp.titleSize*6 , gp.titleSize*4, gp.titleSize, 10, 10);
+        g2.fillRoundRect(gp.screenWidth / 2 - gp.titleSize*2, gp.titleSize*7 + 15, gp.titleSize*4, gp.titleSize, 10, 10);
+        g2.setFont(new Font("Arial", Font.BOLD, 30));
+        g2.setColor(Color.BLACK);
+        text = "Replay";
+        x = getXforCenteredText(text);
+        g2.drawString(text, x , gp.titleSize*6 + gp.titleSize/2 + 10);
+        text = "Return";
+        x = getXforCenteredText(text);
+        g2.drawString(text, x , gp.titleSize*7 + gp.titleSize/2 + 25);
     }
 
     public void menuStartGame() {
@@ -131,8 +153,6 @@ public class UI  implements MouseListener{
                  if (e.getY() > gp.titleSize*3 && e.getY() < gp.titleSize*3 + 100) {
                      gp.player.setMap(0, 0);
                      gp.map = new M1_ST1(gp);
-                    // gp.player.setMap(0, 1);
-                    // gp.map = new M1_ST2(gp);
                      gp.gameState = gp.playerState;
                  }
              }else if (e.getX() > gp.titleSize*4 + 100 && e.getX() < gp.titleSize*4 + 200) {
@@ -142,6 +162,21 @@ public class UI  implements MouseListener{
                     gp.gameState = gp.playerState;
                  }
              }
+         }else if (gp.gameState == gp.gameOverState || gp.gameState == gp.gameWinState) {
+            if (e.getX() > gp.screenWidth / 2 - gp.titleSize*2 && e.getX() < gp.screenWidth / 2 + gp.titleSize*2) {
+                if (e.getY() > gp.titleSize*6 && e.getY() < gp.titleSize*6 + gp.titleSize) {
+                    gp.resetStateAll();
+                    if (gp.player.getStateMap()[0] == 0) {
+                        gp.map = new M1_ST1(gp);
+                    } else if (gp.player.getStateMap()[0] == 1){
+                        gp.map = new M2_ST1(gp);
+                    }
+                    gp.gameState = gp.playerState;
+                } else if (e.getY() > gp.titleSize*7 + 15 && e.getY() < gp.titleSize*7 + 15 + gp.titleSize) {
+                    gp.gameState = gp.menuState;
+                    gp.resetStateAll();
+                }
+            }
          }
  
      }

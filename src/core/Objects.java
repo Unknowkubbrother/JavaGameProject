@@ -20,7 +20,8 @@ enum ObjectsEnum {
     VeganMana(9),
     armor(10),
     BoxDoor(11),
-    BootSpeed(12);
+    BootSpeed(12),
+    tree(13);
 
 
     public final int objectId;
@@ -48,6 +49,7 @@ enum ObjectsEnum {
             dict.put(10, new Objects("/resources/texture/objects/armor.png", false,false,10));
             dict.put(11, new Objects("/resources/texture/objects/BoxDoor.png", true,false,11));
             dict.put(12, new Objects("/resources/texture/objects/BootSpeed.png", false,false,12));
+            dict.put(13, new Objects("/resources/texture/objects/tree.png", true,false,13));
         }catch(IOException e){
             System.out.println("[Object]: Failed to load Object!");
             e.printStackTrace();

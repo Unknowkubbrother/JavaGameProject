@@ -27,7 +27,7 @@ public class BringerOfDeath extends Monster {
         solidArea.y = (getImageHeight()) / 2;
         this.solidAreaDefaultX = solidArea.x;
         this.solidAreaDefaultY = solidArea.y;
-        attackDamage = 50;
+        attackDamage = 30;
         rebound = 10;
         element = 1;
         DestinationActionLockCounter = 120;
@@ -38,7 +38,6 @@ public class BringerOfDeath extends Monster {
     @Override
     protected void loadAnimation() {
         BufferedImage spriteAll = loadSprite("Montser/BringerofDeath/All.png");
-        // BufferedImage spriteLeft = loadSprite("Montser/BringerofDeath/left.png");
         for (int j = 0; j < 8; j++) {
             for (int i = 0; i < 8; i++) {
                 if (i == 0) {

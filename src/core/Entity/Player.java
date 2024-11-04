@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import core.MAP.MAP1.*;
+import core.MAP.MAP2.*;
 import core.Objects;
 
 class Element {
@@ -102,7 +103,7 @@ public class Player extends Entity {
 
     public final int screenX;
     public final int screenY;
-    public PlayerState player_state = new PlayerState();
+    public PlayerState player_state;
     //
 
     public Player(GamePanel gp, KeyHandler keyH) {
@@ -122,7 +123,7 @@ public class Player extends Entity {
 
     }
 
-    private void setDefaultValues() {
+    public void setDefaultValues() {
         worldX = gp.titleSize * 2;
         worldY = gp.titleSize * 6;
         speed = 5;
@@ -141,6 +142,7 @@ public class Player extends Entity {
         attackArea.height = 64;
         attackArea.x = 102;
         attackArea.y = 65;
+        player_state = new PlayerState();
     }
 
     @Override
@@ -326,6 +328,7 @@ public class Player extends Entity {
             return;
         }
 
+
         if (gp.player.getCountKilled() >= gp.map.getMonsterCount()) {
             gp.map.removeBoxDoor();
             if ( gp.player.getStateMap()[0] == 0){
@@ -334,9 +337,9 @@ public class Player extends Entity {
                 }else {
                     gp.UiStatus.setAlert("You can pass the door!", 5000);
                 }
-            }
-            if (gp.player.getStateMap()[0] == 1){
+            }else if (gp.player.getStateMap()[0] == 1){
                 if (gp.player.getStateMap()[1] == 1){
+                    System.out.println(getStateMap()[0]+","+getStateMap()[1]);
                     gp.gameState = gp.gameWinState;
                 }else {
                     gp.UiStatus.setAlert("You can pass the door!", 5000);
@@ -354,6 +357,19 @@ public class Player extends Entity {
                             setMap(getStateMap()[0], 1);
                             gp.map = new M1_ST2(gp);
                             worldX = gp.titleSize * 6;
+                            worldY = gp.titleSize * 6;
+                    }
+                }
+            }
+            if (getStateMap()[0] == 1){
+                if (getStateMap()[1] == 0) {
+                    if (getEntityCoords().get("x") >= 923
+                            && getEntityCoords().get("y") >= 314
+                            && getEntityCoords().get("y") <= 514) {
+                            gp.map.timerMap.stop();
+                            setMap(getStateMap()[0], 1);
+                            gp.map = new M2_ST2(gp);
+                            worldX = gp.titleSize * 1;
                             worldY = gp.titleSize * 6;
                     }
                 }
