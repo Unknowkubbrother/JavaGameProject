@@ -2,8 +2,8 @@ package core.MAP.MAP1;
 
 import core.GamePanel;
 // import core.Entity.BringerOfDeath;
-import core.Entity.FringEye;
-import core.Entity.Mushroom;
+// import core.Entity.FringEye;
+// import core.Entity.Mushroom;
 import core.MAP.Supermap;
 
 public class M1_ST1 extends Supermap{
@@ -45,8 +45,8 @@ public class M1_ST1 extends Supermap{
     @Override
     public void update() {
         if (currentTimeMap == 5){
-            gp.monster.add(new FringEye(gp, 5, 5));
-            gp.monster.add(new Mushroom(gp, 5, 7));
+            // gp.monster.add(new FringEye(gp, 5, 5));
+            // gp.monster.add(new Mushroom(gp, 5, 7));
             gp.aSetterObject.setSpawnObjects(
                 4,
                 738,

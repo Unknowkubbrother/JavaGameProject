@@ -66,8 +66,7 @@ public class CollisionChecker {
         for (int i = 0; i < gp.objects.size(); i++) {
             if (gp.objects.get(i) != null
                     && gp.objects.get(i).getMapId()[0] == gp.player.getStateMap()[0]
-                    && gp.objects.get(i).getMapId()[1] == gp.player.getStateMap()[1]
-                    ) {
+                    && gp.objects.get(i).getMapId()[1] == gp.player.getStateMap()[1]) {
                 // Get entity's solid area position
                 entity.solidArea.x = entity.worldX + entity.solidArea.x;
                 entity.solidArea.y = entity.worldY + entity.solidArea.y;
@@ -156,41 +155,6 @@ public class CollisionChecker {
         return index;
     }
 
-    public ArrayList<Integer> checkPlayerAttackMonster(Entity entity, ArrayList<Entity> target) {
-        ArrayList<Integer> monsterHit = new ArrayList<>();
-    
-        for (int i = 0; i < target.size(); i++) {
-            Entity monster = target.get(i);
-            if (monster != null) {
-                // เก็บค่าตำแหน่งเดิมไว้
-                int originalAttackX = entity.attackArea.x;
-                int originalAttackY = entity.attackArea.y;
-                int originalSolidX = monster.solidArea.x;
-                int originalSolidY = monster.solidArea.y;
-    
-                // คำนวณตำแหน่งใหม่
-                entity.attackArea.x += entity.worldX;
-                entity.attackArea.y += entity.worldY;
-                monster.solidArea.x += monster.worldX;
-                monster.solidArea.y += monster.worldY;
-    
-                // ตรวจสอบการชนกัน
-                if (entity.attackArea.intersects(monster.solidArea)) {
-                    if (monster != entity) {
-                        monsterHit.add(i);
-                    }
-                }
-    
-                // คืนค่าตำแหน่งเดิม
-                entity.attackArea.x = originalAttackX;
-                entity.attackArea.y = originalAttackY;
-                monster.solidArea.x = originalSolidX;
-                monster.solidArea.y = originalSolidY;
-            }
-        }
-        return monsterHit;
-    }
-    
     public boolean checkPlayer(Entity entity) {
         boolean collision = false;
         entity.solidArea.x = entity.worldX + entity.solidArea.x;
@@ -206,5 +170,93 @@ public class CollisionChecker {
         gp.player.solidArea.x = gp.player.solidAreaDefaultX;
         gp.player.solidArea.y = gp.player.solidAreaDefaultY;
         return collision;
+    }
+
+    public ArrayList<Integer> checkPlayerAttackMonster(Entity entity, ArrayList<Entity> target) {
+        ArrayList<Integer> monsterHit = new ArrayList<>();
+
+        for (int i = 0; i < target.size(); i++) {
+            Entity monster = target.get(i);
+            if (monster != null) {
+                // เก็บค่าตำแหน่งเดิมไว้
+                int originalAttackX = entity.attackArea.x;
+                int originalAttackY = entity.attackArea.y;
+                int originalSolidX = monster.solidArea.x;
+                int originalSolidY = monster.solidArea.y;
+
+                // คำนวณตำแหน่งใหม่
+                entity.attackArea.x += entity.worldX;
+                entity.attackArea.y += entity.worldY;
+                monster.solidArea.x += monster.worldX;
+                monster.solidArea.y += monster.worldY;
+
+                // ตรวจสอบการชนกัน
+                if (entity.attackArea.intersects(monster.solidArea)) {
+                    if (monster != entity) {
+                        monsterHit.add(i);
+                    }
+                }
+
+                // คืนค่าตำแหน่งเดิม
+                entity.attackArea.x = originalAttackX;
+                entity.attackArea.y = originalAttackY;
+                monster.solidArea.x = originalSolidX;
+                monster.solidArea.y = originalSolidY;
+            }
+        }
+        return monsterHit;
+    }
+
+    public ArrayList<Integer> checkPlayerAttackObject(Entity entity, ArrayList<Objects> target) {
+        ArrayList<Integer> objectHit = new ArrayList<>();
+
+        for (int i = 0; i < target.size(); i++) {
+            if (target.get(i) != null
+                    && target.get(i).getMapId()[0] == gp.player.getStateMap()[0]
+                    && target.get(i).getMapId()[1] == gp.player.getStateMap()[1]) {
+
+                int attackAreaDefaultX = entity.attackArea.x;
+                int attackAreaDefaultY = entity.attackArea.y;
+                // Get entity's attack area position
+                entity.attackArea.x = entity.worldX + entity.attackArea.x;
+                entity.attackArea.y = entity.worldY + entity.attackArea.y;
+                // Get the object's solid area position
+                target.get(i).getSolidArea().x = target.get(i).getWorldX() + target.get(i).getSolidArea().x;
+                target.get(i).getSolidArea().y = target.get(i).getWorldY() + target.get(i).getSolidArea().y;
+
+                switch (entity.direction) {
+                    case "up":
+                        entity.attackArea.y = entity.attackArea.y - entity.speed;
+                        break;
+                    case "down":
+                        entity.attackArea.y = entity.attackArea.y + entity.speed;
+                        break;
+                    case "left":
+                        entity.attackArea.x = entity.attackArea.x - entity.speed;
+                        break;
+                    case "right":
+                        entity.attackArea.x = entity.attackArea.x + entity.speed;
+                        break;
+                    default:
+                        break;
+                }
+
+                if (entity.attackArea.intersects(target.get(i).getSolidArea())) {
+                    if (target.get(i).isCollision()) {
+                        entity.collisionOn = true;
+                    }
+                    if (target.get(i).isAttacking()) {
+                        objectHit.add(i);
+                    }
+                }
+
+                entity.attackArea.x = attackAreaDefaultX;
+                entity.attackArea.y = attackAreaDefaultY;
+                target.get(i).getSolidArea().x = target.get(i).getSolidAreaDefaultX();
+                target.get(i).getSolidArea().y = target.get(i).getSolidAreaDefaultY();
+            }
+        }
+
+        return objectHit;
     }
 }

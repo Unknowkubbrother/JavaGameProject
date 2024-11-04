@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import core.MAP.MAP1.*;
+import core.Objects;
 
 class Element {
     public int damage;
@@ -329,11 +330,12 @@ public class Player extends Entity {
                 speed += 10;
                 System.out.println("You picked up a chest! on map: " + getStateMap());
                 gp.objects.remove(index);
-            } else if (gp.objects.get(index).getObjectId() == 4) {
-                setMana(getMana() + 50);
-                System.out.println("You picked up a mana! on map: " + getStateMap());
-                gp.objects.remove(index);
-            }
+            } 
+            // else if (gp.objects.get(index).getObjectId() == 4) {
+            //     setMana(getMana() + 50);
+            //     System.out.println("You picked up a mana! on map: " + getStateMap());
+            //     gp.objects.remove(index);
+            // }
 
 
             
@@ -377,6 +379,8 @@ public class Player extends Entity {
                 }
 
                 ArrayList<Integer> monsterHit = gp.cChecker.checkPlayerAttackMonster(this, gp.monster);
+                ArrayList<Integer> objectHit = gp.cChecker.checkPlayerAttackObject(this,gp.objects);
+                damageObject(objectHit);
                 damageMonster(monsterHit);
                 setMana(getMana() - getCurrentManaCost());
 
@@ -385,6 +389,27 @@ public class Player extends Entity {
             }
 
             spriteNum++;
+        }
+    }
+
+    public void damageObject(ArrayList<Integer> objectIdx) {
+        if (objectIdx.size() == 0) {
+            System.out.println("No object hit");
+            return;
+        }
+
+        for (int i = 0; i < objectIdx.size(); i++) {
+            int idx = objectIdx.get(i);
+            if (idx >= 0 && idx < gp.objects.size()) {
+                Objects object = (Objects)gp.objects.get(idx);
+
+                object.AttackedByPlayer(ElementEnums.getDamageElementId(getCurrentElement()));
+                System.out.println("Object health: " + object.getHealth());
+                
+                if (object.ObjectisDead()) {
+                    gp.objects.remove(idx);
+                }
+            }
         }
     }
 
