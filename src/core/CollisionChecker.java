@@ -64,7 +64,7 @@ public class CollisionChecker {
         int index = -1;
 
         for (int i = 0; i < gp.objects.size(); i++) {
-            if (gp.objects.get(i) != null && gp.objects.get(i).isShow()
+            if (gp.objects.get(i) != null
                     && gp.objects.get(i).getMapId()[0] == gp.player.getStateMap()[0]
                     && gp.objects.get(i).getMapId()[1] == gp.player.getStateMap()[1]
                     ) {

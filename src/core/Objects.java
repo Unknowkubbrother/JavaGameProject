@@ -58,7 +58,6 @@ public class Objects {
     private int worldX;
     private int worldY;
     private int[] mapId;
-    private boolean show;
     private Rectangle solidArea; 
     private int solidAreaDefaultX = 0;
     private int solidAreaDefaultY = 0;
@@ -71,7 +70,6 @@ public class Objects {
         this.worldX = 0;
         this.worldY = 0;
         this.mapId = new int[]{0, 0};
-        this.show = true;
         this.solidArea = new Rectangle(0,0,image.getWidth(),image.getHeight());
         this.objectId = objectId;
     }
@@ -84,7 +82,6 @@ public class Objects {
         this.worldX = 0;
         this.worldY = 0;
         this.mapId = new int[]{0, 0};
-        this.show = true;
         this.solidArea = new Rectangle(0,0,image.getWidth(),image.getHeight());
         this.objectId = objectId;
     }
@@ -117,11 +114,7 @@ public class Objects {
     }
 
     public boolean isCollision() {
-        if (show){
-            return collision;
-        }else{
-            return false;
-        }
+        return collision;
     }
 
     public void setCollision(boolean collision) {
@@ -153,14 +146,6 @@ public class Objects {
         this.mapId[1] = child;
     }
 
-    public boolean isShow() {
-        return show;
-    }
-
-    public void setShow(boolean show) {
-        this.show = show;
-    }
-
     public Rectangle getSolidArea() {
         return solidArea;
     }
@@ -187,7 +172,6 @@ public class Objects {
                 mapId[0],
                 mapId[1]
             );
-            copy.setShow(show);
             copy.setObjectWidth(imageWidth);
             copy.setObjectHeight(imageHeight);
         } catch (IOException e) {

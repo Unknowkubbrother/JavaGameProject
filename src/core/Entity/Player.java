@@ -10,74 +10,195 @@ import java.util.HashMap;
 import java.util.Map;
 import core.MAP.MAP1.*;
 
+class Element {
+    public int damage;
+    public int manaCost;
+    BufferedImage image;
+
+    public Element(String path, int damage, int manaCost) {
+        this.image = Entity.loadSprite(path);
+        this.damage = damage;
+        this.manaCost = manaCost;
+    }
+
+}
+
+// Element Enums
+enum ElementEnums {
+    PUNCH(0),
+    FIRE(1),
+    WATER(2),
+    WIND(3);
+
+    public final int elementId;
+    private static final Map<Integer, Element> dict = new HashMap<>();
+
+    private ElementEnums(int elementId) {
+        this.elementId = elementId;
+    }
+
+    public static void loadElements() {
+        long startTime = System.currentTimeMillis();
+        System.err.println("Loading Element...");
+        dict.put(0, new Element("player/elements/punch.png", 0, 0));
+        dict.put(1, new Element("player/elements/fire.png", 30, 2));
+        dict.put(2, new Element("player/elements/water.png", 30, 2));
+        dict.put(3, new Element("player/elements/wind.png", 30, 2));
+        System.out.println("[Element]: Element loaded! (" + (System.currentTimeMillis() - startTime) + "ms)");
+
+    }
+
+    public int getElementId() {
+        return elementId;
+    }
+
+    public static BufferedImage getImageElementId(int id) {
+        return dict.get(id).image;
+    }
+
+    public static int getDamageElementId(int id) {
+        return dict.get(id).damage;
+    }
+
+    public static int getManaCostElementId(int id) {
+        return dict.get(id).manaCost;
+    }
+
+}
+
+// Player State
+class PlayerState {
+    protected int[] map = { 0, 0 };
+    protected int currentElement = 0;
+    protected int health = 100;
+    protected int armor = 20;
+    protected int mana = 100;
+    protected boolean isAttacking = false;
+}
+
+
 public class Player extends Entity {
 
-    static class Element {
-        public int damage;
-        public int manaCost;
-        BufferedImage image;
+    // Animation
+    private ArrayList<BufferedImage> idle = new ArrayList<>();
+    private ArrayList<BufferedImage> attack_fire = new ArrayList<>();
+    private ArrayList<BufferedImage> attack_water = new ArrayList<>();
+    private ArrayList<BufferedImage> attack_wind = new ArrayList<>();
 
-        public Element(String path, int damage, int manaCost) {
-            this.image = loadSprite(path);
-            this.damage = damage;
-            this.manaCost = manaCost;
+    // Default Player
+    KeyHandler keyH;
+
+    public final int screenX;
+    public final int screenY;
+    public PlayerState player_state = new PlayerState();
+    //
+
+    public Player(GamePanel gp, KeyHandler keyH) {
+
+        super(gp);
+
+        this.keyH = keyH;
+
+        screenX = gp.screenWidth / 2 - (gp.titleSize / 2);
+        screenY = gp.screenHeight / 2 - (gp.titleSize / 2);
+
+        solidArea = new Rectangle();
+
+        setDefaultValues();
+        loadAnimation();
+        ElementEnums.loadElements();
+
+    }
+
+    private void setDefaultValues() {
+        worldX = gp.titleSize * 2;
+        worldY = gp.titleSize * 6;
+        speed = 5;
+        direction = "idle";
+        setImageWidth(256);
+        setImageHeight(256);
+
+        solidArea.x = 102;
+        solidArea.y = 65;
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
+        this.solidArea.width = 51;
+        this.solidArea.height = 64;
+
+        attackArea.width = 51;
+        attackArea.height = 64;
+        attackArea.x = 102;
+        attackArea.y = 65;
+    }
+
+    @Override
+    protected void loadAnimation() {
+        BufferedImage spriteidle = loadSprite("player/Idle.png");
+        BufferedImage spriteRight = loadSprite("player/right.png");
+        BufferedImage spriteLeft = loadSprite("player/left.png");
+        BufferedImage spriteAttackFire = loadSprite("player/Attack_Fire.png");
+        BufferedImage spriteAttackWater = loadSprite("player/Attack_Water.png");
+        BufferedImage spriteAttackWind = loadSprite("player/Attack_Wind.png");
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (i < 7 && j < 3) {
+                    idle.add(spriteidle.getSubimage(i * 256, j * 256, 256, 256));
+                }
+            }
+        }
+
+        for (int j = 0; j < 8; j++) {
+            for (int i = 0; i < 5; i++) {
+                up.add(spriteRight.getSubimage(j * 256, i * 256, 256, 256));
+            }
+        }
+
+        for (int j = 0; j < 8; j++) {
+            for (int i = 0; i < 5; i++) {
+                down.add(spriteRight.getSubimage(j * 256, i * 256, 256, 256));
+            }
+        }
+
+        for (int j = 0; j < 8; j++) {
+            for (int i = 0; i < 5; i++) {
+                right.add(spriteRight.getSubimage(j * 256, i * 256, 256, 256));
+            }
+        }
+
+        for (int j = 0; j < 8; j++) {
+            for (int i = 0; i < 5; i++) {
+                left.add(spriteLeft.getSubimage(j * 256, i * 256, 256, 256));
+            }
+        }
+
+        for (int j = 7; j >= 0; j--) {
+            for (int i = 3; i >= 0; i--) {
+                if (i == 2) {
+                    attack_fire.add(spriteAttackFire.getSubimage(j * 256, i * 256, 256, 256));
+                }
+            }
+        }
+
+        for (int j = 7; j >= 0; j--) {
+            for (int i = 3; i >= 0; i--) {
+                if (i == 2) {
+                    attack_water.add(spriteAttackWater.getSubimage(j * 256, i * 256, 256, 256));
+                }
+            }
+        }
+
+        for (int j = 7; j >= 0; j--) {
+            for (int i = 3; i >= 0; i--) {
+                if (i == 2) {
+                    attack_wind.add(spriteAttackWind.getSubimage(j * 256, i * 256, 256, 256));
+                }
+            }
         }
 
     }
 
-    // Element Enums
-    enum ElementEnums {
-        PUNCH(0),
-        FIRE(1),
-        WATER(2),
-        WIND(3);
-
-        public final int elementId;
-        private static final Map<Integer, Element> dict = new HashMap<>();
-
-        private ElementEnums(int elementId) {
-            this.elementId = elementId;
-        }
-
-        public static void loadElements() {
-            long startTime = System.currentTimeMillis();
-            System.err.println("Loading Element...");
-            dict.put(0, new Element("player/elements/punch.png", 0, 0));
-            dict.put(1, new Element("player/elements/fire.png", 30, 10));
-            dict.put(2, new Element("player/elements/water.png", 30, 10));
-            dict.put(3, new Element("player/elements/wind.png", 30, 10));
-            System.out.println("[Element]: Element loaded! (" + (System.currentTimeMillis() - startTime) + "ms)");
-
-        }
-
-        public int getElementId() {
-            return elementId;
-        }
-
-        public static BufferedImage getImageElementId(int id) {
-            return dict.get(id).image;
-        }
-
-        public static int getDamageElementId(int id) {
-            return dict.get(id).damage;
-        }
-
-        public static int getManaCostElementId(int id) {
-            return dict.get(id).manaCost;
-        }
-
-    }
-
-    // Player State
-    class PlayerState {
-        private int[] map = { 0, 0 };
-        private int currentElement = 0;
-        private int health = 100;
-        private int armor = 20;
-        private int mana = 100;
-        private boolean isAttacking = false;
-    }
-
+    //Player State
     public int getHealth() {
         return player_state.health;
     }
@@ -201,18 +322,16 @@ public class Player extends Entity {
 
         if (index != -1 && gp.objects.get(index).getMapId()[0] == getStateMap()[0]
                 && gp.objects.get(index).getMapId()[1] == getStateMap()[1]
-                && gp.objects.get(index).isShow()) {
+        ) {
 
 
             if (gp.objects.get(index).getObjectId() == 3) {
                 speed += 10;
                 System.out.println("You picked up a chest! on map: " + getStateMap());
-                gp.objects.get(index).setShow(false);
                 gp.objects.remove(index);
             } else if (gp.objects.get(index).getObjectId() == 4) {
                 setMana(getMana() + 50);
                 System.out.println("You picked up a mana! on map: " + getStateMap());
-                gp.objects.get(index).setShow(false);
                 gp.objects.remove(index);
             }
 
@@ -229,125 +348,6 @@ public class Player extends Entity {
     }
 
     // END Player State
-
-    // Animation
-    private ArrayList<BufferedImage> idle = new ArrayList<>();
-    private ArrayList<BufferedImage> attack_fire = new ArrayList<>();
-    private ArrayList<BufferedImage> attack_water = new ArrayList<>();
-    private ArrayList<BufferedImage> attack_wind = new ArrayList<>();
-
-    // Default Player
-    KeyHandler keyH;
-
-    public final int screenX;
-    public final int screenY;
-    public PlayerState player_state = new PlayerState();
-    //
-
-    public Player(GamePanel gp, KeyHandler keyH) {
-
-        super(gp);
-
-        this.keyH = keyH;
-
-        screenX = gp.screenWidth / 2 - (gp.titleSize / 2);
-        screenY = gp.screenHeight / 2 - (gp.titleSize / 2);
-
-        solidArea = new Rectangle();
-
-        setDefaultValues();
-        loadAnimation();
-        ElementEnums.loadElements();
-
-    }
-
-    private void setDefaultValues() {
-        worldX = gp.titleSize * 2;
-        worldY = gp.titleSize * 6;
-        speed = 5;
-        direction = "idle";
-        setImageWidth(256);
-        setImageHeight(256);
-
-        solidArea.x = 102;
-        solidArea.y = 65;
-        solidAreaDefaultX = solidArea.x;
-        solidAreaDefaultY = solidArea.y;
-        this.solidArea.width = 51;
-        this.solidArea.height = 64;
-
-        attackArea.width = 51;
-        attackArea.height = 64;
-        attackArea.x = 102;
-        attackArea.y = 65;
-    }
-
-    @Override
-    protected void loadAnimation() {
-        BufferedImage spriteidle = loadSprite("player/Idle.png");
-        BufferedImage spriteRight = loadSprite("player/right.png");
-        BufferedImage spriteLeft = loadSprite("player/left.png");
-        BufferedImage spriteAttackFire = loadSprite("player/Attack_Fire.png");
-        BufferedImage spriteAttackWater = loadSprite("player/Attack_Water.png");
-        BufferedImage spriteAttackWind = loadSprite("player/Attack_Wind.png");
-
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                if (i < 7 && j < 3) {
-                    idle.add(spriteidle.getSubimage(i * 256, j * 256, 256, 256));
-                }
-            }
-        }
-
-        for (int j = 0; j < 8; j++) {
-            for (int i = 0; i < 5; i++) {
-                up.add(spriteRight.getSubimage(j * 256, i * 256, 256, 256));
-            }
-        }
-
-        for (int j = 0; j < 8; j++) {
-            for (int i = 0; i < 5; i++) {
-                down.add(spriteRight.getSubimage(j * 256, i * 256, 256, 256));
-            }
-        }
-
-        for (int j = 0; j < 8; j++) {
-            for (int i = 0; i < 5; i++) {
-                right.add(spriteRight.getSubimage(j * 256, i * 256, 256, 256));
-            }
-        }
-
-        for (int j = 0; j < 8; j++) {
-            for (int i = 0; i < 5; i++) {
-                left.add(spriteLeft.getSubimage(j * 256, i * 256, 256, 256));
-            }
-        }
-
-        for (int j = 7; j >= 0; j--) {
-            for (int i = 3; i >= 0; i--) {
-                if (i == 2) {
-                    attack_fire.add(spriteAttackFire.getSubimage(j * 256, i * 256, 256, 256));
-                }
-            }
-        }
-
-        for (int j = 7; j >= 0; j--) {
-            for (int i = 3; i >= 0; i--) {
-                if (i == 2) {
-                    attack_water.add(spriteAttackWater.getSubimage(j * 256, i * 256, 256, 256));
-                }
-            }
-        }
-
-        for (int j = 7; j >= 0; j--) {
-            for (int i = 3; i >= 0; i--) {
-                if (i == 2) {
-                    attack_wind.add(spriteAttackWind.getSubimage(j * 256, i * 256, 256, 256));
-                }
-            }
-        }
-
-    }
 
     public void ActionAttack() {
         spriteCounter++;

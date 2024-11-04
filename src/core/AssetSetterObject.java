@@ -14,7 +14,6 @@ public class AssetSetterObject {
         spawn.setWorldX(x);
         spawn.setWorldY(y);
         spawn.setMapId(gp.player.getStateMap()[0],gp.player.getStateMap()[1]);
-        spawn.setShow(true);
         spawn.setObjectWidth(width);
         spawn.setObjectHeight(height);
         gp.objects.add(spawn);
@@ -30,8 +29,7 @@ public class AssetSetterObject {
                     gp.objects.get(i).getWorldY() + (gp.titleSize * 3) > gp.player.worldY - gp.player.screenY &&
                     gp.objects.get(i).getWorldY() - (gp.titleSize * 3) < gp.player.worldY + gp.player.screenY &&
                     gp.player.getStateMap()[0] == gp.objects.get(i).getMapId()[0] &&
-                    gp.player.getStateMap()[1] == gp.objects.get(i).getMapId()[1] &&
-                    gp.objects.get(i).isShow()
+                    gp.player.getStateMap()[1] == gp.objects.get(i).getMapId()[1]
                     ) {
                 g2.drawImage(gp.objects.get(i).getObject(), screenX, screenY, gp.objects.get(i).getObjectWidth(), gp.objects.get(i).getObjectHeight(), null);
             }
