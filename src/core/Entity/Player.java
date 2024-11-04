@@ -318,7 +318,7 @@ public class Player extends Entity {
                         && getEntityCoords().get("y") <= 450) {
                         gp.map.timerMap.stop();
                         setMap(getStateMap()[0], 1);
-                        gp.map = new M1_ST2(gp);
+                        gp.map = new M1_ST1(gp);
                         worldX = gp.titleSize * 3;
                         worldY = gp.titleSize * 5;
                 }
@@ -337,25 +337,36 @@ public class Player extends Entity {
         }
     }
 
-    public void pickUpObject(int index) {
+    public void checkEventObject(int index) {
 
         if (index != -1 && gp.objects.get(index).getMapId()[0] == getStateMap()[0]
                 && gp.objects.get(index).getMapId()[1] == getStateMap()[1]
         ) {
 
+            // attack damage to player
+            if (gp.objects.get(index).getObjectId() == 6) {
+                playerAttacked(1);
+            }
 
+
+            // pick up object
             if (gp.objects.get(index).getObjectId() == 3) {
-                speed += 10;
-                System.out.println("You picked up a chest! on map: " + getStateMap());
+                // speed += 10;
+                gp.UiStatus.setAlert("You picked up a chest!", 1000);
                 gp.objects.remove(index);
-            } 
-            // else if (gp.objects.get(index).getObjectId() == 4) {
-            //     setMana(getMana() + 50);
-            //     System.out.println("You picked up a mana! on map: " + getStateMap());
-            //     gp.objects.remove(index);
-            // }
-
-
+            }else if (gp.objects.get(index).getObjectId() == 4) {
+                setMana(getMana() + 50);
+                gp.UiStatus.setAlert("You picked up a mana + 50!", 1000);
+                gp.objects.remove(index);
+            }else if (gp.objects.get(index).getObjectId() == 7) {
+                setHealth(getHealth() + 50);
+                gp.UiStatus.setAlert("You picked up a health + 50!", 1000);
+                gp.objects.remove(index);
+            }else if (gp.objects.get(index).getObjectId() == 10) {
+                setArmor(getArmor() + 50);
+                gp.UiStatus.setAlert("You picked up a Armor + 50!", 1000);
+                gp.objects.remove(index);
+            }
             
         }
 
@@ -482,7 +493,7 @@ public class Player extends Entity {
 
         // Check collision with objects
         int objectIdx = gp.cChecker.checkObject(this, true);
-        pickUpObject(objectIdx);
+        checkEventObject(objectIdx);
 
         // CHECK NPC COLLISION
         int npcIdx = gp.cChecker.checkEntity(this, gp.npc);

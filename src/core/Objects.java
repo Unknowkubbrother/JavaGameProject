@@ -12,7 +12,13 @@ enum ObjectsEnum {
     GODDESS(1),
     POLE(2),
     chest(3),
-    mana(4);
+    mana(4),
+    BoxWood(5),
+    Thorn(6),
+    Health(7),
+    VeganHealth(8),
+    VeganMana(9),
+    armor(10);
 
 
     public final int objectId;
@@ -31,7 +37,13 @@ enum ObjectsEnum {
             dict.put(1, new Objects("/resources/texture/objects/goddess.png", true,false,1));
             dict.put(2, new Objects("/resources/texture/objects/pole.png", true,false,2));
             dict.put(3, new Objects("/resources/texture/objects/chest.png", true,false,3));
-            dict.put(4, new Objects("/resources/texture/objects/mana.png", true,true,4));
+            dict.put(4, new Objects("/resources/texture/objects/mana.png", true,false,4));
+            dict.put(5, new Objects("/resources/texture/objects/BoxWood.png", true,true,5));
+            dict.put(6, new Objects("/resources/texture/objects/thorn.png", false,false,6));
+            dict.put(7, new Objects("/resources/texture/objects/health.png", false,false,7));
+            dict.put(8, new Objects("/resources/texture/objects/VeganHealth.png", true,true,8));
+            dict.put(9, new Objects("/resources/texture/objects/VeganMana.png", true,true,9));
+            dict.put(10, new Objects("/resources/texture/objects/armor.png", false,false,10));
         }catch(IOException e){
             System.out.println("[Object]: Failed to load Object!");
             e.printStackTrace();
