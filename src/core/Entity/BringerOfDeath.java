@@ -17,8 +17,8 @@ public class BringerOfDeath extends Monster {
     public void setDefaultValues(int x, int y) {
         direction = "idle";
         speed = 1;
-        worldX = gp.titleSize * x;
-        worldY = gp.titleSize * y;
+        worldX = x;
+        worldY = y;
         setImageHeight(93 * 2);
         setImageWidth(140 * 2);
         solidArea.width = 140;

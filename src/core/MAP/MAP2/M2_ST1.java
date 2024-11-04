@@ -46,8 +46,6 @@ public class M2_ST1 extends Supermap{
         0);
         gp.aSetterObject.setSpawnObjects(3,gp.titleSize * 2,gp.titleSize * 2,64,64,
         0);
-        gp.aSetterObject.setSpawnObjects(5,gp.titleSize * 3,gp.titleSize * 4,64,64,
-        60);
     }
 
     @Override

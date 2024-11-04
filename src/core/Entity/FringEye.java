@@ -17,8 +17,8 @@ public class FringEye extends Monster{
     public void setDefaultValues(int x, int y) {
         direction = "idle";
         speed = 1;
-        worldX = gp.titleSize * x;
-        worldY = gp.titleSize * y;
+        worldX = x;
+        worldY = y;
         setImageHeight(150 * 2);
         setImageWidth(150 * 2);
         this.solidAreaDefaultX = (getImageWidth() - this.solidArea.width) / 2;

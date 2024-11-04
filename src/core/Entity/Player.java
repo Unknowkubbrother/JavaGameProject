@@ -42,9 +42,9 @@ enum ElementEnums {
         long startTime = System.currentTimeMillis();
         System.err.println("Loading Element...");
         dict.put(0, new Element("player/elements/punch.png", 0, 0));
-        dict.put(1, new Element("player/elements/fire.png", 30, 2));
-        dict.put(2, new Element("player/elements/water.png", 30, 2));
-        dict.put(3, new Element("player/elements/wind.png", 30, 2));
+        dict.put(1, new Element("player/elements/fire.png", 30, 5));
+        dict.put(2, new Element("player/elements/water.png", 30, 5));
+        dict.put(3, new Element("player/elements/wind.png", 30, 5));
         System.out.println("[Element]: Element loaded! (" + (System.currentTimeMillis() - startTime) + "ms)");
 
     }
@@ -306,8 +306,14 @@ public class Player extends Entity {
         }
 
         if (gp.player.getCountKilled() >= gp.map.getMonsterCount()) {
-            if ( gp.player.getStateMap()[0] == 0 && gp.player.getStateMap()[1] == 1){
-                gp.gameState = gp.gameWinState;
+            setCountKilled(0);
+            gp.map.removeBoxDoor();
+            if ( gp.player.getStateMap()[0] == 0){
+                if (gp.player.getStateMap()[1] == 1){
+                    gp.gameState = gp.gameWinState;
+                }else {
+                    gp.UiStatus.setAlert("You can pass the door!", 1000);
+                }
             }
         }
 
@@ -342,6 +348,12 @@ public class Player extends Entity {
         if (index != -1 && gp.objects.get(index).getMapId()[0] == getStateMap()[0]
                 && gp.objects.get(index).getMapId()[1] == getStateMap()[1]
         ) {
+            //check BoxDoor
+            if (gp.objects.get(index).getObjectId() == 11) {
+                if (gp.player.getCountKilled() < gp.map.getMonsterCount()){
+                    gp.UiStatus.setAlert("You can't pass this door!", 1000);
+                }
+            }
 
             // attack damage to player
             if (gp.objects.get(index).getObjectId() == 6) {
@@ -433,9 +445,15 @@ public class Player extends Entity {
                 Objects object = (Objects)gp.objects.get(idx);
 
                 object.AttackedByPlayer(ElementEnums.getDamageElementId(getCurrentElement()));
-                System.out.println("Object health: " + object.getHealth());
 
                 if (object.ObjectisDead()) {
+                    if (object.getObjectId() == 8){
+                        setHealth(getHealth() + 30);
+                        gp.UiStatus.setAlert("You picked up a VeganHealth + 30!", 1000);
+                    }else if (object.getObjectId() == 9){
+                        setArmor(getArmor() + 30);
+                        gp.UiStatus.setAlert("You picked up a VeganArmor + 30!", 1000);
+                    }
                     gp.objects.remove(idx);
                 }
             }

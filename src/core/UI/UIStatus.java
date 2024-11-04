@@ -31,6 +31,7 @@ public class UIStatus {
         drawCurrentPlayTime();
         drawMana();
         drawBoxHealthMonster();
+        drawCoords();
 
         if (cooldownAlert > 0) {
             drawAlert();
@@ -46,6 +47,12 @@ public class UIStatus {
     public void drawElement() {
         g2.drawImage(gp.player.getImageCurrentElement(), 25, gp.screenHeight - 175, gp.titleSize * 3, gp.titleSize * 3,
                 null);
+    }
+
+    public void drawCoords(){
+        g2.setFont(new Font("Arial", Font.BOLD, 15));
+        g2.setColor(Color.WHITE);
+        g2.drawString("X: " + gp.player.getEntityCoords().get("x") + " Y: " + gp.player.getEntityCoords().get("y"), gp.screenWidth/2, 40);
     }
 
     public void drawBoxHealthMonster() {
