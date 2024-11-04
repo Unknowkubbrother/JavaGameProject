@@ -1,7 +1,9 @@
 package core.UI;
 
 import core.GamePanel;
+import core.Entity.BringerOfDeath;
 import core.Entity.Entity;
+import core.Entity.Monster;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -28,6 +30,7 @@ public class UIStatus {
         drawBoxHealth();
         drawCurrentPlayTime();
         drawMana();
+        drawBoxHealthMonster();
 
         if (cooldownAlert > 0) {
             drawAlert();
@@ -37,14 +40,32 @@ public class UIStatus {
 
     public void setAlert(String text, int cooldown) {
         alertText = text;
-        cooldownAlert = cooldown/16;
+        cooldownAlert = cooldown / 16;
     }
 
-    public void drawElement(){
-        g2.drawImage(gp.player.getImageCurrentElement(), 25, gp.screenHeight - 175, gp.titleSize*3, gp.titleSize*3, null);
+    public void drawElement() {
+        g2.drawImage(gp.player.getImageCurrentElement(), 25, gp.screenHeight - 175, gp.titleSize * 3, gp.titleSize * 3,
+                null);
     }
 
-    public void drawBoxHealth(){
+    public void drawBoxHealthMonster() {
+        for (int i = 0; i < gp.monster.size(); i++) {
+            Monster monster = (Monster) gp.monster.get(i);
+            int x = monster.worldX - gp.player.worldX + gp.player.screenX + gp.titleSize * 2;
+            int y = monster.worldY - gp.player.worldY + gp.player.screenY + gp.titleSize + gp.titleSize / 2;
+            if (monster instanceof BringerOfDeath) {
+                x = monster.worldX - gp.player.worldX + gp.player.screenX + gp.titleSize / 2;
+                y = monster.worldY - gp.player.worldY + gp.player.screenY;
+            }
+            g2.setColor(Color.BLACK);
+            g2.fillRoundRect(x, y, 50, 5, 2, 2);
+            g2.setColor(Color.RED);
+            int healthWidth = (int) ((monster.getHealth() / 100.0) * 50);
+            g2.fillRoundRect(x, y, healthWidth, 5, 2, 2);
+        }
+    }
+
+    public void drawBoxHealth() {
         g2.setFont(new Font("Arial", Font.BOLD, 12));
         g2.setColor(Color.BLACK);
         g2.fillRoundRect(25, 60, 200, 25, 10, 10);
@@ -53,13 +74,13 @@ public class UIStatus {
         g2.fillRoundRect(25, 60, healthWidth, 25, 10, 10);
         g2.setColor(Color.WHITE);
         g2.drawRoundRect(25, 60, 200, 25, 10, 10);
-        g2.drawString("HP", 25+5, 60+(25/2)+5);
+        g2.drawString("HP", 25 + 5, 60 + (25 / 2) + 5);
         String healthText = gp.player.getHealth() + "/100";
         int healthTextWidth = g2.getFontMetrics().stringWidth(healthText);
         g2.drawString(healthText, 25 + (200 - healthTextWidth) / 2, 60 + (25 / 2) + 5);
     }
 
-    public void drawBoxArmor(){
+    public void drawBoxArmor() {
         g2.setFont(new Font("Arial", Font.BOLD, 12));
         g2.setColor(Color.BLACK);
         g2.fillRoundRect(25, 30, 200, 25, 10, 10);
@@ -68,19 +89,19 @@ public class UIStatus {
         g2.fillRoundRect(25, 30, armorWidth, 25, 10, 10);
         g2.setColor(Color.WHITE);
         g2.drawRoundRect(25, 30, 200, 25, 10, 10);
-        g2.drawString("AP", 25+5, 30+(25/2)+5);
+        g2.drawString("AP", 25 + 5, 30 + (25 / 2) + 5);
         String armorText = gp.player.getArmor() + "/100";
         int armorTextWidth = g2.getFontMetrics().stringWidth(armorText);
         g2.drawString(armorText, 25 + (200 - armorTextWidth) / 2, 30 + (25 / 2) + 5);
     }
 
-    public void drawCurrentPlayTime(){
+    public void drawCurrentPlayTime() {
         g2.setFont(new Font("Arial", Font.BOLD, 15));
         g2.setColor(Color.WHITE);
         g2.drawString("TimeLeft: " + gp.currentGameTime, gp.screenWidth - 100, 40);
     }
 
-    public void drawMana(){
+    public void drawMana() {
         g2.drawImage(mana, 235, 30, 25, 25, null);
         g2.setFont(new Font("Arial", Font.BOLD, 12));
         g2.setColor(Color.WHITE);
@@ -89,13 +110,12 @@ public class UIStatus {
         g2.drawString(manaText, 235 + (25 - manaTextWidth) / 2, 30 + 25 + 15);
     }
 
-    public void drawAlert(){
+    public void drawAlert() {
         g2.setFont(new Font("Arial", Font.BOLD, 30));
         g2.setColor(Color.WHITE);
         int x = gp.screenWidth / 2 - g2.getFontMetrics().stringWidth(alertText) / 2;
         int y = gp.screenHeight / 2;
         g2.drawString(alertText, x, y);
     }
-
 
 }
