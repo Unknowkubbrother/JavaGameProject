@@ -54,13 +54,14 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     public final int selectMapState = 4;
     public final int gameWinState = 5;
 
+    // UI STATUS
+    public UIStatus UiStatus = new UIStatus(this);
 
     // COLLISION
     public CollisionChecker cChecker = new CollisionChecker(this);
 
     // ENTITIES
     public Player player = new Player(this, keyH);
-    public UIStatus UiStatus = new UIStatus(this);
     public ArrayList<Entity> monster = new ArrayList<Entity>();
     public ArrayList<Entity> npc = new ArrayList<Entity>();
 
