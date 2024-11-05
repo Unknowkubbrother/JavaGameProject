@@ -55,11 +55,22 @@ public class UI  implements MouseListener{
 
     public void pauseMenu() {
         g2.setColor(Color.WHITE);
-        g2.setFont(new Font("Arial", Font.BOLD, 30));
-        String text = "PAUSED";
+        g2.setFont(new Font("Arial", Font.BOLD, 50));
+        String text = "PUASE";
         int x = getXforCenteredText(text);
-        int y = gp.screenHeight / 2;
+        int y = gp.titleSize * 5;
         g2.drawString(text, x, y);
+        g2.setColor(Color.WHITE);
+        g2.fillRoundRect(gp.screenWidth / 2 - gp.titleSize*2, gp.titleSize*6 , gp.titleSize*4, gp.titleSize, 10, 10);
+        g2.fillRoundRect(gp.screenWidth / 2 - gp.titleSize*2, gp.titleSize*7 + 15, gp.titleSize*4, gp.titleSize, 10, 10);
+        g2.setFont(new Font("Arial", Font.BOLD, 30));
+        g2.setColor(Color.BLACK);
+        text = "Replay";
+        x = getXforCenteredText(text);
+        g2.drawString(text, x , gp.titleSize*6 + gp.titleSize/2 + 10);
+        text = "Return";
+        x = getXforCenteredText(text);
+        g2.drawString(text, x , gp.titleSize*7 + gp.titleSize/2 + 25);
     }
 
     public void gameOver(){
@@ -162,7 +173,7 @@ public class UI  implements MouseListener{
                     gp.gameState = gp.playerState;
                  }
              }
-         }else if (gp.gameState == gp.gameOverState || gp.gameState == gp.gameWinState) {
+         }else if (gp.gameState == gp.gameOverState || gp.gameState == gp.gameWinState || gp.gameState == gp.pauseState) {
             if (e.getX() > gp.screenWidth / 2 - gp.titleSize*2 && e.getX() < gp.screenWidth / 2 + gp.titleSize*2) {
                 if (e.getY() > gp.titleSize*6 && e.getY() < gp.titleSize*6 + gp.titleSize) {
                     gp.resetStateAll();

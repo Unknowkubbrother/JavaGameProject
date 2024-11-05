@@ -31,7 +31,7 @@ public class UIStatus {
         // drawCurrentPlayTime();
         drawMana();
         drawBoxHealthMonster();
-        drawCoords();
+        // drawCoords();
 
         if (cooldownAlert > 0) {
             drawAlert();
