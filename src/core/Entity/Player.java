@@ -339,7 +339,6 @@ public class Player extends Entity {
                 }
             }else if (gp.player.getStateMap()[0] == 1){
                 if (gp.player.getStateMap()[1] == 1){
-                    System.out.println(getStateMap()[0]+","+getStateMap()[1]);
                     gp.gameState = gp.gameWinState;
                 }else {
                     gp.UiStatus.setAlert("You can pass the door!", 5000);
