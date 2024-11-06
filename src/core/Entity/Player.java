@@ -747,7 +747,12 @@ public class Player extends Entity {
             offsetWidth = (getImageWidth() * 2) * -1;
         }
 
+        // int AttackscreenX = attackArea.x + gp.player.screenX;
+        // int AttackscreenY = attackArea.y + gp.player.screenY;
+
         g2.drawImage(image, screenX + offsetX, screenY, getImageWidth() + offsetWidth, getImageHeight(), null);
+        // g2.setColor(Color.RED);
+        // g2.drawRect(AttackscreenX,AttackscreenY, attackArea.width, attackArea.height);
     }
 
 }
